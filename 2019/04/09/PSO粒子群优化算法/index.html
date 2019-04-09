@@ -108,7 +108,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/04/09/PSO粒子群优化算法/2.jpg">
 <meta property="og:image" content="http://yoursite.com/2019/04/09/PSO粒子群优化算法/3.jpg">
 <meta property="og:image" content="http://yoursite.com/2019/04/09/PSO粒子群优化算法/4.jpg">
-<meta property="og:updated_time" content="2019-04-09T06:08:24.307Z">
+<meta property="og:updated_time" content="2019-04-09T08:43:23.912Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PSO粒子群优化算法">
 <meta name="twitter:description" content="粒子群优化算法是一种模拟鸟群社会行为的群体搜索算法。粒子群的概念的最初意图是形象地模拟鸟群的优雅而不可预测的行为，目的是发现统御鸟群同步飞行的模式，以及在最优形式重组时突然改变方向的模式。    PSO算法对两个简单的行为建模   每个个体向它邻近最好的个体移动；   每个个体回退到该个体自己曾经到过的最好区域。因此出现的集体行为是所有的个体向环境中对所有个体都是最好的位置收敛。     在PSO">
@@ -406,7 +406,7 @@
                 
               
 
-              <time title="创建时间：2019-04-09 09:12:06 / 修改时间：14:08:24" itemprop="dateCreated datePublished" datetime="2019-04-09T09:12:06+08:00">2019-04-09</time>
+              <time title="创建时间：2019-04-09 09:12:06 / 修改时间：16:43:23" itemprop="dateCreated datePublished" datetime="2019-04-09T09:12:06+08:00">2019-04-09</time>
             
 
             
@@ -472,7 +472,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="基本粒子群优化"><a href="#基本粒子群优化" class="headerlink" title="基本粒子群优化"></a>基本粒子群优化</h3><ul>
+<h3 id="1-基本粒子群优化"><a href="#1-基本粒子群优化" class="headerlink" title="1. 基本粒子群优化"></a>1. 基本粒子群优化</h3><ul>
 <li>粒子群中的个体有一个基本的行为:效仿领域个体的成功和他们自己的成功——从这个基本行为显现出来的集体行为就是在一个高维搜索空间中发现最优区域。</li>
 <li>一个PSO算法维护一群粒子，其中每个粒子表示一个潜在的解。</li>
 <li>粒子在一个多维搜索空间中飞行，而每个粒子的位置根据它自身的经验及其邻居的经验来调整。令$x_i(t)$表示粒子$i$在时刻$t$时在搜索空间中的位置，$t$离散的时间步。粒子位置通过对当前的位置增加加速度$v_i(t)$来改变，即：<br>$$x_i(t+1) = x_i(t)+v_i(t+1) \qquad (1)$$<br>式中$x_i(0)\sim U(x_min, x_max)$</li>
@@ -483,7 +483,7 @@
 </li>
 <li>gbest PSO和lbest PSO是领域大小不同的两个PSO算法。</li>
 </ul>
-<h4 id="全局最佳粒子群优化-gbest-PSO"><a href="#全局最佳粒子群优化-gbest-PSO" class="headerlink" title="全局最佳粒子群优化(gbest PSO)"></a>全局最佳粒子群优化(gbest PSO)</h4><ul>
+<h4 id="1-1-全局最佳粒子群优化-gbest-PSO"><a href="#1-1-全局最佳粒子群优化-gbest-PSO" class="headerlink" title="1.1 全局最佳粒子群优化(gbest PSO)"></a>1.1 全局最佳粒子群优化(gbest PSO)</h4><ul>
 <li>对全局最佳PSO，gbest PSO使用的社会网络是星型拓扑<ul>
 <li>每个粒子的邻域都是整个群</li>
 <li>对星型拓扑，粒子速度更新的社会部分反映了从群中所有粒子获得的信息</li>
@@ -508,7 +508,7 @@
 </ul>
 <hr>
 <p>gbest PSO算法总结如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Create and initialize an nx-dimensional swarm;</span><br><span class="line">repeat</span><br><span class="line">    for each particle i = 1, . . . , n_s do</span><br><span class="line">        //set the personal best position</span><br><span class="line">        if f(xi) &lt; f(yi) then</span><br><span class="line">            yi = xi;</span><br><span class="line">        end</span><br><span class="line">        //set the global best position </span><br><span class="line">        if f(yi) &lt; f(y_best) then</span><br><span class="line">            y_best = yi;</span><br><span class="line">        end</span><br><span class="line">    end</span><br><span class="line">    for each particle i = 1, . . . , n_s do</span><br><span class="line">        update the velocity using equation (2);</span><br><span class="line">        update the position using equation (1);</span><br><span class="line">    end</span><br><span class="line">until stopping condition is true;</span><br></pre></td></tr></table></figure></p>
-<h4 id="局部最佳粒子群优化-lbest-PSO"><a href="#局部最佳粒子群优化-lbest-PSO" class="headerlink" title="局部最佳粒子群优化(lbest PSO)"></a>局部最佳粒子群优化(lbest PSO)</h4><ul>
+<h4 id="1-2-局部最佳粒子群优化-lbest-PSO"><a href="#1-2-局部最佳粒子群优化-lbest-PSO" class="headerlink" title="1.2 局部最佳粒子群优化(lbest PSO)"></a>1.2 局部最佳粒子群优化(lbest PSO)</h4><ul>
 <li>局部最佳PSO，使用环型社会网络拓扑。<ul>
 <li>每个粒子的邻域比较小</li>
 <li>社会部分反映了粒子邻域的信息交换，反映了局部环境的知识</li>
@@ -533,7 +533,7 @@
 </ul>
 <hr>
 <p>lbest PSO算法总结如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Create and initialize an nx-dimensional swarm;</span><br><span class="line">repeat</span><br><span class="line">    for each particle i = 1, . . . , ns do</span><br><span class="line">        //set the personal best position</span><br><span class="line">        if f(xi) &lt; f(yi) then</span><br><span class="line">            yi = xi;</span><br><span class="line">        end</span><br><span class="line">        //set the neighborhood best position</span><br><span class="line">        if f(yi) &lt; f(yi_local_best) then</span><br><span class="line">            yi_local_best = yi;</span><br><span class="line">        end</span><br><span class="line">    end</span><br><span class="line">    for each particle i = 1, . . . , ns do</span><br><span class="line">        update the velocity using equation (5);</span><br><span class="line">        update the position using equation (1);</span><br><span class="line">    end</span><br><span class="line">until stopping condition is true;</span><br></pre></td></tr></table></figure></p>
-<h4 id="比较gbest-PSO和lbest-PSO"><a href="#比较gbest-PSO和lbest-PSO" class="headerlink" title="比较gbest PSO和lbest PSO"></a>比较gbest PSO和lbest PSO</h4><ul>
+<h4 id="1-3-比较gbest-PSO和lbest-PSO"><a href="#1-3-比较gbest-PSO和lbest-PSO" class="headerlink" title="1.3 比较gbest PSO和lbest PSO"></a>1.3 比较gbest PSO和lbest PSO</h4><ul>
 <li>相同点<ul>
 <li>两种都向全局最佳粒子靠近（lbest PSO中邻域重叠）</li>
 </ul>
@@ -544,14 +544,14 @@
 </ul>
 </li>
 </ul>
-<h4 id="速度成分"><a href="#速度成分" class="headerlink" title="速度成分"></a>速度成分</h4><p>公式(2),(5)的速度计算都由三部分组成：</p>
+<h4 id="1-4-速度成分"><a href="#1-4-速度成分" class="headerlink" title="1.4 速度成分"></a>1.4 速度成分</h4><p>公式(2),(5)的速度计算都由三部分组成：</p>
 <ul>
 <li>先前的速度$v_i(t)$,作为之前的飞行方向的记忆，即刚刚过去的移动。这一记忆项可以被看做是一个惯性，防止粒子急剧改变方向，并偏离当前方向，也叫做惯性分量。</li>
 <li>认知分量$c_1r_1(y_i-x_i)$，计算量粒子$i$与过去性能相关的性能。在某种程度上，认知分量模拟了该粒子最好位置的记忆。该项的作用是粒子可以被拉往自己的最佳位置，表示粒子回到过去最为满足他们的位置或场景，称认知分量为粒子的“念旧”。</li>
 <li>社会分量,在gbest PSO中是$c_2r_2(\hat{y} - x_i)$，在lbest PSO中是$c_2r_2(\hat{y}-x_i)$。它计算了粒子$i$相对于一组粒子（或邻域）的性能。因此，从概念上说，社会分量模拟了个体试图达到的群体中的规范和标准。社会分量的作用是每个粒子被拉向该粒子的邻域所找到的最好的解。</li>
 </ul>
 <p>认知分量和社会分量的贡献分别由随机数$c_1r_1$和$c_2r_2$来控制</p>
-<h4 id="几何描述"><a href="#几何描述" class="headerlink" title="几何描述"></a>几何描述</h4><ul>
+<h4 id="1-5-几何描述"><a href="#1-5-几何描述" class="headerlink" title="1.5 几何描述"></a>1.5 几何描述</h4><ul>
 <li>速度方程的效果可以在一个二维向量空间中简单表示。考虑而为搜索空间中的一个粒子</li>
 <li>图16.1阐释了一个粒子的典型的移动。<ul>
 <li>16.1(a)描述了群在时间步$t$的状态；16.1(b)描述了群在时间步$(t+1)$的状态</li>
@@ -575,7 +575,7 @@
 <ul>
 <li>图16.3展示了lbest PSO粒子如何影响它的最近邻。</li>
 </ul>
-<h4 id="算法有关方面"><a href="#算法有关方面" class="headerlink" title="算法有关方面"></a>算法有关方面</h4><p>对前文两个算法，还需讨论粒子初始化、终止条件、定义迭代和函数评估</p>
+<h4 id="1-6-算法有关方面"><a href="#1-6-算法有关方面" class="headerlink" title="1.6 算法有关方面"></a>1.6 算法有关方面</h4><p>对前文两个算法，还需讨论粒子初始化、终止条件、定义迭代和函数评估</p>
 <ul>
 <li>最优化过程是迭代的——算法执行重复的迭代，直到满足某个终止条件</li>
 <li>一次迭代由$repeat$和$until$循环内的所有步骤构成：决定个体最佳位置和全局最佳位置、调整每个粒子的速度、执行函数评估</li>
@@ -614,7 +614,7 @@
 <ul>
 <li>该算法的结果是一个单独的类C</li>
 </ul>
-<h3 id="社会网络结构"><a href="#社会网络结构" class="headerlink" title="社会网络结构"></a>社会网络结构</h3><ul>
+<h3 id="2-社会网络结构"><a href="#2-社会网络结构" class="headerlink" title="2. 社会网络结构"></a>2. 社会网络结构</h3><ul>
 <li>驱动PSO的关键特征是社会交互作用。<ul>
 <li>群内的粒子彼此相互学习，并且根据获得的知识基础，移动以变得更加近似它们的更好邻居。</li>
 <li>PSO的社会结构决定于重叠邻域的形成。其中邻域内的粒子相互影响。</li>
@@ -688,7 +688,25 @@
 </li>
 </ul>
 <p><img src="/2019/04/09/PSO粒子群优化算法/4.jpg" alt></p>
-<h3 id="基本变种"><a href="#基本变种" class="headerlink" title="基本变种"></a>基本变种</h3><h3 id="基本PSO的参数"><a href="#基本PSO的参数" class="headerlink" title="基本PSO的参数"></a>基本PSO的参数</h3><h3 id="单解粒子群优化"><a href="#单解粒子群优化" class="headerlink" title="单解粒子群优化"></a>单解粒子群优化</h3><p>### </p>
+<h3 id="3-基本变种"><a href="#3-基本变种" class="headerlink" title="3. 基本变种"></a>3. 基本变种</h3><ul>
+<li>基本PSO被成功应用到了，标准函数优化、解决排列问题，训练多层神经网络等问题上。</li>
+<li>为了改进收敛速度和PSO找到解的质量，提出如下修改<ul>
+<li>引入惯性权重</li>
+<li>引入速度约束</li>
+<li>引入决定个体最佳和全局最佳的不同方法</li>
+<li>引入不同速度模型</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-1-velocity-clamping"><a href="#3-1-velocity-clamping" class="headerlink" title="3.1 velocity clamping"></a>3.1 velocity clamping</h4><ul>
+<li>决定一个优化算法的效率和精确率的一个重要方面就是探索和挖掘的平衡(PSO内，这些目标通过速度更新方程来处理)<ul>
+<li>探索是一个搜索算法探索搜索空间不同区域以定位一个好的优化解的能力</li>
+<li>挖掘是专注于搜索某个区域以提高候选解的精确率的能力。</li>
+</ul>
+</li>
+<li>标准PSO的早期应用中，速度很快变为大的值，特别是原理全局最佳和个体最佳位置的粒子。因此粒子位置更新很大，导致粒子离开搜索空间的边界——粒子偏离。</li>
+</ul>
+<h4 id="3-2-惯性权重"><a href="#3-2-惯性权重" class="headerlink" title="3.2 惯性权重"></a>3.2 惯性权重</h4><h4 id="3-3-约束系数"><a href="#3-3-约束系数" class="headerlink" title="3.3 约束系数"></a>3.3 约束系数</h4><h4 id="3-4-同步更新和异步更新"><a href="#3-4-同步更新和异步更新" class="headerlink" title="3.4 同步更新和异步更新"></a>3.4 同步更新和异步更新</h4><h4 id="3-5-速度模型"><a href="#3-5-速度模型" class="headerlink" title="3.5 速度模型"></a>3.5 速度模型</h4><h3 id="4-基本PSO的参数"><a href="#4-基本PSO的参数" class="headerlink" title="4. 基本PSO的参数"></a>4. 基本PSO的参数</h3><h3 id="5-单解粒子群优化"><a href="#5-单解粒子群优化" class="headerlink" title="5. 单解粒子群优化"></a>5. 单解粒子群优化</h3><h4 id="5-1-保证收敛的PSO"><a href="#5-1-保证收敛的PSO" class="headerlink" title="5.1 保证收敛的PSO"></a>5.1 保证收敛的PSO</h4><h4 id="5-2-基于社会的PSO"><a href="#5-2-基于社会的PSO" class="headerlink" title="5.2 基于社会的PSO"></a>5.2 基于社会的PSO</h4><h4 id="5-3-混合算法"><a href="#5-3-混合算法" class="headerlink" title="5.3 混合算法"></a>5.3 混合算法</h4><h4 id="5-4-多次开始的PSO算法"><a href="#5-4-多次开始的PSO算法" class="headerlink" title="5.4 多次开始的PSO算法"></a>5.4 多次开始的PSO算法</h4><h4 id="5-5-排斥方法"><a href="#5-5-排斥方法" class="headerlink" title="5.5 排斥方法"></a>5.5 排斥方法</h4><h4 id="5-6-二元-PSO"><a href="#5-6-二元-PSO" class="headerlink" title="5.6 二元 PSO"></a>5.6 二元 PSO</h4><h3 id="6-高级专题"><a href="#6-高级专题" class="headerlink" title="6. 高级专题"></a>6. 高级专题</h3><h4 id="6-1-约束处理方法"><a href="#6-1-约束处理方法" class="headerlink" title="6.1 约束处理方法"></a>6.1 约束处理方法</h4><h4 id="6-2-多目标优化"><a href="#6-2-多目标优化" class="headerlink" title="6.2 多目标优化"></a>6.2 多目标优化</h4><h4 id="6-3-动态环境"><a href="#6-3-动态环境" class="headerlink" title="6.3 动态环境"></a>6.3 动态环境</h4><h4 id="6-4-小生境PSO"><a href="#6-4-小生境PSO" class="headerlink" title="6.4 小生境PSO"></a>6.4 小生境PSO</h4><h3 id="7-应用"><a href="#7-应用" class="headerlink" title="7. 应用"></a>7. 应用</h3><h4 id="7-1-神经网络"><a href="#7-1-神经网络" class="headerlink" title="7.1 神经网络"></a>7.1 神经网络</h4><h4 id="7-2-结构选择"><a href="#7-2-结构选择" class="headerlink" title="7.2 结构选择"></a>7.2 结构选择</h4><h4 id="7-3-游戏学习"><a href="#7-3-游戏学习" class="headerlink" title="7.3 游戏学习"></a>7.3 游戏学习</h4><p>####</p>
 
       
     </div>
@@ -926,7 +944,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本粒子群优化"><span class="nav-number">1.</span> <span class="nav-text">基本粒子群优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全局最佳粒子群优化-gbest-PSO"><span class="nav-number">1.1.</span> <span class="nav-text">全局最佳粒子群优化(gbest PSO)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#局部最佳粒子群优化-lbest-PSO"><span class="nav-number">1.2.</span> <span class="nav-text">局部最佳粒子群优化(lbest PSO)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#比较gbest-PSO和lbest-PSO"><span class="nav-number">1.3.</span> <span class="nav-text">比较gbest PSO和lbest PSO</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#速度成分"><span class="nav-number">1.4.</span> <span class="nav-text">速度成分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#几何描述"><span class="nav-number">1.5.</span> <span class="nav-text">几何描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法有关方面"><span class="nav-number">1.6.</span> <span class="nav-text">算法有关方面</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#社会网络结构"><span class="nav-number">2.</span> <span class="nav-text">社会网络结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本变种"><span class="nav-number">3.</span> <span class="nav-text">基本变种</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本PSO的参数"><span class="nav-number">4.</span> <span class="nav-text">基本PSO的参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单解粒子群优化"><span class="nav-number">5.</span> <span class="nav-text">单解粒子群优化</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-基本粒子群优化"><span class="nav-text">1. 基本粒子群优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-全局最佳粒子群优化-gbest-PSO"><span class="nav-text">1.1 全局最佳粒子群优化(gbest PSO)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-局部最佳粒子群优化-lbest-PSO"><span class="nav-text">1.2 局部最佳粒子群优化(lbest PSO)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-比较gbest-PSO和lbest-PSO"><span class="nav-text">1.3 比较gbest PSO和lbest PSO</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-速度成分"><span class="nav-text">1.4 速度成分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-几何描述"><span class="nav-text">1.5 几何描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-算法有关方面"><span class="nav-text">1.6 算法有关方面</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-社会网络结构"><span class="nav-text">2. 社会网络结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-基本变种"><span class="nav-text">3. 基本变种</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-velocity-clamping"><span class="nav-text">3.1 velocity clamping</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-惯性权重"><span class="nav-text">3.2 惯性权重</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-约束系数"><span class="nav-text">3.3 约束系数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-同步更新和异步更新"><span class="nav-text">3.4 同步更新和异步更新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-速度模型"><span class="nav-text">3.5 速度模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-基本PSO的参数"><span class="nav-text">4. 基本PSO的参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-单解粒子群优化"><span class="nav-text">5. 单解粒子群优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-保证收敛的PSO"><span class="nav-text">5.1 保证收敛的PSO</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-基于社会的PSO"><span class="nav-text">5.2 基于社会的PSO</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-混合算法"><span class="nav-text">5.3 混合算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-多次开始的PSO算法"><span class="nav-text">5.4 多次开始的PSO算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-5-排斥方法"><span class="nav-text">5.5 排斥方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-6-二元-PSO"><span class="nav-text">5.6 二元 PSO</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-高级专题"><span class="nav-text">6. 高级专题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-约束处理方法"><span class="nav-text">6.1 约束处理方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-多目标优化"><span class="nav-text">6.2 多目标优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-动态环境"><span class="nav-text">6.3 动态环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-4-小生境PSO"><span class="nav-text">6.4 小生境PSO</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-应用"><span class="nav-text">7. 应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-神经网络"><span class="nav-text">7.1 神经网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-结构选择"><span class="nav-text">7.2 结构选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-3-游戏学习"><span class="nav-text">7.3 游戏学习</span></a></li></ol></li></ol></div>
             
 
           </div>
