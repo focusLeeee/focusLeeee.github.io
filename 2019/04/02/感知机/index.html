@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="1. 感知机模型1.1 判别模型 旨在求出将训练数据进行线性划分的分离超平面 使用前提：数据线性可分 严重限制了感知机的使用场景。如支持向量机可以通过核技巧来让数据在高维可分，神经网络可以通过激活函数和增加隐藏层来让数据可分。  1.2 模型$$y = sign(\theta \cdot x) $$其中：$$sign(x)=\begin{cases}        1, &amp;amp; x &amp;lt;">
+  <meta name="description" content="1. 感知机模型1.1 判别模型 旨在求出将训练数据进行线性划分的分离超平面 使用前提：数据线性可分 严重限制了感知机的使用场景。如支持向量机可以通过核技巧来让数据在高维可分，神经网络可以通过激活函数和增加隐藏层来让数据可分。  1.2 模型y = sign(\theta \cdot x)其中：  sign(x)=\begin{cases}          1, &amp; x &amp;lt; 0\\">
 <meta name="keywords" content="机器学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="感知机">
 <meta property="og:url" content="http://yoursite.com/2019/04/02/感知机/index.html">
 <meta property="og:site_name" content="focus">
-<meta property="og:description" content="1. 感知机模型1.1 判别模型 旨在求出将训练数据进行线性划分的分离超平面 使用前提：数据线性可分 严重限制了感知机的使用场景。如支持向量机可以通过核技巧来让数据在高维可分，神经网络可以通过激活函数和增加隐藏层来让数据可分。  1.2 模型$$y = sign(\theta \cdot x) $$其中：$$sign(x)=\begin{cases}        1, &amp;amp; x &amp;lt;">
+<meta property="og:description" content="1. 感知机模型1.1 判别模型 旨在求出将训练数据进行线性划分的分离超平面 使用前提：数据线性可分 严重限制了感知机的使用场景。如支持向量机可以通过核技巧来让数据在高维可分，神经网络可以通过激活函数和增加隐藏层来让数据可分。  1.2 模型y = sign(\theta \cdot x)其中：  sign(x)=\begin{cases}          1, &amp; x &amp;lt; 0\\">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-04-09T08:44:29.801Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="感知机">
-<meta name="twitter:description" content="1. 感知机模型1.1 判别模型 旨在求出将训练数据进行线性划分的分离超平面 使用前提：数据线性可分 严重限制了感知机的使用场景。如支持向量机可以通过核技巧来让数据在高维可分，神经网络可以通过激活函数和增加隐藏层来让数据可分。  1.2 模型$$y = sign(\theta \cdot x) $$其中：$$sign(x)=\begin{cases}        1, &amp;amp; x &amp;lt;">
+<meta name="twitter:description" content="1. 感知机模型1.1 判别模型 旨在求出将训练数据进行线性划分的分离超平面 使用前提：数据线性可分 严重限制了感知机的使用场景。如支持向量机可以通过核技巧来让数据在高维可分，神经网络可以通过激活函数和增加隐藏层来让数据可分。  1.2 模型y = sign(\theta \cdot x)其中：  sign(x)=\begin{cases}          1, &amp; x &amp;lt; 0\\">
 
 
 
@@ -488,21 +488,25 @@
 <li>使用前提：数据线性可分</li>
 <li>严重限制了感知机的使用场景。如支持向量机可以通过核技巧来让数据在高维可分，神经网络可以通过激活函数和增加隐藏层来让数据可分。</li>
 </ul>
-<h4 id="1-2-模型"><a href="#1-2-模型" class="headerlink" title="1.2 模型"></a>1.2 模型</h4><p>$$y = sign(\theta \cdot x) $$<br>其中：<br>$$<br>sign(x)=\begin{cases}<br>        1, &amp; x &lt; 0\<br>        0, &amp; x \geq 0\<br>    \end{cases}<br>$$</p>
-<h3 id="2-损失函数"><a href="#2-损失函数" class="headerlink" title="2. 损失函数"></a>2. 损失函数</h3><h4 id="2-1-输出"><a href="#2-1-输出" class="headerlink" title="2.1 输出"></a>2.1 输出</h4><ul>
+<h4 id="1-2-模型"><a href="#1-2-模型" class="headerlink" title="1.2 模型"></a>1.2 模型</h4><script type="math/tex; mode=display">y = sign(\theta \cdot x)</script><p>其中：</p>
+<script type="math/tex; mode=display">
+sign(x)=\begin{cases} 
+        1, & x < 0\\ 
+        0, & x \geq 0\\ 
+    \end{cases}</script><h3 id="2-损失函数"><a href="#2-损失函数" class="headerlink" title="2. 损失函数"></a>2. 损失函数</h3><h4 id="2-1-输出"><a href="#2-1-输出" class="headerlink" title="2.1 输出"></a>2.1 输出</h4><ul>
 <li>$\theta \cdot x &gt; 0$的样本类别输出为1.</li>
 <li>$\theta \cdot x &lt; 0$的样本为-1.</li>
 <li>使得当样本正确分类时，$y \theta \cdot x &gt; 0$.使得当样本错误分类时，$y \theta \cdot x &lt; 0$.</li>
 </ul>
 <h4 id="2-2-损失函数优化目标"><a href="#2-2-损失函数优化目标" class="headerlink" title="2.2 损失函数优化目标"></a>2.2 损失函数优化目标</h4><p>使得误分类的所有样本，到超平面的距离之和最小.</p>
 <h4 id="2-3-损失函数"><a href="#2-3-损失函数" class="headerlink" title="2.3 损失函数"></a>2.3 损失函数</h4><ul>
-<li>由于$y \theta \cdot x &lt; 0$，所以对于每一个误分类的样本$i$, 到超平面的距离是：<br>$$-\frac{y^{(i)}\theta \cdot x^{(i)}}{||\theta||_2}$$<br>其中，$||\theta||<em>2$是L2范数。假设所有误分类的点的集合为$M$,则所有误分类的样本到超平面的距离之和为：<br>$$-\sum</em>{x_i \in M}\frac{y^{(i)}\theta \cdot x^{(i)}}{||\theta||_2}$$</li>
-<li>对于感知机模型，我们采取固定分母，保留分子的方式，使$||\theta||<em>2 = 1$,因此，感知机模型可简化为：<br>$$ J(\theta) = - \sum</em>{x_i \in M}y^{(i)}x^{(i)}<br>$$<br>其中，$M$是所有误分类的样本的集合。</li>
+<li>由于$y \theta \cdot x &lt; 0$，所以对于每一个误分类的样本$i$, 到超平面的距离是：<script type="math/tex; mode=display">-\frac{y^{(i)}\theta \cdot x^{(i)}}{||\theta||_2}</script>其中，$||\theta||_2$是L2范数。假设所有误分类的点的集合为$M$,则所有误分类的样本到超平面的距离之和为：<script type="math/tex; mode=display">-\sum_{x_i \in M}\frac{y^{(i)}\theta \cdot x^{(i)}}{||\theta||_2}</script></li>
+<li>对于感知机模型，我们采取固定分母，保留分子的方式，使$||\theta||_2 = 1$,因此，感知机模型可简化为：<script type="math/tex; mode=display">J(\theta) = - \sum_{x_i \in M}y^{(i)}x^{(i)}</script>其中，$M$是所有误分类的样本的集合。</li>
 </ul>
 <h3 id="3-优化方法"><a href="#3-优化方法" class="headerlink" title="3. 优化方法"></a>3. 优化方法</h3><h4 id="3-1-梯度下降法"><a href="#3-1-梯度下降法" class="headerlink" title="3.1 梯度下降法"></a>3.1 梯度下降法</h4><ul>
 <li>不能采用基于所有样本和均值的BGD批量梯度下降法,因为损失函数中，只有误分类的$M$集合里面的样本才能参与损失函数的优化。</li>
 <li>只能采用随机梯度下降SGD,或小批量梯度下降MBGD。</li>
-<li>对于随机梯度下降法，每次使用一个误分类的点来更新梯度。损失函数基于$\theta$向量的偏导数为：<br>$$ \frac{\partial}{\partial \theta}J(\theta) = - \sum_{x_i \in M}y^{(i)}x^{(i)}<br>$$<br>$\theta$的梯度下降迭代公式为：<br>$$ \theta = \theta + \alpha \sum_{x_i \in M}y^{(i)}x^{(i)}<br>$$<br>又因为随机梯度下降，每次只需要一个变量，因此$\theta$的梯度下降迭代公式为：<br>$$ \theta = \theta + \alpha y^{(i)}x^{(i)} $$<br>其中$\alpha$是步长, $y{(i)}$是样本输出，$x^{(i)}$为$(n+1) \times 1$的向量。<h4 id="3-2-拟牛顿法"><a href="#3-2-拟牛顿法" class="headerlink" title="3.2 拟牛顿法"></a>3.2 拟牛顿法</h4></li>
+<li>对于随机梯度下降法，每次使用一个误分类的点来更新梯度。损失函数基于$\theta$向量的偏导数为：<script type="math/tex; mode=display">\frac{\partial}{\partial \theta}J(\theta) = - \sum_{x_i \in M}y^{(i)}x^{(i)}</script>$\theta$的梯度下降迭代公式为：<script type="math/tex; mode=display">\theta = \theta + \alpha \sum_{x_i \in M}y^{(i)}x^{(i)}</script>又因为随机梯度下降，每次只需要一个变量，因此$\theta$的梯度下降迭代公式为：<script type="math/tex; mode=display">\theta = \theta + \alpha y^{(i)}x^{(i)}</script>其中$\alpha$是步长, $y{(i)}$是样本输出，$x^{(i)}$为$(n+1) \times 1$的向量。<h4 id="3-2-拟牛顿法"><a href="#3-2-拟牛顿法" class="headerlink" title="3.2 拟牛顿法"></a>3.2 拟牛顿法</h4></li>
 </ul>
 
       
