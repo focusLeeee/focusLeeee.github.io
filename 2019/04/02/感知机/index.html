@@ -96,16 +96,18 @@
 
 
 
-  <meta name="description" content="认知，理解，接纳">
-<meta property="og:type" content="website">
-<meta property="og:title" content="focus">
-<meta property="og:url" content="http://yoursite.com/archives/2019/index.html">
+  <meta name="description" content="###一. 感知机模型 ####1. 判别模型  旨在求出将训练数据进行线性划分的分离超平面 使用前提：数据线性可分 严重限制了感知机的使用场景。如支持向量机可以通过核技巧来让数据在高维可分，神经网络可以通过激活函数和增加隐藏层来让数据可分。  ####2. 模型$$y = sign(\theta \cdot x) $$其中：$$sign(x)=\begin{cases}        1, &amp;a">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="感知机">
+<meta property="og:url" content="http://yoursite.com/2019/04/02/感知机/index.html">
 <meta property="og:site_name" content="focus">
-<meta property="og:description" content="认知，理解，接纳">
+<meta property="og:description" content="###一. 感知机模型 ####1. 判别模型  旨在求出将训练数据进行线性划分的分离超平面 使用前提：数据线性可分 严重限制了感知机的使用场景。如支持向量机可以通过核技巧来让数据在高维可分，神经网络可以通过激活函数和增加隐藏层来让数据可分。  ####2. 模型$$y = sign(\theta \cdot x) $$其中：$$sign(x)=\begin{cases}        1, &amp;a">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-04-08T05:08:04.429Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="focus">
-<meta name="twitter:description" content="认知，理解，接纳">
+<meta name="twitter:title" content="感知机">
+<meta name="twitter:description" content="###一. 感知机模型 ####1. 判别模型  旨在求出将训练数据进行线性划分的分离超平面 使用前提：数据线性可分 严重限制了感知机的使用场景。如支持向量机可以通过核技巧来让数据在高维可分，神经网络可以通过激活函数和增加隐藏层来让数据可分。  ####2. 模型$$y = sign(\theta \cdot x) $$其中：$$sign(x)=\begin{cases}        1, &amp;a">
 
 
 
@@ -113,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/archives/2019/">
+  <link rel="canonical" href="http://yoursite.com/2019/04/02/感知机/">
 
 
 
@@ -123,7 +125,7 @@
   };
 </script>
 
-  <title>归档 | focus</title>
+  <title>感知机 | focus</title>
   
 
 
@@ -171,7 +173,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -277,7 +279,7 @@
         
         
           
-          <li class="menu-item menu-item-archives menu-item-active">
+          <li class="menu-item menu-item-archives">
 
     
     
@@ -336,177 +338,259 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/02/感知机/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="focus">
+      <meta itemprop="description" content="认知，理解，接纳">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="focus">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">感知机
+
+              
+            
+          </h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-02 10:45:03" itemprop="dateCreated datePublished" datetime="2019-04-02T10:45:03+08:00">2019-04-02</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-08 13:08:04" itemprop="dateModified" datetime="2019-04-08T13:08:04+08:00">2019-04-08</time>
+              
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 3 篇日志。 继续努力。
-      </span>
-      
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
 
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/04/09/PSO粒子群优化算法/" itemprop="url">
+          
             
-              <span itemprop="name">PSO粒子群优化算法</span>
             
-          </a>
-        
-      </h2>
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/04/02/感知机/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/04/02/感知机/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-09T09:12:06+08:00" content="2019-04-09">
-          04-09
-        </time>
-      </div>
+          
+          
 
-    </header>
-  </article>
+          
 
+          
 
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/04/02/感知机/" itemprop="url">
-            
-              <span itemprop="name">感知机</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-02T10:45:03+08:00" content="2019-04-02">
-          04-02
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/04/01/hello-world/" itemprop="url">
-            
-              <span itemprop="name">Hello World</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-01T13:39:38+08:00" content="2019-04-01">
-          04-01
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>###一. 感知机模型</p>
+<p>####1. 判别模型</p>
+<ul>
+<li>旨在求出将训练数据进行线性划分的分离超平面</li>
+<li>使用前提：数据线性可分</li>
+<li>严重限制了感知机的使用场景。如支持向量机可以通过核技巧来让数据在高维可分，神经网络可以通过激活函数和增加隐藏层来让数据可分。</li>
+</ul>
+<p>####2. 模型<br>$$y = sign(\theta \cdot x) $$<br>其中：<br>$$<br>sign(x)=\begin{cases}<br>        1, &amp; x &lt; 0\<br>        0, &amp; x \geq 0\<br>    \end{cases}<br>$$</p>
+<p>###二. 损失函数</p>
+<p>####1. 输出</p>
+<ul>
+<li>$\theta \cdot x &gt; 0$的样本类别输出为1.</li>
+<li>$\theta \cdot x &lt; 0$的样本为-1.</li>
+<li>使得当样本正确分类时，$y \theta \cdot x &gt; 0$.使得当样本错误分类时，$y \theta \cdot x &lt; 0$.</li>
+</ul>
+<p>####2. 损失函数优化目标<br>使得误分类的所有样本，到超平面的距离之和最小.</p>
+<p>####3. 损失函数</p>
+<ul>
+<li>由于$y \theta \cdot x &lt; 0$，所以对于每一个误分类的样本$i$, 到超平面的距离是：<br>$$-\frac{y^{(i)}\theta \cdot x^{(i)}}{||\theta||_2}$$<br>其中，$||\theta||<em>2$是L2范数。假设所有误分类的点的集合为$M$,则所有误分类的样本到超平面的距离之和为：<br>$$-\sum</em>{x_i \in M}\frac{y^{(i)}\theta \cdot x^{(i)}}{||\theta||_2}$$</li>
+<li>对于感知机模型，我们采取固定分母，保留分子的方式，使$||\theta||<em>2 = 1$,因此，感知机模型可简化为：<br>$$ J(\theta) = - \sum</em>{x_i \in M}y^{(i)}x^{(i)}<br>$$<br>其中，$M$是所有误分类的样本的集合。</li>
+</ul>
+<p>###三、优化方法</p>
+<p>####1. 梯度下降法</p>
+<ul>
+<li>不能采用基于所有样本和均值的BGD批量梯度下降法,因为损失函数中，只有误分类的$M$集合里面的样本才能参与损失函数的优化。</li>
+<li>只能采用随机梯度下降SGD,或小批量梯度下降MBGD。</li>
+<li>对于随机梯度下降法，每次使用一个误分类的点来更新梯度。损失函数基于$\theta$向量的偏导数为：<br>$$ \frac{\partial}{\partial \theta}J(\theta) = - \sum_{x_i \in M}y^{(i)}x^{(i)}<br>$$<br>$\theta$的梯度下降迭代公式为：<br>$$ \theta = \theta + \alpha \sum_{x_i \in M}y^{(i)}x^{(i)}<br>$$<br>又因为随机梯度下降，每次只需要一个变量，因此$\theta$的梯度下降迭代公式为：<br>$$ \theta = \theta + \alpha y^{(i)}x^{(i)} $$<br>其中$\alpha$是步长, $y{(i)}$是样本输出，$x^{(i)}$为$(n+1) \times 1$的向量。<br>####2. 拟牛顿法</li>
+</ul>
 
       
-
     </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/01/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/09/PSO粒子群优化算法/" rel="prev" title="PSO粒子群优化算法">
+                PSO粒子群优化算法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -779,6 +863,10 @@
 
 
   
+  <script src="/js/scrollspy.js?v=7.0.1"></script>
+<script src="/js/post-details.js?v=7.0.1"></script>
+
+
 
   
 
@@ -797,9 +885,28 @@
   <script id="dsq-count-scr" src="https://focus.disqus.com/count.js" async></script>
 
 
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2019/04/02/感知机/";
+    this.page.identifier = "2019/04/02/感知机/";
+    this.page.title = '感知机';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://focus.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
 
 
 
+
+
+  
 
 
   
@@ -817,6 +924,46 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
   
 
 
