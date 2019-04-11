@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="认知，理解，接纳">
+  <meta name="description" content="支持向量机(support vector machine)是一种二类分类模型。基本模型是定义在特征空间上的间隔最大的线性分类器。 与感知机区别 学习策略是间隔最大化，感知机是找到一个超平面使其分隔开 感知机在定义损失函数时，保留分子，固定分母为1；支持向量机在定义间隔时，保留分母，固定分子为1.   学习策略：间隔最大化 也可形式化一个求解凸二次规划(convex quadratic progr">
 <meta name="keywords" content="机器学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="支持向量机SVM">
 <meta property="og:url" content="http://yoursite.com/2019/04/11/支持向量机SVM/index.html">
 <meta property="og:site_name" content="focus">
-<meta property="og:description" content="认知，理解，接纳">
+<meta property="og:description" content="支持向量机(support vector machine)是一种二类分类模型。基本模型是定义在特征空间上的间隔最大的线性分类器。 与感知机区别 学习策略是间隔最大化，感知机是找到一个超平面使其分隔开 感知机在定义损失函数时，保留分子，固定分母为1；支持向量机在定义间隔时，保留分母，固定分子为1.   学习策略：间隔最大化 也可形式化一个求解凸二次规划(convex quadratic progr">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-11T06:47:58.545Z">
+<meta property="og:updated_time" content="2019-04-11T14:47:39.372Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="支持向量机SVM">
-<meta name="twitter:description" content="认知，理解，接纳">
+<meta name="twitter:description" content="支持向量机(support vector machine)是一种二类分类模型。基本模型是定义在特征空间上的间隔最大的线性分类器。 与感知机区别 学习策略是间隔最大化，感知机是找到一个超平面使其分隔开 感知机在定义损失函数时，保留分子，固定分母为1；支持向量机在定义间隔时，保留分母，固定分子为1.   学习策略：间隔最大化 也可形式化一个求解凸二次规划(convex quadratic progr">
 
 
 
@@ -401,7 +401,7 @@
                 
               
 
-              <time title="创建时间：2019-04-11 11:08:46 / 修改时间：14:47:58" itemprop="dateCreated datePublished" datetime="2019-04-11T11:08:46+08:00">2019-04-11</time>
+              <time title="创建时间：2019-04-11 11:08:46 / 修改时间：22:47:39" itemprop="dateCreated datePublished" datetime="2019-04-11T11:08:46+08:00">2019-04-11</time>
             
 
             
@@ -471,7 +471,98 @@
       
 
       
-        
+        <ul>
+<li>支持向量机(support vector machine)是一种二类分类模型。基本模型是定义在特征空间上的间隔最大的线性分类器。</li>
+<li>与感知机区别<ul>
+<li>学习策略是间隔最大化，感知机是找到一个超平面使其分隔开</li>
+<li>感知机在定义损失函数时，保留分子，固定分母为1；支持向量机在定义间隔时，保留分母，固定分子为1.</li>
+</ul>
+</li>
+<li>学习策略：间隔最大化<ul>
+<li>也可形式化一个求解凸二次规划(convex quadratic programming)的问题,等价于正则化的合页损失函数的最小化问题，支持向量机的学习算法是求解凸二次规划的最优化算法。</li>
+</ul>
+</li>
+<li>分类<ul>
+<li>线性可分时：线性可分支持向量机</li>
+<li>近似线性可分时：软间隔的线性支持向量机</li>
+<li>线性不可分时：带有核函数的支持向量机</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-线性支持向量机"><a href="#1-线性支持向量机" class="headerlink" title="1. 线性支持向量机"></a>1. 线性支持向量机</h3><h4 id="1-1-基本概念"><a href="#1-1-基本概念" class="headerlink" title="1.1 基本概念"></a>1.1 基本概念</h4><ul>
+<li>函数间隔<ul>
+<li>对于给定训练数据集T和超平面$w^Tx+b = 0$,$|w^Tx+b|$表示点$x$到超平面的距离，定义该超平面$w^Tx+b = 0$对样本点$(x_i, y_i)$的函数间隔为：<script type="math/tex; mode=display">\hat{\gamma}_i =y_i(w^T \cdot x_i + b)</script>定义超平面$w^Tx+b = 0$关于训练集T的函数间隔为超平面$w^Tx+b = 0$关于T中所有样本点$(x_i, y_i)$的函数间隔的最小值：<script type="math/tex; mode=display">\hat{\gamma} = min_{i = 1, ..., N}\hat{\gamma}_i</script></li>
+<li>函数间隔可以表示分类预测的正确性和确信度——但是只要成比例地改变$w$和$b$，超平面并未发生变化，但是函数间隔却变为原来的2倍，因此引入几何间隔（geometric margin）</li>
+</ul>
+</li>
+<li>几何间隔<ul>
+<li>对于给定训练数据集T和超平面$w^Tx+b = 0$,$|w^Tx+b|$表示点$x$到超平面的距离，定义该超平面$w^Tx+b = 0$对样本点$(x_i, y_i)$的几何间隔为：<script type="math/tex; mode=display">\gamma = \frac{y_i(w^Tx_i + b)}{||w||_2}</script>定义超平面$w^Tx+b = 0$关于训练集T的几何间隔为超平面$w^Tx+b = 0$关于T中所有样本点$(x_i, y_i)$的集合间隔的最小值：<script type="math/tex; mode=display">\gamma = min_{i = 1, ..., N}\gamma_i</script></li>
+<li>几何间隔是实例点到超平面的带符号的距离，集合距离才是点到超平面的真正距离。</li>
+</ul>
+</li>
+<li>支持向量<ul>
+<li>在线性可分情况下，训练数据集的样本点中与分离超平面距离最近的样本点的 实例称为支持向量</li>
+<li>和超平面平行的保持一定的函数距离的这两个超平面对应的向量，定义为支持向量。</li>
+<li>支持向量到超平面的距离是$\frac{1}{||w||_2}$，两个支持向量之间的距离为 $\frac{2}{||w||_2}$</li>
+<li>支持向量一般很少，所以支持向量机由很少的“重要”的训练样本决定</li>
+</ul>
+</li>
+</ul>
+<h4 id="1-2-原始问题"><a href="#1-2-原始问题" class="headerlink" title="1.2 原始问题"></a>1.2 原始问题</h4><ul>
+<li>支持向量机学习的基本想法：求解能够正确划分训练数据集并且几何间隔最大的分离超平面，即间隔最大化——对训练数据集找到最大的几何间隔的超平面即以充分大的确信度对训练数据进行分类。<script type="math/tex; mode=display">max \qquad \gamma = \frac{y(w^Tx_b)}{||w||_2}</script><script type="math/tex; mode=display">s.t. \qquad y_i(w^Tx_i + b) = \hat{\gamma}^{(i)} \geq \hat{\gamma}(i = 1, 2, ..., m)</script>一般取函数间隔 $\hat{\gamma} = 1$,则有<script type="math/tex; mode=display">max \qquad  \frac{1}{||w||_2}</script><script type="math/tex; mode=display">s.t. \qquad y_i(w^Tx_i + b) \geq 1(i = 1, 2, ..., m)</script>问题也可转换为：<script type="math/tex; mode=display">min \qquad \frac{1}{2}||w||_2</script><script type="math/tex; mode=display">s.t. \qquad y_i(w^Tx_i + b) \geq 1(i = 1, 2, ..., m)</script></li>
+</ul>
+<hr>
+<p>最大间隔法<br>输入：<br>输出：<br>(1)<br>(2)  </p>
+<h4 id="1-3-优化之对偶问题"><a href="#1-3-优化之对偶问题" class="headerlink" title="1.3 优化之对偶问题"></a>1.3 优化之对偶问题</h4><ul>
+<li>引入对偶方法原因<ul>
+<li>使用拉格朗日乘子法更高效地求解</li>
+<li>自然引入核函数，进而推广到非线性问题</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-线性支持向量机的软间隔最大化"><a href="#2-线性支持向量机的软间隔最大化" class="headerlink" title="2. 线性支持向量机的软间隔最大化"></a>2. 线性支持向量机的软间隔最大化</h3><h4 id="2-1"><a href="#2-1" class="headerlink" title="2.1"></a>2.1</h4><h3 id="3-非线性支持向量机与核函数"><a href="#3-非线性支持向量机与核函数" class="headerlink" title="3. 非线性支持向量机与核函数"></a>3. 非线性支持向量机与核函数</h3><h4 id="3-1-几种核函数"><a href="#3-1-几种核函数" class="headerlink" title="3.1 几种核函数"></a>3.1 几种核函数</h4><ul>
+<li>线性核函数<script type="math/tex; mode=display">K(x_1, x_2) = <x_1, x_2></script><ul>
+<li>特征远大于样本时用，速度最快。</li>
+</ul>
+</li>
+<li>多项式核函数<script type="math/tex; mode=display">K(x_1, x_2) = (<x_1, x_2> + R)^d</script><ul>
+<li>适合处理维度爆炸的问题（维度爆炸，即计算量过大，难以承受）</li>
+<li>适合正交归一化的数据，参数多，易过拟合</li>
+</ul>
+</li>
+<li>高斯核函数/RBF/径向核函数<script type="math/tex; mode=display">K(x_1, x_2) = e^{-\frac{||x_1-x_2||_2}{2\sigma^2} }</script><ul>
+<li>属于局部核函数，取值仅仅依赖于特定点距离的实值函数。数据点距中心变远时，取值变小；</li>
+<li>高斯径向核函数对数据中的噪声有较好的抗干扰能力，$\sigma$决定了函数作用的范围</li>
+<li>如果$\sigma$选的很大，高次特征上的权重实际上衰减的非常快，所以实际上相当于一个低维的子空间（可拟合线性核函数）；如果$\sigma$选的很小，可以将任意的数据映射为线性可分——因此也可能会带来非常严重的过拟合问题。</li>
+<li>总的来说，通过调控$\sigma$，高斯核实际具有非常强的灵活性，是使用最广发的核函数之一。</li>
+</ul>
+</li>
+<li><p>sigmoid核函数</p>
+<script type="math/tex; mode=display">k(x_1, x_2) = tanh(ax^T+c)</script><ul>
+<li>使用sigmoid函数作为核函数时，支持向量机实现的就是一种多层感知器神经网络，应用SVM算法，隐含层节点数目(确定神经网络的结构)，隐含层节点对输入节点的权值都是在设计（训练）的过程中自动自动确定的。支持向量机的理论决定了其最终求得的是全局的最优值而不是局部最小值，也保证了它对位置样本的良好泛化能力而不会出现过拟合情况。</li>
+</ul>
+</li>
+<li><p>核函数的选择</p>
+<ul>
+<li>先验知识：利用专家的先验知识预先选定核函数；</li>
+<li>交叉验证：采用Cross-Validation方法，即在进行核函数选取时，分别试用不同的核函数，归纳误差最小的核函数就是最好的核函数．如针对傅立叶核、RBF核，结合信号处理问题中的函数回归问题，通过仿真实验，对比分析了在相同数据条件下，采用傅立叶核的SVM要比采用RBF核的SVM误差小很多.</li>
+<li>混合核函数：采用由Smits等人提出的混合核函数方法，该方法较之前两者是目前选取核函数的主流方法，也是关于如何构造核函数的又一开创性的工作．将不同的核函数结合起来后会有更好的特性，这是混合核函数方法的基本思想</li>
+<li>Andrew的说法是：<ul>
+<li>当样本的特征很多时，特征的维数很高，这是往往样本线性可分，可考虑用线性核函数的SVM或LR（如果不考虑核函数，LR和SVM都是线性分类算法，也就是说他们的分类决策面都是线性的）。</li>
+<li>当样本的数量很多，但特征较少时，可以手动添加一些特征，使样本线性可分，再考虑用线性核函数的SVM或LR。</li>
+<li>当样特征维度不高时，样本数量也不多时，考虑用高斯核函数（RBF核函数的一种，指数核函数和拉普拉斯核函数也属于RBF核函数）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-SMO算法"><a href="#4-SMO算法" class="headerlink" title="4. SMO算法"></a>4. SMO算法</h3><ul>
+<li>基本思想：如果所有变量的解都满足此最优化问题的KKT条件，那么这个最优化问题的解就得到了；否则，选择两个变量，固定其他变量，针对这两个变量构建一个二次规划问题，这个二次规划问题关于这两个变量的解应该更接近原始二次规划问题的解，因为会使原始二次规划问题的目标函数值变得更小。更重要的是，此时可以通过解析方法求解，可以大大的提高整个算法的计算速度。<ul>
+<li>子问题有两个变量，一个是违反KKT条件最严重的那一个，另一由约束条件自动确定。</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-线性支持回归"><a href="#5-线性支持回归" class="headerlink" title="5. 线性支持回归"></a>5. 线性支持回归</h3>
       
     </div>
 
@@ -566,8 +657,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -688,6 +788,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-线性支持向量机"><span class="nav-text">1. 线性支持向量机</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-基本概念"><span class="nav-text">1.1 基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-原始问题"><span class="nav-text">1.2 原始问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-优化之对偶问题"><span class="nav-text">1.3 优化之对偶问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-线性支持向量机的软间隔最大化"><span class="nav-text">2. 线性支持向量机的软间隔最大化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1"><span class="nav-text">2.1</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-非线性支持向量机与核函数"><span class="nav-text">3. 非线性支持向量机与核函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-几种核函数"><span class="nav-text">3.1 几种核函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-SMO算法"><span class="nav-text">4. SMO算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-线性支持回归"><span class="nav-text">5. 线性支持回归</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
