@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="focus">
 <meta property="og:description" content="1. 感知机模型1.1 判别模型 旨在求出将训练数据进行线性划分的分离超平面 使用前提：数据线性可分 严重限制了感知机的使用场景。如支持向量机可以通过核技巧来让数据在高维可分，神经网络可以通过激活函数和增加隐藏层来让数据可分。  1.2 模型y = sign(\theta \cdot x)其中：  sign(x)=\begin{cases}          1, &amp; x &amp;lt; 0\\">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-09T08:44:29.801Z">
+<meta property="og:updated_time" content="2019-04-11T06:45:39.041Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="感知机">
 <meta name="twitter:description" content="1. 感知机模型1.1 判别模型 旨在求出将训练数据进行线性划分的分离超平面 使用前提：数据线性可分 严重限制了感知机的使用场景。如支持向量机可以通过核技巧来让数据在高维可分，神经网络可以通过激活函数和增加隐藏层来让数据可分。  1.2 模型y = sign(\theta \cdot x)其中：  sign(x)=\begin{cases}          1, &amp; x &amp;lt; 0\\">
@@ -418,7 +418,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-09 16:44:29" itemprop="dateModified" datetime="2019-04-09T16:44:29+08:00">2019-04-09</time>
+                <time title="修改时间：2019-04-11 14:45:39" itemprop="dateModified" datetime="2019-04-11T14:45:39+08:00">2019-04-11</time>
               
             
           </span>
@@ -506,8 +506,36 @@ sign(x)=\begin{cases}
 <h3 id="3-优化方法"><a href="#3-优化方法" class="headerlink" title="3. 优化方法"></a>3. 优化方法</h3><h4 id="3-1-梯度下降法"><a href="#3-1-梯度下降法" class="headerlink" title="3.1 梯度下降法"></a>3.1 梯度下降法</h4><ul>
 <li>不能采用基于所有样本和均值的BGD批量梯度下降法,因为损失函数中，只有误分类的$M$集合里面的样本才能参与损失函数的优化。</li>
 <li>只能采用随机梯度下降SGD,或小批量梯度下降MBGD。</li>
-<li>对于随机梯度下降法，每次使用一个误分类的点来更新梯度。损失函数基于$\theta$向量的偏导数为：<script type="math/tex; mode=display">\frac{\partial}{\partial \theta}J(\theta) = - \sum_{x_i \in M}y^{(i)}x^{(i)}</script>$\theta$的梯度下降迭代公式为：<script type="math/tex; mode=display">\theta = \theta + \alpha \sum_{x_i \in M}y^{(i)}x^{(i)}</script>又因为随机梯度下降，每次只需要一个变量，因此$\theta$的梯度下降迭代公式为：<script type="math/tex; mode=display">\theta = \theta + \alpha y^{(i)}x^{(i)}</script>其中$\alpha$是步长, $y{(i)}$是样本输出，$x^{(i)}$为$(n+1) \times 1$的向量。<h4 id="3-2-拟牛顿法"><a href="#3-2-拟牛顿法" class="headerlink" title="3.2 拟牛顿法"></a>3.2 拟牛顿法</h4></li>
+<li>对于随机梯度下降法，每次使用一个误分类的点来更新梯度。损失函数基于$\theta$向量的偏导数为：<script type="math/tex; mode=display">\frac{\partial}{\partial \theta}J(\theta) = - \sum_{x_i \in M}y^{(i)}x^{(i)}</script>$\theta$的梯度下降迭代公式为：<script type="math/tex; mode=display">\theta = \theta + \alpha \sum_{x_i \in M}y^{(i)}x^{(i)}</script>又因为随机梯度下降，每次只需要一个变量，因此$\theta$的梯度下降迭代公式为：<script type="math/tex; mode=display">\theta = \theta + \alpha y^{(i)}x^{(i)}</script>其中$\alpha$是步长, $y{(i)}$是样本输出，$x^{(i)}$为$(n+1) \times 1$的向量。</li>
 </ul>
+<h4 id="3-2-拟牛顿法"><a href="#3-2-拟牛顿法" class="headerlink" title="3.2 拟牛顿法"></a>3.2 拟牛顿法</h4><h3 id="4-算法的原始形式"><a href="#4-算法的原始形式" class="headerlink" title="4. 算法的原始形式"></a>4. 算法的原始形式</h3><hr>
+<p>输入：训练数据集 $T=\lbrace(x_1^{(0)},x_2^{(0)},…,x_n^{(0)}, y_1), (x_1^{(1)},x_2^{(1)},…,x_n^{(1)}, y_2), …, (x_1^{(m)},x_2^{(m)},…,x_n^{(m)}, y_m)\rbrace$<br>输出：感知机模型 $y = sign(\theta \cdot x)$  </p>
+<p>(1) 定义所有的$x_0$为1,选择初值$\theta$和步长$\alpha$。可将$\theta$向量设为0向量，步长设为1（感知机的解不唯一，因此初始值会影响最终迭代结果）  </p>
+<p>(2) 在训练集中选取一个误分类的点 $(x_1^{(i)},x_2^{(i)},…,x_n^{(i)}, y_N)$ , 满足 $y \theta \cdot x &lt; 0$  </p>
+<p>(3) 对$\theta$向量进行一次的随机梯度下降的迭代：</p>
+<script type="math/tex; mode=display">\theta = \theta + \alpha y^{(i)}x^{(i)}</script><p>(4) 检查是否还有误分类的点，若有转至(2)，否则结束。</p>
+<h3 id="5-算法的对偶形式"><a href="#5-算法的对偶形式" class="headerlink" title="5. 算法的对偶形式"></a>5. 算法的对偶形式</h3><ul>
+<li>引入对偶形式：对算法的执行速度进行优化<ul>
+<li>同支持向量机的原始形式和对偶形式相对应</li>
+</ul>
+</li>
+<li>每次梯度的迭代都是选择一个样本来更新$\theta$向量。最终经过若干次的迭代得到结果。对于从未误分类的样本，被选择参与迭代的次数为0，对于被选择多次的样本$j$，其参与迭代的次数是$m_j$,若令$\theta$向量的初始值为0向量，则有：<script type="math/tex; mode=display">\theta =  \alpha \sum_{j = 1}^{m}m_jy^{(j)}x^{(j)}</script>其中，$m_j$是样本$(x^{(j)}, y^{(j)})$在随机梯度下降到当前这一步因误分类而更新的次数。<ul>
+<li>每个样本$(x^{(j)}, y^{(j)})$的$m_j$初始值为0，每当此样本在某一次梯度下降迭代中因误分类而更新时，$m_j = m_j+1$</li>
+<li>步长$\alpha$是常量，因此令$\beta_j = \alpha m_j$，则有：<script type="math/tex; mode=display">\theta =  \sum_{j = 1}^{m}\beta_jy^{(j)}x^{(j)}</script></li>
+<li>每次判断误分类条件的地方，都可以利用$y^{(i)} \theta \cdot x^{(i)} &lt; 0$的变形$y^{(i)} \sum_{j = 1}^{m}\beta_jy^{(j)}x^{(j)} \cdot x^{(i)} &lt; 0$来判断误分类。其中$x^{(i)} \cdot x^{(j)}$可以预先用矩阵运算计算出所有样本之间的内积，并存储，从而减少计算量。在算法运行时，仅仅一次矩阵内机运算，比多次循环计算省时间，故计算量最大的判断误分类减少了花费时间，这也是对偶形式的感知机模型比原始形式优的原因。</li>
+<li>样本内积矩阵称为Gram矩阵，是一个对称矩阵，记为$G = [x^{(i)} \cdot x^{(j)}]$</li>
+</ul>
+</li>
+<li>算法对偶形式</li>
+</ul>
+<hr>
+<p>输入：训练数据集 $T=\lbrace(x_1^{(0)},x_2^{(0)},…,x_n^{(0)}, y_1), (x_1^{(1)},x_2^{(1)},…,x_n^{(1)}, y_2), …, (x_1^{(m)},x_2^{(m)},…,x_n^{(m)}, y_m) \rbrace$   </p>
+<p>输出：感知机模型$y = sign(\theta \cdot x)$  </p>
+<p>(1) 定义所有的$x_0$为1,选择初值$\theta$, 步长$\alpha$和$\beta = 0$可将$\alpha$步长设为1（感知机的解不唯一，因此初始值会影响最终迭代结果）  </p>
+<p>(2) 计算所有样本内积形成的 $Gram$ 矩阵G。  </p>
+<p>(3) 在训练集中选取一个误分类的点 $(x_1^{(i)},x_2^{(i)},…,x_n^{(i)}, y_m)$, 满足 <script type="math/tex">y^{(i)} \sum_{j = 1}^{m}\beta_jy^{(j)}x^{(j)} \cdot x^{(i)}<0</script> 通过查询Gram矩阵中的 $g_{ij}$ 来快速计算  </p>
+<p>(4) 对$\beta$向量的第$i$个分量进行一次更新：</p>
+<script type="math/tex; mode=display">\beta = \beta + \alpha</script><p>(5) 检查是否还有误分类的点，若有转至(2)，否则结束，此时 <script type="math/tex">\theta =  \sum_{j = 1}^{m}\beta_jy^{(j)}x^{(j)}</script></p>
 
       
     </div>
@@ -543,10 +571,6 @@ sign(x)=\begin{cases}
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/04/01/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
-              </a>
             
           </div>
 
@@ -749,7 +773,7 @@ sign(x)=\begin{cases}
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-感知机模型"><span class="nav-text">1. 感知机模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-判别模型"><span class="nav-text">1.1 判别模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-模型"><span class="nav-text">1.2 模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-损失函数"><span class="nav-text">2. 损失函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-输出"><span class="nav-text">2.1 输出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-损失函数优化目标"><span class="nav-text">2.2 损失函数优化目标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-损失函数"><span class="nav-text">2.3 损失函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-优化方法"><span class="nav-text">3. 优化方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-梯度下降法"><span class="nav-text">3.1 梯度下降法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-拟牛顿法"><span class="nav-text">3.2 拟牛顿法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-感知机模型"><span class="nav-text">1. 感知机模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-判别模型"><span class="nav-text">1.1 判别模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-模型"><span class="nav-text">1.2 模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-损失函数"><span class="nav-text">2. 损失函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-输出"><span class="nav-text">2.1 输出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-损失函数优化目标"><span class="nav-text">2.2 损失函数优化目标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-损失函数"><span class="nav-text">2.3 损失函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-优化方法"><span class="nav-text">3. 优化方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-梯度下降法"><span class="nav-text">3.1 梯度下降法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-拟牛顿法"><span class="nav-text">3.2 拟牛顿法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-算法的原始形式"><span class="nav-text">4. 算法的原始形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-算法的对偶形式"><span class="nav-text">5. 算法的对偶形式</span></a></li></ol></div>
             
 
           </div>
