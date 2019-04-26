@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1. 数据维度 scaler标量 vector一维 row vector column vector   matrices矩阵：二维 tensors张量 the term tensor can refer to any n-dimensional collection of values即包含任何维度的值的集合 tensorflow中所有数据都是张量形式 scaler是零维张量；vector是一维">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习2之矩阵数学和Numpy复习">
+<meta property="og:url" content="http://yoursite.com/2019/04/26/深度学习笔记2/index.html">
+<meta property="og:site_name" content="focus">
+<meta property="og:description" content="1. 数据维度 scaler标量 vector一维 row vector column vector   matrices矩阵：二维 tensors张量 the term tensor can refer to any n-dimensional collection of values即包含任何维度的值的集合 tensorflow中所有数据都是张量形式 scaler是零维张量；vector是一维">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-04-26T02:54:00.479Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深度学习2之矩阵数学和Numpy复习">
+<meta name="twitter:description" content="1. 数据维度 scaler标量 vector一维 row vector column vector   matrices矩阵：二维 tensors张量 the term tensor can refer to any n-dimensional collection of values即包含任何维度的值的集合 tensorflow中所有数据都是张量形式 scaler是零维张量；vector是一维">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/04/26/深度学习笔记2/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>深度学习2之矩阵数学和Numpy复习 | focus</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">focus</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>公益 404</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/26/深度学习笔记2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="focus">
+      <meta itemprop="description" content="认知，理解，接纳">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="focus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深度学习2之矩阵数学和Numpy复习
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-26 09:16:02 / 修改时间：10:54:00" itemprop="dateCreated datePublished" datetime="2019-04-26T09:16:02+08:00">2019-04-26</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/深度学习/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/04/26/深度学习笔记2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/04/26/深度学习笔记2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1-数据维度"><a href="#1-数据维度" class="headerlink" title="1. 数据维度"></a>1. 数据维度</h3><ul>
+<li>scaler标量</li>
+<li>vector一维<ul>
+<li>row vector</li>
+<li>column vector</li>
+</ul>
+</li>
+<li>matrices矩阵：二维</li>
+<li>tensors张量<ul>
+<li>the term tensor can refer to any n-dimensional collection of values即包含任何维度的值的集合</li>
+<li>tensorflow中所有数据都是张量形式</li>
+<li>scaler是零维张量；vector是一维张量；matrix是二维张量；大于二维的我们仅称其为张量</li>
+<li>高维张量难以可视化</li>
+</ul>
+</li>
+<li>矩阵索引:从1开始<script type="math/tex; mode=display">
+\left[
+\begin{matrix}
+a_{11} & a_{12} & a_{13} \\
+a_{21} & a_{22} & a_{23} \\
+a_{31} & a_{32} & a_{33}
+\end{matrix}
+\right]</script></li>
+</ul>
+<h3 id="2-Numpy中的数据"><a href="#2-Numpy中的数据" class="headerlink" title="2. Numpy中的数据"></a>2. Numpy中的数据</h3><ul>
+<li><p>导入numpy,并将其命名为np</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数据类型和形状<br>numpy中常通过ndarray对象，类似于列表，但是可以有任意数量的维度，且支持快速数学计算。可以用其表示：标量，向量，矩阵或张量  </p>
+</li>
+</ul>
+<p>(1) 标量 </p>
+<p>NumPy 中的标量 比 Python 中的标量类型更多。不像 Python 只有基本类型 int、float 等，NumPy 可以让你指定有符号和无符号的类型以及不同的大小。因此，除了 Python 的 int，你可以使用 uint8、int8、uint16、int16 等类型。<br>这些类型很重要，因为你所创建的每个对象（向量、矩阵、张量）最终都会存储标量。而且，当你创建 NumPy 数组时，可以指定类型 - 但是数组中的每一项必须<strong>具有相同的类型</strong>。在这方面，NumPy 数组更像是 C 数组，而非 Python 列表。<br>如果要创建一个包含标量的 NumPy 数组，方法是将值传递给 NumPy 的 array 函数，如下所示：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s = np.array(<span class="number">5</span>)</span><br></pre></td></tr></table></figure></p>
+<p>不过你仍然可以在 ndarray、NumPy 标量和普通的 Python标量之间执行数学运算，你将在元素级数学运算课程中看到。<br>你可以通过检查数组的 shape 属性来查看数组的形状。你可以执行代码:此时会返回“()”表示维度为0<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s.shape</span><br></pre></td></tr></table></figure></p>
+<p>(2) 向量</p>
+<p>要创建一个向量，你可以将 Python 列表传递给 array 函数，像这样<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v = np.array([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br></pre></td></tr></table></figure></p>
+<p>如果你检查向量的 shape 属性，它将返回表示向量的一维长度的单个数字。在上面的示例中，v.shape 会返回 (3,) 。<br>现在有了数字，你可以看到 shape 是一个元组，其中包含每个 ndarray 的维度的大小。对于标量，它只是一个空的元组，但是向量有一个维度，所以元组包含一个数字和一个逗号。（Python 不能将 (3) 理解为具有一个项的元组，所以它需要逗号。你可以在此处 阅读有关元组的更多信息）</p>
+<p>(3) 矩阵</p>
+<p>使用 NumPy 的 array 函数创建矩阵，跟创建向量一样。但是，这次你不只是传入一个列表，而是提供列表的列表，其中每个列表代表一行。所以要创建一个包含数字 1 到 9 的 3x3 矩阵，你可以这样做：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>], [<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]])</span><br></pre></td></tr></table></figure></p>
+<p>你可以像向量一样访问矩阵的元素，但要使用额外的索引值。所以要在上面的矩阵中找到数字6，你可以访问 m[1][2]。<br>(4) 张量</p>
+<p>张量与向量和矩阵一样，但张量可以有更多的维度。例如，要创建一个 3x3x2x1 的张量，你可以这样做：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">t = np.array([[[[<span class="number">1</span>],[<span class="number">2</span>]],[[<span class="number">3</span>],[<span class="number">4</span>]],[[<span class="number">5</span>],[<span class="number">6</span>]]],[[[<span class="number">7</span>],[<span class="number">8</span>]],\</span><br><span class="line">    [[<span class="number">9</span>],[<span class="number">10</span>]],[[<span class="number">11</span>],[<span class="number">12</span>]]],[[[<span class="number">13</span>],[<span class="number">14</span>]],[[<span class="number">15</span>],[<span class="number">16</span>]],[[<span class="number">17</span>],[<span class="number">17</span>]]]])</span><br></pre></td></tr></table></figure></p>
+<p>而 t.shape 会返回 (3, 3, 2, 1)。<br>你可以像在矩阵中一样访问其中的项目，但需要使用更多的索引。所以 t[2][1][1][0] 将返回16。</p>
+<p>(5) 更改形状</p>
+<p>有时，你需要更改数据的形状，而无需实际更改其内容。例如，你可能有一个一维的向量，但是需要一个二维的矩阵。实现它的方式有两种。</p>
+<p>假设你有以下向量：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v = np.array([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>])</span><br></pre></td></tr></table></figure></p>
+<p>调用 v.shape 会返回 (4,)。但如果你想要一个 1x4 矩阵呢？你可以使用 reshape函数，就像这样：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = v.reshape(<span class="number">1</span>,<span class="number">4</span>) <span class="comment">##方法一</span></span><br><span class="line">x = v[<span class="literal">None</span>, :]  <span class="comment">## 方法二</span></span><br></pre></td></tr></table></figure></p>
+<p>调用 x.shape 会返回 (1,4)。如果你想要一个 4x1 矩阵，可以这样做：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = v.reshape(<span class="number">4</span>,<span class="number">1</span>) <span class="comment">##方法一</span></span><br><span class="line">x = v[:, <span class="literal">None</span>]   <span class="comment">##方法二</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="3-元素级矩阵运算"><a href="#3-元素级矩阵运算" class="headerlink" title="3. 元素级矩阵运算"></a>3. 元素级矩阵运算</h3><ul>
+<li>element-wise Operations：treat items in the matrix individually and perform the same operation on each one.</li>
+</ul>
+<h4 id="3-1-python中的方式"><a href="#3-1-python中的方式" class="headerlink" title="3.1 python中的方式"></a>3.1 python中的方式</h4><p>假设你有一个数字列表，你想向列表中的每一项加上 5 。如果没有 NumPy，你可以像下面这样做：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">values = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(values)):</span><br><span class="line">    values[i] += <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 现在的 values 为 [6,7,8,9,10]</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="3-2-Numpy中的方式"><a href="#3-2-Numpy中的方式" class="headerlink" title="3.2 Numpy中的方式"></a>3.2 Numpy中的方式</h4><p>在 NumPy 中，我们可以这么做：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">values = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line">values = np.array(values) + <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 现在 values 是包含 [6,7,8,9,10] 的一个 ndarray</span></span><br></pre></td></tr></table></figure></p>
+<p>创建该数组可能看起来很奇怪，但通常你总是要将数据存储在 ndarray中的。所以如果你已经有一个名为 values 的 ndarray，你可以这么做：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">values += <span class="number">5</span></span><br></pre></td></tr></table></figure></p>
+<p>我们应该指出，NumPy 实际上有用于加法、乘法等运算的函数。但它也支持使用标准的数学运算符。所以以下两行是等价的：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = np.multiply(some_array, <span class="number">5</span>)</span><br><span class="line">x = some_array * <span class="number">5</span></span><br></pre></td></tr></table></figure></p>
+<p>再看一个使用标量和 ndarrays 进行运算的例子。假设你有一个矩阵 m 并且你想复用它，但首先你需要将其所有值设为零。这很简单，只需给它乘以零，并将结果赋值回原矩阵就行了，如下所示：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">m *= <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 现在 m 中的每个元素都是 0，无论它有多少维度</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="3-3-元素级矩阵运算"><a href="#3-3-元素级矩阵运算" class="headerlink" title="3.3 元素级矩阵运算"></a>3.3 元素级矩阵运算</h4><p>与标量和矩阵一起使用的相同函数和运算符也适用于其他维度。你只需要确保执行运算的项目具有兼容的形状。</p>
+<p>假设你想得到矩阵的平方值。方法是 x = m <em> m（或者如果你要将值赋值回 m，则是 m </em>= m）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">a = np.array([[<span class="number">1</span>,<span class="number">3</span>],[<span class="number">5</span>,<span class="number">7</span>]])</span><br><span class="line">a</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[1, 3],</span></span><br><span class="line"><span class="comment">#        [5, 7]])</span></span><br><span class="line"></span><br><span class="line">b = np.array([[<span class="number">2</span>,<span class="number">4</span>],[<span class="number">6</span>,<span class="number">8</span>]])</span><br><span class="line">b</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[2, 4],</span></span><br><span class="line"><span class="comment">#        [6, 8]])</span></span><br><span class="line"></span><br><span class="line">a + b</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment">#      array([[ 3,  7],</span></span><br><span class="line"><span class="comment">#             [11, 15]])</span></span><br></pre></td></tr></table></figure>
+<p>形状不兼容时：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">a = np.array([[<span class="number">1</span>,<span class="number">3</span>],[<span class="number">5</span>,<span class="number">7</span>]])</span><br><span class="line">a</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[1, 3],</span></span><br><span class="line"><span class="comment">#        [5, 7]])</span></span><br><span class="line">c = np.array([[<span class="number">2</span>,<span class="number">3</span>,<span class="number">6</span>],[<span class="number">4</span>,<span class="number">5</span>,<span class="number">9</span>],[<span class="number">1</span>,<span class="number">8</span>,<span class="number">7</span>]])</span><br><span class="line">c</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[2, 3, 6],</span></span><br><span class="line"><span class="comment">#        [4, 5, 9],</span></span><br><span class="line"><span class="comment">#        [1, 8, 7]])</span></span><br><span class="line"></span><br><span class="line">a.shape</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment">#  (2, 2)</span></span><br><span class="line"></span><br><span class="line">c.shape</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment">#  (3, 3)</span></span><br><span class="line"></span><br><span class="line">a + c</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># ValueError: operands could not be broadcast together with shapes (2,2) (3,3)</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="4-矩阵乘法"><a href="#4-矩阵乘法" class="headerlink" title="4. 矩阵乘法"></a>4. 矩阵乘法</h3><ul>
+<li>tips:<ul>
+<li>左侧矩阵的列数必须等于右侧矩阵的行数。</li>
+<li>答案矩阵始终与左侧矩阵有相同的行数，与右侧矩阵有相同的列数。</li>
+<li>顺序很重要：乘法 A•B 不等于乘法 B•A 。</li>
+<li>左侧矩阵中的数据应排列为行，而右侧矩阵中的数据应排列为列。</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-1-元素级乘法"><a href="#4-1-元素级乘法" class="headerlink" title="4.1 元素级乘法"></a>4.1 元素级乘法</h4><p>你可以使用 multiply 函数或 * 运算符来实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">m = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]])</span><br><span class="line">m</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[1, 2, 3],</span></span><br><span class="line"><span class="comment">#        [4, 5, 6]])</span></span><br><span class="line"></span><br><span class="line">n = m * <span class="number">0.25</span></span><br><span class="line">n</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[ 0.25,  0.5 ,  0.75],</span></span><br><span class="line"><span class="comment">#        [ 1.  ,  1.25,  1.5 ]])</span></span><br><span class="line"></span><br><span class="line">m * n</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[ 0.25,  1.  ,  2.25],</span></span><br><span class="line"><span class="comment">#        [ 4.  ,  6.25,  9.  ]])</span></span><br><span class="line"></span><br><span class="line">np.multiply(m, n)   <span class="comment"># 相当于 m * n</span></span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[ 0.25,  1.  ,  2.25],</span></span><br><span class="line"><span class="comment">#        [ 4.  ,  6.25,  9.  ]])</span></span><br></pre></td></tr></table></figure>
+<h4 id="4-2-矩阵乘积"><a href="#4-2-矩阵乘积" class="headerlink" title="4.2 矩阵乘积"></a>4.2 矩阵乘积</h4><p>要获得矩阵乘积，你可以使用 NumPy 的 matmul 函数。矩阵兼容时可用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">a = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>],[<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>]])</span><br><span class="line">a</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[1, 2, 3, 4],</span></span><br><span class="line"><span class="comment">#        [5, 6, 7, 8]])</span></span><br><span class="line">a.shape</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># (2, 4)</span></span><br><span class="line"></span><br><span class="line">b = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],[<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>],[<span class="number">10</span>,<span class="number">11</span>,<span class="number">12</span>]])</span><br><span class="line">b</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[ 1,  2,  3],</span></span><br><span class="line"><span class="comment">#        [ 4,  5,  6],</span></span><br><span class="line"><span class="comment">#        [ 7,  8,  9],</span></span><br><span class="line"><span class="comment">#        [10, 11, 12]])</span></span><br><span class="line">b.shape</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># (4, 3)</span></span><br><span class="line"></span><br><span class="line">c = np.matmul(a, b)</span><br><span class="line">c</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[ 70,  80,  90],</span></span><br><span class="line"><span class="comment">#        [158, 184, 210]])</span></span><br><span class="line">c.shape</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># (2, 3)</span></span><br></pre></td></tr></table></figure>
+<h4 id="4-3-Numpy的dot函数"><a href="#4-3-Numpy的dot函数" class="headerlink" title="4.3 Numpy的dot函数"></a>4.3 Numpy的dot函数</h4><p>有时候，在你以为要用 matmul 函数的地方，你可能会看到 NumPy 的 dot函数。事实证明，如果<strong>矩阵是二维</strong>的，那么 dot 和 matmul 函数的结果是相同的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">a = np.array([[<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3</span>,<span class="number">4</span>]])</span><br><span class="line">a</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[1, 2],</span></span><br><span class="line"><span class="comment">#        [3, 4]])</span></span><br><span class="line"></span><br><span class="line">np.dot(a,a)</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[ 7, 10],</span></span><br><span class="line"><span class="comment">#        [15, 22]])</span></span><br><span class="line"></span><br><span class="line">a.dot(a)  <span class="comment"># you can call你可以直接对 `ndarray` 调用 `dot` </span></span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[ 7, 10],</span></span><br><span class="line"><span class="comment">#        [15, 22]])</span></span><br><span class="line"></span><br><span class="line">np.matmul(a,a)</span><br><span class="line"><span class="comment"># array([[ 7, 10],</span></span><br><span class="line"><span class="comment">#        [15, 22]])</span></span><br></pre></td></tr></table></figure>
+<h3 id="5-矩阵转置"><a href="#5-矩阵转置" class="headerlink" title="5. 矩阵转置"></a>5. 矩阵转置</h3><ul>
+<li>tips：<ul>
+<li>如果原始矩阵不是方阵，转至矩阵会变成新的形状：$4 \times 2 \rightarrow 2 \times 4 $</li>
+</ul>
+</li>
+</ul>
+<h4 id="5-1-转置"><a href="#5-1-转置" class="headerlink" title="5.1 转置"></a>5.1 转置</h4><p>在 NumPy 中获得矩阵的转置非常容易。只需访问其 T 属性即可。还有一个 transpose() 函数也可以返回同样的结果，但是你很少看到它的使用，因为输入 T 的方法要简单得多。:)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">m = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>], [<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>], [<span class="number">9</span>,<span class="number">10</span>,<span class="number">11</span>,<span class="number">12</span>]])</span><br><span class="line">m</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[ 1,  2,  3,  4],</span></span><br><span class="line"><span class="comment">#        [ 5,  6,  7,  8],</span></span><br><span class="line"><span class="comment">#        [ 9, 10, 11, 12]])</span></span><br><span class="line"></span><br><span class="line">m.T</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[ 1,  5,  9],</span></span><br><span class="line"><span class="comment">#        [ 2,  6, 10],</span></span><br><span class="line"><span class="comment">#        [ 3,  7, 11],</span></span><br><span class="line"><span class="comment">#        [ 4,  8, 12]])</span></span><br></pre></td></tr></table></figure>
+<p>NumPy 在进行转置时不会实际移动内存中的任何数据 - 只是改变对原始矩阵的索引方式 - 所以是非常高效的。</p>
+<p>但是，这也意味着你要特别注意修改对象的方式，因为它们共享相同的数据，修改会影响到所有的对象。例如，对于上面同一个矩阵 m，我们来创建一个新的变量 m_t 来存储 m 的转置。然后看看如果我们修改 m_t 中的值，<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">m_t = m.T</span><br><span class="line">m_t[<span class="number">3</span>][<span class="number">1</span>] = <span class="number">200</span></span><br><span class="line">m_t</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[ 1,   5, 9],</span></span><br><span class="line"><span class="comment">#        [ 2,   6, 10],</span></span><br><span class="line"><span class="comment">#        [ 3,   7, 11],</span></span><br><span class="line"><span class="comment">#        [ 4, 200, 12]])</span></span><br><span class="line"></span><br><span class="line">m</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[ 1,  2,  3,   4],</span></span><br><span class="line"><span class="comment">#        [ 5,  6,  7, 200],</span></span><br><span class="line"><span class="comment">#        [ 9, 10, 11,  12]])</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="5-2-实际用例"><a href="#5-2-实际用例" class="headerlink" title="5.2 实际用例"></a>5.2 实际用例</h4><p>假设你有以下两个矩阵，称为 inputs 和 weights，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">inputs = np.array([[<span class="number">-0.27</span>,  <span class="number">0.45</span>,  <span class="number">0.64</span>, <span class="number">0.31</span>]])</span><br><span class="line">inputs</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[-0.27,  0.45,  0.64,  0.31]])</span></span><br><span class="line"></span><br><span class="line">inputs.shape</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># (1, 4)</span></span><br><span class="line"></span><br><span class="line">weights = np.array([[<span class="number">0.02</span>, <span class="number">0.001</span>, <span class="number">-0.03</span>, <span class="number">0.036</span>], \</span><br><span class="line">    [<span class="number">0.04</span>, <span class="number">-0.003</span>, <span class="number">0.025</span>, <span class="number">0.009</span>], [<span class="number">0.012</span>, <span class="number">-0.045</span>, <span class="number">0.28</span>, <span class="number">-0.067</span>]])</span><br><span class="line"></span><br><span class="line">weights</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[ 0.02 ,  0.001, -0.03 ,  0.036],</span></span><br><span class="line"><span class="comment">#        [ 0.04 , -0.003,  0.025,  0.009],</span></span><br><span class="line"><span class="comment">#        [ 0.012, -0.045,  0.28 , -0.067]])</span></span><br><span class="line"></span><br><span class="line">weights.shape</span><br><span class="line"><span class="comment"># displays the following result:</span></span><br><span class="line"><span class="comment"># (3, 4)</span></span><br></pre></td></tr></table></figure>
+<p>希望获得两个矩阵的乘积：可获取weights矩阵的转置：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">np.matmul(inputs, weights.T)</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[-0.01299,  0.00664,  0.13494]])</span></span><br></pre></td></tr></table></figure></p>
+<p>也可以获取inputs的转置，调换顺序<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">np.matmul(weights, inputs.T)</span><br><span class="line"><span class="comment"># 显示以下结果：</span></span><br><span class="line"><span class="comment"># array([[-0.01299],# </span></span><br><span class="line"><span class="comment">#        [ 0.00664],</span></span><br><span class="line"><span class="comment">#        [ 0.13494]])</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="6-课后作业"><a href="#6-课后作业" class="headerlink" title="6. 课后作业"></a>6. 课后作业</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Use the numpy library</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">prepare_inputs</span><span class="params">(inputs)</span>:</span></span><br><span class="line">    <span class="comment"># <span class="doctag">TODO:</span> create a 2-dimensional ndarray from the given 1-dimensional list;</span></span><br><span class="line">    <span class="comment">#       assign it to input_array</span></span><br><span class="line">    input_array = np.array([inputs])</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># <span class="doctag">TODO:</span> find the minimum value in input_array and subtract that</span></span><br><span class="line">    <span class="comment">#       value from all the elements of input_array. Store the</span></span><br><span class="line">    <span class="comment">#       result in inputs_minus_min</span></span><br><span class="line">    inputs_minus_min = input_array - np.min(input_array)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># <span class="doctag">TODO:</span> find the maximum value in inputs_minus_min and divide</span></span><br><span class="line">    <span class="comment">#       all of the values in inputs_minus_min by the maximum value.</span></span><br><span class="line">    <span class="comment">#       Store the results in inputs_div_max.</span></span><br><span class="line">    inputs_div_max = inputs_minus_min/ np.max(inputs_minus_min)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># return the three arrays we've created</span></span><br><span class="line">    <span class="keyword">return</span> input_array, inputs_minus_min, inputs_div_max</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multiply_inputs</span><span class="params">(m1, m2)</span>:</span></span><br><span class="line">    <span class="comment"># <span class="doctag">TODO:</span> Check the shapes of the matrices m1 and m2. </span></span><br><span class="line">    <span class="comment">#       m1 and m2 will be ndarray objects.</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#       Return False if the shapes cannot be used for matrix</span></span><br><span class="line">    <span class="comment">#       multiplication. You may not use a transpose</span></span><br><span class="line">    <span class="keyword">if</span> m1.shape[<span class="number">0</span>] != m2.shape[<span class="number">1</span>] <span class="keyword">and</span> m1.shape[<span class="number">1</span>] != m2.shape[<span class="number">0</span>]:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># <span class="doctag">TODO:</span> If you have not returned False, then calculate the matrix product</span></span><br><span class="line">    <span class="comment">#       of m1 and m2 and return it. Do not use a transpose,</span></span><br><span class="line">    <span class="comment">#       but you swap their order if necessary</span></span><br><span class="line">    <span class="keyword">if</span> m1.shape[<span class="number">0</span>] == m2.shape[<span class="number">1</span>]:</span><br><span class="line">        <span class="keyword">return</span> np.matmul(m2, m1)</span><br><span class="line">    <span class="keyword">return</span> np.matmul(m1, m2)</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_mean</span><span class="params">(values)</span>:</span></span><br><span class="line">    <span class="comment"># <span class="doctag">TODO:</span> Return the average of the values in the given Python list</span></span><br><span class="line">    <span class="keyword">return</span> np.mean(values)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">input_array, inputs_minus_min, inputs_div_max = prepare_inputs([<span class="number">-1</span>,<span class="number">2</span>,<span class="number">7</span>])</span><br><span class="line">print(<span class="string">"Input as Array: &#123;&#125;"</span>.format(input_array))</span><br><span class="line">print(<span class="string">"Input minus min: &#123;&#125;"</span>.format(inputs_minus_min))</span><br><span class="line">print(<span class="string">"Input  Array: &#123;&#125;"</span>.format(inputs_div_max))</span><br><span class="line"></span><br><span class="line">print(<span class="string">"Multiply 1:\n&#123;&#125;"</span>.format(multiply_inputs(np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]]), np.array([[<span class="number">1</span>],[<span class="number">2</span>],[<span class="number">3</span>],[<span class="number">4</span>]]))))</span><br><span class="line">print(<span class="string">"Multiply 2:\n&#123;&#125;"</span>.format(multiply_inputs(np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]]), np.array([[<span class="number">1</span>],[<span class="number">2</span>],[<span class="number">3</span>]]))))</span><br><span class="line">print(<span class="string">"Multiply 3:\n&#123;&#125;"</span>.format(multiply_inputs(np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]]), np.array([[<span class="number">1</span>,<span class="number">2</span>]]))))</span><br><span class="line"></span><br><span class="line">print(<span class="string">"Mean == &#123;&#125;"</span>.format(find_mean([<span class="number">1</span>,<span class="number">3</span>,<span class="number">4</span>])))</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/26/深度学习笔记1/" rel="next" title="深度学习笔记1">
+                <i class="fa fa-chevron-left"></i> 深度学习笔记1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/26/深度学习笔记3/" rel="prev" title="深度学习笔记3">
+                深度学习笔记3 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="focus">
+            
+              <p class="site-author-name" itemprop="name">focus</p>
+              <div class="site-description motion-element" itemprop="description">认知，理解，接纳</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/focusLeeee" title="GitHub &rarr; https://github.com/focusLeeee" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:amethyst5991@@gmail.com" title="E-Mail &rarr; mailto:amethyst5991@@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/focusWfocus" title="Weibo &rarr; https://weibo.com/focusWfocus" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-数据维度"><span class="nav-text">1. 数据维度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Numpy中的数据"><span class="nav-text">2. Numpy中的数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-元素级矩阵运算"><span class="nav-text">3. 元素级矩阵运算</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-python中的方式"><span class="nav-text">3.1 python中的方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-Numpy中的方式"><span class="nav-text">3.2 Numpy中的方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-元素级矩阵运算"><span class="nav-text">3.3 元素级矩阵运算</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-矩阵乘法"><span class="nav-text">4. 矩阵乘法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-元素级乘法"><span class="nav-text">4.1 元素级乘法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-矩阵乘积"><span class="nav-text">4.2 矩阵乘积</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-Numpy的dot函数"><span class="nav-text">4.3 Numpy的dot函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-矩阵转置"><span class="nav-text">5. 矩阵转置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-转置"><span class="nav-text">5.1 转置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-实际用例"><span class="nav-text">5.2 实际用例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-课后作业"><span class="nav-text">6. 课后作业</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">focus</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.0.1"></script>
+
+  <script src="/js/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.0.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.0.1"></script>
+<script src="/js/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+  <script id="dsq-count-scr" src="https://focus.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2019/04/26/深度学习笔记2/";
+    this.page.identifier = "2019/04/26/深度学习笔记2/";
+    this.page.title = '深度学习2之矩阵数学和Numpy复习';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://focus.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
