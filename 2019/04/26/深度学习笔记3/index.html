@@ -96,17 +96,23 @@
 
 
 
-  <meta name="description" content="认知，理解，接纳">
+  <meta name="description" content="神经网络：神经网络是机器学习中的一个模型，可以用于两类问题的解答： 分类：把数据划分成不同的类别 回归：建立数据间的连续关系    1. 感知机1.1 用感知机实现简单逻辑计算 AND 与w_1x_1 + w_2x_2 + b = 0 \qquad (1)其中：$w_1 = 1.0, w_2 = 1.0, b = -1.5$ OR 或w_1x_1 + w_2x_2 + b = 0 \qquad">
 <meta property="og:type" content="article">
-<meta property="og:title" content="深度学习笔记3">
+<meta property="og:title" content="深度学习笔记3之神经网络简介">
 <meta property="og:url" content="http://yoursite.com/2019/04/26/深度学习笔记3/index.html">
 <meta property="og:site_name" content="focus">
-<meta property="og:description" content="认知，理解，接纳">
+<meta property="og:description" content="神经网络：神经网络是机器学习中的一个模型，可以用于两类问题的解答： 分类：把数据划分成不同的类别 回归：建立数据间的连续关系    1. 感知机1.1 用感知机实现简单逻辑计算 AND 与w_1x_1 + w_2x_2 + b = 0 \qquad (1)其中：$w_1 = 1.0, w_2 = 1.0, b = -1.5$ OR 或w_1x_1 + w_2x_2 + b = 0 \qquad">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-26T03:20:41.105Z">
+<meta property="og:image" content="http://yoursite.com/2019/04/26/深度学习笔记3/1.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/04/26/深度学习笔记3/2.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/04/26/深度学习笔记3/3.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/04/26/深度学习笔记3/4.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/04/26/深度学习笔记3/5.jpg">
+<meta property="og:updated_time" content="2019-05-10T02:21:36.355Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="深度学习笔记3">
-<meta name="twitter:description" content="认知，理解，接纳">
+<meta name="twitter:title" content="深度学习笔记3之神经网络简介">
+<meta name="twitter:description" content="神经网络：神经网络是机器学习中的一个模型，可以用于两类问题的解答： 分类：把数据划分成不同的类别 回归：建立数据间的连续关系    1. 感知机1.1 用感知机实现简单逻辑计算 AND 与w_1x_1 + w_2x_2 + b = 0 \qquad (1)其中：$w_1 = 1.0, w_2 = 1.0, b = -1.5$ OR 或w_1x_1 + w_2x_2 + b = 0 \qquad">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/26/深度学习笔记3/1.jpg">
 
 
 
@@ -124,7 +130,7 @@
   };
 </script>
 
-  <title>深度学习笔记3 | focus</title>
+  <title>深度学习笔记3之神经网络简介 | focus</title>
   
 
 
@@ -374,7 +380,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">深度学习笔记3
+          <h1 class="post-title" itemprop="name headline">深度学习笔记3之神经网络简介
 
               
             
@@ -404,8 +410,42 @@
             
 
             
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-10 10:21:36" itemprop="dateModified" datetime="2019-05-10T10:21:36+08:00">2019-05-10</time>
+              
+            
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/深度学习/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -448,7 +488,176 @@
       
 
       
-        
+        <ul>
+<li>神经网络：神经网络是机器学习中的一个模型，可以用于两类问题的解答：<ul>
+<li>分类：把数据划分成不同的类别</li>
+<li>回归：建立数据间的连续关系</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-感知机"><a href="#1-感知机" class="headerlink" title="1. 感知机"></a>1. 感知机</h3><h4 id="1-1-用感知机实现简单逻辑计算"><a href="#1-1-用感知机实现简单逻辑计算" class="headerlink" title="1.1 用感知机实现简单逻辑计算"></a>1.1 用感知机实现简单逻辑计算</h4><ul>
+<li>AND 与<br><img src="/2019/04/26/深度学习笔记3/1.jpg" alt><script type="math/tex; mode=display">w_1x_1 + w_2x_2 + b = 0 \qquad (1)</script>其中：$w_1 = 1.0, w_2 = 1.0, b = -1.5$</li>
+<li>OR 或<br><img src="/2019/04/26/深度学习笔记3/2.jpg" alt><br><img src="/2019/04/26/深度学习笔记3/3.jpg" alt><script type="math/tex; mode=display">w_1x_1 + w_2x_2 + b = 0 \qquad (2)</script>其中：$w_1 = 1.0, w_2 = 1.0, b = -0.5$<ul>
+<li>从AND感知机变为OR感知机的两种方法<ul>
+<li>增大权重</li>
+<li>减小偏差大小</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>NOT 非<script type="math/tex; mode=display">w_1x_1 + w_2x_2 + b = 0 \qquad (3)</script>其中：$w_1 = 0.0, w_2 = -1.0, b = 0.5$</li>
+<li>1.4 XOR 异或<br><img src="/2019/04/26/深度学习笔记3/4.jpg" alt><ul>
+<li>其中，A是AND,B是OR，C是NOT</li>
+</ul>
+</li>
+</ul>
+<h4 id="1-2-感知器技巧：计算机如何学习分类？"><a href="#1-2-感知器技巧：计算机如何学习分类？" class="headerlink" title="1.2 感知器技巧：计算机如何学习分类？"></a>1.2 感知器技巧：计算机如何学习分类？</h4><ul>
+<li>被错误分类的点，会希望斜线更近<ul>
+<li>对于被错误分类的正样本，参数加上点的坐标(加上bias 1)</li>
+<li>对于被错误分类的负样本，参数减去点的坐标(减去bias 1)</li>
+<li>以上加减时为了防止剧烈变化，可乘上一个learning rate.</li>
+</ul>
+</li>
+<li>pseudo code<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">start with random weights:w_1, ..., w_n, b</span><br><span class="line">for every misclassifierd point(x_1, ..., x_n):</span><br><span class="line">    if prediction = 0:</span><br><span class="line">        for i = 1, ..., n:</span><br><span class="line">            change w_i+ ax_i</span><br><span class="line">            change b to b+a</span><br><span class="line">    if prediction = 1:</span><br><span class="line">        for i = 1, ..., n:</span><br><span class="line">            change w_i- ax_i</span><br><span class="line">            change b to b-a</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="1-3-误差函数和梯度下降"><a href="#1-3-误差函数和梯度下降" class="headerlink" title="1.3 误差函数和梯度下降"></a>1.3 误差函数和梯度下降</h4><ul>
+<li>目标：找到最小的误差函数值来找到与实际值误差最小的预测值<ul>
+<li>假设一维问题是一条直线，那么二维问题就是一个平面，而三维问题就是一个曲面。曲面可以理解为有山峰也有低谷的地面，误差最小的地方就是低谷处，我们希望计算机找到的就是这个低谷的值。为了找到这个低谷，学者们发明了梯度下降。</li>
+</ul>
+</li>
+<li>离散型与连续型</li>
+<li>多类别分类与softmax函数</li>
+<li>ont-hot编码</li>
+<li>最大似然率</li>
+</ul>
+<h4 id="1-4-交叉熵cross-entropy"><a href="#1-4-交叉熵cross-entropy" class="headerlink" title="1.4 交叉熵cross-entropy"></a>1.4 交叉熵cross-entropy</h4><ul>
+<li>交叉熵<script type="math/tex; mode=display">Cross-Entropy = - \sum_{i=1}^{m}y_iln(p_i) + (1-y_i)ln(1-p_i) \qquad (4)</script><ul>
+<li><strong>概率对数的负值之和</strong>——概率高的交叉熵低，概率低的交叉熵高</li>
+<li>交叉熵可以告诉我们两个向量的相似程度</li>
+<li>分类正确的点误差较小，分类错误的点误差较大</li>
+<li>交叉熵可以评判一个模型的好坏</li>
+</ul>
+</li>
+<li>多类别交叉熵</li>
+</ul>
+<h3 id="2-logistic回归"><a href="#2-logistic回归" class="headerlink" title="2. logistic回归"></a>2. logistic回归</h3><ul>
+<li>计算误差函数<script type="math/tex; mode=display">Error = - \frac{1}{m}\sum_{i=1}^{m}(1-y_i)(ln(1-\hat{y_i})) - y_iln(\hat{y_i})\qquad (5.1)</script><script type="math/tex; mode=display">Error = - \frac{1}{m}\sum_{i=1}^{m}(1-y_i)(ln(1- \sigma(Wx^{(i)}+b))) - y_iln(\sigma(Wx^{(i)}+b)) \qquad (5.2)</script><ul>
+<li>将标记类别的积乘以预测对数，然后对这些所有的值求平均值</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-1-logistic的梯度下降"><a href="#2-1-logistic的梯度下降" class="headerlink" title="2.1 logistic的梯度下降"></a>2.1 logistic的梯度下降</h4><ul>
+<li><p>梯度计算</p>
+<ul>
+<li><p>对于sigmoid函数有性质： $\sigma’(x) = \sigma(x)(1-\sigma(x))$:</p>
+<script type="math/tex; mode=display">\begin{align} \sigma'(x) &= \frac{\partial}{\partial x}\frac{1}{1+e^{-x}} \\
+& =\frac{e^{-x}}{(1+e^{-x})^2} \\
+& = \frac{\partial}{\partial x}\frac{1}{1+e^{-x}} \cdot \frac{e^{-x}}{1+e^{-x}} \\
+& = \sigma(x)(1-\sigma(x))
+\end{align} \qquad (6)</script><ul>
+<li><p>对于$m$个样本点，标为$x^{(1)}, x^{(2)}, …,x^{(m)}$,其误差公式为(5.1), 预测为：$\hat{y}^{(i)} = \sigma(Wx^{(i)} + b)$. 目标为计算$E$在单个样本点$x$时的梯度(偏导数), 其中$x$包含$n$个人特征，即$x = (x_1, …, x_n)$。</p>
+<script type="math/tex; mode=display">\bigtriangledown E = (\frac{\partial}{\partial w_1}E, ..., \frac{\partial}{\partial w_n}E, \frac{\partial}{\partial b}E) \qquad (7)</script><p>因此要先计算$\frac{\partial}{\partial w_j}\hat{y}$, $\hat{y} = \sigma(Wx + b)$,故有：</p>
+<script type="math/tex; mode=display">\begin{align} \frac{\partial}{\partial w_j}\hat{y} & = \frac{\partial}{\partial w_j}\sigma(Wx+b) \\
+& = \sigma(Wx+b)(1-\sigma(Wx+b)) \cdot \frac{\partial}{\partial w_j}(Wx+b) \\
+& = \hat{y}(1-\hat{y}) \cdot \frac{\partial}{\partial w_j}(Wx+b) \\
+& = \hat{y}(1-\hat{y}) \cdot \frac{\partial}{\partial w_j}(w_1x_1 + ... + w_jx_j +...+w_nx_n + b) \\
+& = \hat{y}(1-\hat{y}) \cdot x_j
+\end{align}</script><p>因此有：</p>
+<script type="math/tex; mode=display">\begin{align}
+\frac{\partial}{\partial w_j}E & = \frac{\partial}{\partial w_j}(- \frac{1}{m}\sum_{i=1}^{m}(1-y_i)(ln(1-\hat{y_i})) + y_iln(\hat{y_i})) \\
+& = - \frac{1}{m}\sum_{i=1}^{m}(1-y_i)\frac{\partial}{\partial w_j}(ln(1-\hat{y_i})) + y_i\frac{\partial}{\partial w_j}ln(\hat{y_i})) \\
+& = - \frac{1}{m}\sum_{i=1}^{m}(1-y_i)(\frac{-1}{1-\hat{y_i}})\frac{\partial}{\partial w_j}\hat{y_i} + y_i\frac{1}{\hat{y_i}}\frac{\partial}{\partial w_j}\hat{y_i})) \\
+& = - \frac{1}{m}\sum_{i=1}^{m}(1-y_i)(\frac{-1}{1-\hat{y_i}}) \hat{y}_i(1-\hat{y}_i) \cdot x_j^{(i)} + y_i\frac{1}{\hat{y_i}}\hat{y}_i(1-\hat{y}_i) \cdot x_j^{(i)} \\
+& = - \frac{1}{m}\sum_{i=1}^{m}(1-y_i)(-1) \hat{y}_i \cdot x_j^{(i)} + y_i(1-\hat{y}_i) \cdot x_j^{(i)} \\
+& = - \frac{1}{m}\sum_{i=1}^{m}(y_i - \hat{y}_i)x_j^{(i)}
+\end{align}</script><p>对单个样本点时，有$\frac{\partial}{\partial b}E = -(y - \hat{y})$,多个样本点有：</p>
+<script type="math/tex; mode=display">\frac{\partial}{\partial b}E =  \frac{1}{m}\sum_{i=1}^{m}(y_i - \hat{y}_i)</script><p>综上，对于具有坐标$(x_1, …, x_n)$的点，标签为$y$,预测为$\hat{y}$,该点的误差函数梯度为<script type="math/tex">(-(y - \hat{y})x_1, -(y - \hat{y})x_2, ...-(y - \hat{y})x_n, -(y - \hat{y}))</script><br>即有</p>
+<script type="math/tex; mode=display">\bigtriangledown E(W, b) = -(y - \hat{y})(x_1,...,x_n, 1)</script></li>
+<li><p>梯度其实是标量乘以点的坐标，如果标签离预测结果很近，该梯度很小，如果标签和预测差别很大，则梯度很大</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>计算的伪代码<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">start with random weights:w_1, ..., w_n, b</span><br><span class="line">for every point(x_1, ..., x_n):</span><br><span class="line">    for i = 1, ..., n</span><br><span class="line">        update w_i&apos; = w_i - a(y - y_pred)x_i</span><br><span class="line">        updata b&apos; = b - a(y - y_pred)</span><br><span class="line">repeat until error is small</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>2.2 感知机算法和逻辑回归的梯度下降法比较</p>
+<ul>
+<li>感知机算法perceptron algorithm<ul>
+<li>只有错误的点才起作用 <script type="math/tex; mode=display">x = \begin{equation}
+\left\{
+       \begin{array}{lr}
+       w_i+\alpha x_i & if \quad positive \\
+       w_i-\alpha x_i & if \quad negative \\
+       \end{array}
+\right.
+\end{equation}</script></li>
+<li>对比<ul>
+<li>如果正确分类：$y-\hat{y} = 0$</li>
+<li>如果错误分类 <script type="math/tex; mode=display">\begin{equation}
+\left\{
+   \begin{array}{lr}
+   y - \hat{y} = 1 & if \quad positive \\
+   y - \hat{y} = 1 & if \quad negative \\
+   \end{array}
+\right.
+\end{equation}</script></li>
+</ul>
+</li>
+<li>$\hat{y}$只能是0或1</li>
+<li>在感知机算法和lr的梯度下降算法中, 分类错误的点都会令其靠近直线靠近，在感知机算法中，分类正确的点在迭代中不会产生任何影响。</li>
+</ul>
+</li>
+<li>gradient descent<ul>
+<li>change $w_i$ to $w_i + \alpha(y - \hat{y})x_i$</li>
+<li>$\hat{y}$可以是0~1中的任何值。</li>
+<li>在感知机算法和lr的梯度下降算法中, 分类错误的点都会令其靠近直线靠近，在lr的梯度下降算法中，分类错误的点会更改权重令其远离。所有的点都会对其产生影响。</li>
+</ul>
+</li>
+<li>总结<ul>
+<li>损失函数不同，lr使用log loss函数，感知机使用均方损失函数</li>
+<li>lr使用sigmoid函数作为激活函数，感知机则是阶跃函数作为激活函数，故lr连续可导，感知机不可导</li>
+<li>逻辑斯蒂回归中的极大似然是什么？极大似然，对数损失函数，交叉熵之间的区别联系：逻辑斯蒂回归使用的是极大似然就相当于最小化负的似然函数，从损失函数的角度来看就变成了对数损失, 极大似然和交叉熵之间的表现形式一样。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-神经网络-多层感知器"><a href="#3-神经网络-多层感知器" class="headerlink" title="3. 神经网络(多层感知器)"></a>3. 神经网络(多层感知器)</h3><p>之前应对的都是线性可分的数据，当遇到线性不可分的情况，神经网络就开始排上用场了。</p>
+<h4 id="3-1-神经网络架构"><a href="#3-1-神经网络架构" class="headerlink" title="3.1 神经网络架构"></a>3.1 神经网络架构</h4><ul>
+<li>结构<ul>
+<li>first layer：input layer输入层</li>
+<li>second layer：hidden layer隐藏层：针对输入层的一系列线性模型</li>
+<li>final layer：output layer，将多个线性模型组合成一个非线性模型</li>
+</ul>
+</li>
+<li>多类别分类<ul>
+<li>在输出层添加更多节点，每个节点告诉我们每个类别的概率，然后使用softmax函数进行判断得出结果。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-2-前向反馈"><a href="#3-2-前向反馈" class="headerlink" title="3.2 前向反馈"></a>3.2 前向反馈</h4><ul>
+<li>前向反馈是神经网络用来将输入变成输出的流程。</li>
+<li>模型：<script type="math/tex; mode=display">\hat{y} = \sigma \circ W^{(3)} \circ \sigma \circ W^{(2)} \circ \sigma \circ W^{(1)}(x)</script></li>
+</ul>
+<h4 id="3-3-反向传播"><a href="#3-3-反向传播" class="headerlink" title="3.3 反向传播"></a>3.3 反向传播</h4><ul>
+<li>反向传播包括<ul>
+<li>进行前向反馈运算</li>
+<li>将模型的输入和期望的输出进行比较</li>
+<li>计算误差</li>
+<li>向后运行前向反馈运算(反向传播)，将误差分散到每个权重上。</li>
+<li>更新权重，直到获得很好的模型。 </li>
+</ul>
+</li>
+<li>链式法则<br>对于函数$A = f(x)$以及$B = g \ciRc f(x)$，链式法则证明：<script type="math/tex; mode=display">\frac{\partial B}{\partial x} = \frac{\partial B}{\partial A} \frac{\partial A}{\partial x}</script></li>
+<li>梯度计算<br><img src="/2019/04/26/深度学习笔记3/5.jpg" alt><ul>
+<li>如上图，有$\hat(y) = \sigma(h)$,且$\hat{y} = \sigma \circ W^{(2)} \circ \sigma \circ W^{(1)}(x) $</li>
+<li>误差函数如5.1,且有：<script type="math/tex; mode=display">E(W) = E(W_{11}^{(1)}, W_{12}^{(1)}, ..., W_{31}^{(2)})</script><script type="math/tex; mode=display">\bigtriangledown E = (\frac{\partial E}{\partial W_{11}^{(1)}}, ..., \frac{\partial E}{\partial W_{31}^{(2)}} )</script><script type="math/tex; mode=display">\frac{\partial E}{\partial W_{11}^{(1)}} = \frac{\partial E}{\partial\hat{y}} \frac{\partial \hat{y}}{\partial h} \frac{\partial h}{\partial h_1} \frac{\partial h_1}{\partial W_{11}^{(1)}}</script></li>
+<li>对$h = W_{11}^{(2)} \sigma(h_1) +  W_{21}^{(2)}\sigma(h_2) + W_{31}^{(2)} $,有:<script type="math/tex; mode=display">\frac{\partial h}{\partial h_1} =   W_{11}^{(2)} \sigma(h_1) [1 - \sigma(h_1)]</script></li>
+</ul>
+</li>
+</ul>
+
       
     </div>
 
@@ -487,6 +696,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/10/深度学习笔记4/" rel="prev" title="深度学习笔记4之卷积神经网络">
+                深度学习笔记4之卷积神经网络 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -537,8 +750,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -555,7 +777,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -603,7 +825,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                      
+                    
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -667,6 +891,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-感知机"><span class="nav-text">1. 感知机</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-用感知机实现简单逻辑计算"><span class="nav-text">1.1 用感知机实现简单逻辑计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-感知器技巧：计算机如何学习分类？"><span class="nav-text">1.2 感知器技巧：计算机如何学习分类？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-误差函数和梯度下降"><span class="nav-text">1.3 误差函数和梯度下降</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-交叉熵cross-entropy"><span class="nav-text">1.4 交叉熵cross-entropy</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-logistic回归"><span class="nav-text">2. logistic回归</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-logistic的梯度下降"><span class="nav-text">2.1 logistic的梯度下降</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-神经网络-多层感知器"><span class="nav-text">3. 神经网络(多层感知器)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-神经网络架构"><span class="nav-text">3.1 神经网络架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-前向反馈"><span class="nav-text">3.2 前向反馈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-反向传播"><span class="nav-text">3.3 反向传播</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
@@ -824,7 +1065,7 @@
   var disqus_config = function() {
     this.page.url = "http://yoursite.com/2019/04/26/深度学习笔记3/";
     this.page.identifier = "2019/04/26/深度学习笔记3/";
-    this.page.title = '深度学习笔记3';
+    this.page.title = '深度学习笔记3之神经网络简介';
     };
   function loadComments() {
     var d = document, s = d.createElement('script');
@@ -859,6 +1100,46 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
   
 
 

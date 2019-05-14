@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="CNN应用广泛 voice user interfaces语音用户界面 natural language processing自然语言处理：循环神经网络更广泛 computer vision计算机视觉    1. MLP1.1 计算机如何解析图像 pre - processing the data 灰阶图像，每个像素点由一个数组成$[0, 255]$ 将其标准化——都除于255，标准化可以提高算">
+<meta name="keywords" content="卷积神经网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习笔记4之卷积神经网络">
+<meta property="og:url" content="http://yoursite.com/2019/05/10/深度学习笔记4/index.html">
+<meta property="og:site_name" content="focus">
+<meta property="og:description" content="CNN应用广泛 voice user interfaces语音用户界面 natural language processing自然语言处理：循环神经网络更广泛 computer vision计算机视觉    1. MLP1.1 计算机如何解析图像 pre - processing the data 灰阶图像，每个像素点由一个数组成$[0, 255]$ 将其标准化——都除于255，标准化可以提高算">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/1.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/2.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/%203.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/4.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/5.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/6.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/7.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/8.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/9.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/10.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/11.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/12.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/13.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/14.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/15.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/16.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/17.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/18.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/19.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/20.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/21.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/22.jpg">
+<meta property="og:updated_time" content="2019-05-14T08:41:39.409Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深度学习笔记4之卷积神经网络">
+<meta name="twitter:description" content="CNN应用广泛 voice user interfaces语音用户界面 natural language processing自然语言处理：循环神经网络更广泛 computer vision计算机视觉    1. MLP1.1 计算机如何解析图像 pre - processing the data 灰阶图像，每个像素点由一个数组成$[0, 255]$ 将其标准化——都除于255，标准化可以提高算">
+<meta name="twitter:image" content="http://yoursite.com/2019/05/10/深度学习笔记4/1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/05/10/深度学习笔记4/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>深度学习笔记4之卷积神经网络 | focus</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">focus</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>公益 404</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/10/深度学习笔记4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="focus">
+      <meta itemprop="description" content="认知，理解，接纳">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="focus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深度学习笔记4之卷积神经网络
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-10 10:24:13" itemprop="dateCreated datePublished" datetime="2019-05-10T10:24:13+08:00">2019-05-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-14 16:41:39" itemprop="dateModified" datetime="2019-05-14T16:41:39+08:00">2019-05-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/深度学习/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/05/10/深度学习笔记4/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/05/10/深度学习笔记4/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>CNN应用广泛<ul>
+<li>voice user interfaces语音用户界面</li>
+<li>natural language processing自然语言处理：循环神经网络更广泛</li>
+<li>computer vision计算机视觉</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-MLP"><a href="#1-MLP" class="headerlink" title="1. MLP"></a>1. MLP</h3><h4 id="1-1-计算机如何解析图像"><a href="#1-1-计算机如何解析图像" class="headerlink" title="1.1 计算机如何解析图像"></a>1.1 计算机如何解析图像</h4><ul>
+<li>pre - processing the data<ul>
+<li>灰阶图像，每个像素点由一个数组成$[0, 255]$</li>
+<li>将其标准化——都除于255，标准化可以提高算法的训练效果。<ul>
+<li>因为神经网络需要计算梯度，这些网络会尝试判断在确定图像类别时，某个像素有多重要。标准化像素值有助于梯度计算保持一致。不会导致梯度太大使训练速度下降或导致网络无法训练</li>
+<li>数据标准化是一个重要的预处理步骤，它可以确保每个输入（在此例中是每个像素值）都来自标准分布。也就是说，一个输入图像中的像素值范围和另一个图像中的像素值范围一样。这种标准化使模型在训练时更不容易出错，并且速度更快！</li>
+<li>数据标准化的流程通常是：用每个像素值减去均值（所有像素值的平均值），然后除以所有像素值的标准偏差。有时候，我们采用近似值，即使用均值和标准偏差 0.5使像素值居中。</li>
+<li>此类数据的分布应该类似于高斯函数，并且中心点为0。对于图像输入，像素值必须为正数，因此我们经常会缩放数据，使其范围变成[0, 1]。</li>
+</ul>
+</li>
+<li>使用MLP训练，需要先将图像数组转成向量——<strong> Flattening扁平化</strong></li>
+</ul>
+</li>
+</ul>
+<p><img src="/2019/05/10/深度学习笔记4/1.jpg" alt></p>
+<h4 id="1-2-MLP-结构和类别分数"><a href="#1-2-MLP-结构和类别分数" class="headerlink" title="1.2 MLP 结构和类别分数"></a>1.2 MLP 结构和类别分数</h4><ul>
+<li>结构<ul>
+<li>input layer： 784 nodes</li>
+<li>output layer：10 nodes(判断数字0~9)</li>
+<li>需要定义隐藏级的层级<ul>
+<li>寻找论文相关参考资料</li>
+<li>more hidden layers generally means more ability to recognize complex patterns.隐藏层越多，网络能检测到的规律越复杂</li>
+<li>one or two hidden layers should work fine for small images对于小型图像，1~2层就可以了.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>class scores<ul>
+<li>inidicate how sure the network is that a given input is of a specific class.对于</li>
+<li>通常表示为值向量 a vector value; 也可以绘制成条形图来表示各个分数的相对大小</li>
+</ul>
+</li>
+</ul>
+<h4 id="1-3-损失和优化"><a href="#1-3-损失和优化" class="headerlink" title="1.3 损失和优化"></a>1.3 损失和优化</h4><ul>
+<li><p>learn from mistakes</p>
+<ul>
+<li>loss: measure any mistakes between a predicted and true class损失函数的作用是横向预测类别标签和真实标签之间的差异</li>
+<li>backpropagation: quantify how bad a particular weight is in making a mistake然后通过反向传播计算损失相对于模型权重的梯度，从而量化特定权重有多bad，并找到造成错误的权重</li>
+<li>optimization: gives us a way to calculate a better weight value根据计算结果，选择一个优化方法，如如梯度下降法，计算更合适的权重.</li>
+<li>output layer：使用softmax激活函数将这些分数转换成概率</li>
+</ul>
+</li>
+<li><p>错误衡量方法</p>
+<ul>
+<li>对输出值，应用softmax函数：每个值衡量了图像属于相应类别的概率.<br><img src="/2019/05/10/深度学习笔记4/2.jpg" alt></li>
+<li>计算交叉熵log - loss<ul>
+<li>当prediction 和label 一致时，loss更低</li>
+<li>当prediction 和label 不一致时，loss更高</li>
+</ul>
+</li>
+<li>目标：寻找最小化该损失函数逇权重，从而提供最准确的预测</li>
+</ul>
+</li>
+</ul>
+<h4 id="1-4-在pytorch中定义网络"><a href="#1-4-在pytorch中定义网络" class="headerlink" title="1.4 在pytorch中定义网络"></a>1.4 在pytorch中定义网络</h4><ul>
+<li>ReLu激活函数<ul>
+<li>激活函数的作用是缩放某个层的输出，使它们变成连续的很小值。和标准化输入值类似，这一步能提高模型训练效率！</li>
+<li>ReLU 激活函数是“修正线性单元”的简称，也是最常用的隐藏层激活函数之一，表示输入 x 对应的正数。对于具有任何负像素值的输入图像，它会将所有这些值变成0（黑色）。这种技巧会将值控制在 0以上，即下限是 0。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># import libraries</span></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># load and visualize the data</span></span><br><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">import</span> torchvision.transforms <span class="keyword">as</span> transforms</span><br><span class="line"></span><br><span class="line"><span class="comment"># number of subprocess to use for data processing</span></span><br><span class="line"><span class="comment"># 工作器数量表示是否并行加载数据，大部分情况下设为0即可.</span></span><br><span class="line">num_workers = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># how many samples per batch to load</span></span><br><span class="line"><span class="comment"># 表示在1次训练迭代中看到的图像数量</span></span><br><span class="line"><span class="comment"># 1次训练迭代表示网络出现错误并通过反向传播汲取教训的一个流程</span></span><br><span class="line">batch_size = <span class="number">20</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义转换操作convert data to torch.FloatTensor</span></span><br><span class="line"><span class="comment"># 转换成张量，但是张量可以移到GPU上来加速计算过程</span></span><br><span class="line">transform = transforms.ToTensor()</span><br><span class="line"></span><br><span class="line"><span class="comment"># ----------------使用datasets.MINIST加载训练和测试数据--------------------</span></span><br><span class="line"><span class="comment"># 下载数据，并将其转换成之前定义的张量数据类型，并将数据放在data目录中</span></span><br><span class="line">train_data = datasets.MINIST(root=<span class="string">'data'</span>, train=<span class="literal">True</span>, download=<span class="literal">True</span>, transform=transform)</span><br><span class="line"></span><br><span class="line">test_data = datasets.MINIST(root=<span class="string">'data'</span>, train=<span class="literal">False</span>, download=<span class="literal">True</span>, transform=transform)</span><br><span class="line"></span><br><span class="line"><span class="comment"># -------------------------创建训练和测试加载器----------------------------</span></span><br><span class="line"><span class="comment"># 加载器的输入包括定义的数据，批次大小和工作器数量；使我们能够按批次遍历数据</span></span><br><span class="line">train_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size, num_workers=num_workers)</span><br><span class="line">test_loader = torch.utils.data.DataLoader(test_data, batch_size=batch_size, num_workers=num_workers)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#-------------------------------可视化数据--------------------------------</span></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">%matplotlib inline</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取一批训练图象和其正确标签</span></span><br><span class="line">dataiter = iter(train_loader)</span><br><span class="line">images, labels = dataiter.next()</span><br><span class="line">images = images.numpy()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制出20个样本</span></span><br><span class="line">fig = plt.figure(figsize=(<span class="number">25</span>, <span class="number">4</span>))</span><br><span class="line"><span class="keyword">for</span> idx <span class="keyword">in</span> np.arange(<span class="number">20</span>):</span><br><span class="line">    ax = fig.add_subplot(<span class="number">2</span>, <span class="number">20</span> / <span class="number">2</span>, idx + <span class="number">1</span>, xticks=[], yticks=[])</span><br><span class="line">    ax.imshow(np.sequeeze(images[idx]), cmap=<span class="string">'gray'</span>)</span><br><span class="line">    <span class="comment"># 打印出每个图像的正确标签</span></span><br><span class="line">    <span class="comment"># .item() gets the value contained in a Tensor</span></span><br><span class="line">    ax.set_title(str(labels[idx].item()))</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/05/10/深度学习笔记4/ 3.jpg" alt><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#------------------------------更加详细的查看一张图片----------------------</span></span><br><span class="line">img = np.squeeze(images[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看数据集中的一张图片，并显示灰阶值</span></span><br><span class="line">fig = plt.figure(figsize=(<span class="number">12</span>, <span class="number">12</span>))</span><br><span class="line">ax = fig.add_subplot(<span class="number">111</span>)</span><br><span class="line">ax.imshow(img, cmap=<span class="string">'gray'</span>)</span><br><span class="line">width, height = img.shape</span><br><span class="line">thresh = img.max() / <span class="number">2.5</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(width):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(height):</span><br><span class="line">        val = roud(img[x][y], <span class="number">2</span>) <span class="keyword">if</span> img[x][y] != <span class="number">0</span> <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line">        ax.annotate(str(val), xy=(y, x)), horizaontalalignment = <span class="string">'center'</span>, verticalalignment = <span class="string">'center'</span>, color = <span class="string">'white'</span> <span class="keyword">if</span> img[x][y] &lt; thresh <span class="keyword">else</span> <span class="string">'black'</span>)</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2019/05/10/深度学习笔记4/4.jpg" alt></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#--------------------------------定义MLP模型-------------------------------</span></span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义NN的结构</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Net</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="comment"># 要在pytorch中定义任何神经网络，我们需要在Init函数中定义并列出学习权重值的层级</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(Net, self).__init__()</span><br><span class="line">        hidden1=<span class="number">512</span></span><br><span class="line">        hidden2=<span class="number">128</span></span><br><span class="line">        <span class="comment"># 定义了一个示例层级，即第一个输入层，命名为fc1；它有784个输入和一些隐藏节点</span></span><br><span class="line">        <span class="comment"># 第一个值是输入，第二个值是将生成的输出数量</span></span><br><span class="line">        self.fc1=nn.Linear(<span class="number">28</span> * <span class="number">28</span>, hidden1)</span><br><span class="line">        self.fc2=nn.Linear(hidden1, hidden2)</span><br><span class="line">        self.fc3=nn.Linear(hidden2, <span class="number">10</span>)</span><br><span class="line">        <span class="comment"># dropout 预防数据过拟合</span></span><br><span class="line">        self.dropout=nn.Dropout(<span class="number">0.2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 定义网络的前馈行为，即如何将输入x传入各种层级并进行转换</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        <span class="comment"># flatten image input； 使用view函数扁平化输入图像x</span></span><br><span class="line">        <span class="comment"># view(行数,列数)将输入图像变成期望的形状；-1表示将自动将所有x值变成这个列形状，结果是一个向量</span></span><br><span class="line">        x=x.view(<span class="number">-1</span>, <span class="number">28</span> * <span class="number">28</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># add hidden layer, with relu activation function</span></span><br><span class="line">        <span class="comment"># 将这个扁平化向量，传入在这里定义的第一个全连接层，按照名称调用此层级，传入输入图像并应用Relu激活函数</span></span><br><span class="line">        <span class="comment"># 通常应向每个隐藏层的输出应用Relu激活函数，使这些输出值变成连续正数，最后返回转换后的x</span></span><br><span class="line">        x=F.relu(self.fc1(x))</span><br><span class="line">        x=self.dropout(x)</span><br><span class="line">        x=F.relu(self.fc2(x))</span><br><span class="line">        x=self.dropout(x)</span><br><span class="line">        x=self.fc3(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># initialize the NN</span></span><br><span class="line"></span><br><span class="line">model=Net()</span><br><span class="line">print(model)</span><br></pre></td></tr></table></figure>
+<h4 id="1-5-在Pytorch中训练网络"><a href="#1-5-在Pytorch中训练网络" class="headerlink" title="1.5 在Pytorch中训练网络"></a>1.5 在Pytorch中训练网络</h4><ul>
+<li>对于简单的神经网络，建议使用交叉熵损失和梯度下降法。</li>
+<li>损失函数<ul>
+<li>cross entropy交叉熵：交叉熵损失函数会对输出层执行softmax函数，然后执行负对数损失；因此模型只需生成类别分数，然后该损失函数会使用softmax函数将它们变成概率并计算损失；损失等于一批图像的平均值</li>
+</ul>
+</li>
+<li>损失和优化函数实际上定义了网络在训练过程中更新权重的方式。</li>
+<li>steps for training / learning from a batch of data：<ul>
+<li>clear the gradients of all optimized variables</li>
+<li>forward pass: compute predicted outputs by passing inputs to the model</li>
+<li>calculate the loss</li>
+<li>backward pass: compute graient of the loss with respect to model parameters</li>
+<li>perform a single optimization step(parameter update)</li>
+<li>update average training loss</li>
+</ul>
+</li>
+<li>交叉熵损失<ul>
+<li>包括两步：<ul>
+<li>首先对看到的任何输出应用 softmax 函数</li>
+<li>然后应用 NLLLoss 负对数似然损失</li>
+<li>接着返回一批数据的平均损失。因为交叉熵损失会应用 softmax函数，所以我们不需要在模型定义的 forward 函数中应用 softmax 函数；</li>
+</ul>
+</li>
+<li>另一种方式：我们可以将 softmax 步骤和 NLLLoss 步骤分开处理。<ul>
+<li>在模型的 forward 函数中，我们可以向输出 x 应用 softmax 激活函数。</li>
+<li>然后，在定义损失函数时应用 NLLLoss</li>
+<li>这样会将常规的 criterion=nn.CrossEntropy() 分成两步：softmax 和NLLLoss；如果你希望模型输出是类别概率，而不是类别分数的话，可以采取这种方式。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>model.eval() 会将模型里的所有层级设置为评估模式。这样会影响到丢弃层等层级，但会允许所有节点接受评估。丢弃层是指在训练期间按照某个概率关闭节点的层级。</li>
+<li>在测试或验证模型之前，应该将模型设为评估模式，并且仅在训练循环期间将模型设为 model.train()（训练模式）。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#----------------------------定义损失和优化函数----------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># specify loss function</span></span><br><span class="line"><span class="comment"># 交叉熵是任何分类任务的标准损失函数</span></span><br><span class="line">criterion=nn.CrossEntropyLoss()</span><br><span class="line"></span><br><span class="line"><span class="comment"># specify optimizer</span></span><br><span class="line"><span class="comment"># 使用随机梯度下降，参数是模型参数和学习速率</span></span><br><span class="line">optimizer=torch.optim.SGD(model.parameters(), lr = <span class="number">0.01</span>, momentum = <span class="number">0.9</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#--------------------------------训练网络---------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练周期数：表示我们喜欢算法遍历整个训练数据集的次数，一个周期表示仅查看每张训练图像一次</span></span><br><span class="line">n_epochs=<span class="number">30</span>  <span class="comment"># 建议在20~50</span></span><br><span class="line"></span><br><span class="line">model.train() <span class="comment"># prep model for training</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(n_epochs):</span><br><span class="line">    <span class="comment"># 遍历每个周期并跟踪损失</span></span><br><span class="line">    train_loss=<span class="number">0.0</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#################################</span></span><br><span class="line">    <span class="comment">#########train the model#########</span></span><br><span class="line">    <span class="comment"># 周期循环中是批次循环; 在批次循环中，训练加载器将加载一批训练数据，我们可以查看该批次的每个图像及其真实标签</span></span><br><span class="line">    <span class="keyword">for</span> data, target <span class="keyword">in</span> train_loader:</span><br><span class="line">        <span class="comment"># clear the gradients of all optimized variables</span></span><br><span class="line">        <span class="comment"># 使用zero_grad函数清除pytorch累积的所有的梯度计算结果</span></span><br><span class="line">        optimizer.zero_grad()</span><br><span class="line">        <span class="comment"># forward pass传入模型，并执行前向流程，模型从训练加载器中获取输入图像，返回预测的类别分数</span></span><br><span class="line">        output=model(data)</span><br><span class="line">        <span class="comment"># calculate the loss使用定义的损失函数对比预测输出和真实标签，target也来自训练加载器</span></span><br><span class="line">        loss=criterion(output, target)</span><br><span class="line">        <span class="comment"># backward pass 执行反向流程并计算损失的梯度</span></span><br><span class="line">        loss.backward()</span><br><span class="line">        <span class="comment"># perform a single optimization step这一步负责更新网络的权重值</span></span><br><span class="line">        optimizer.step()</span><br><span class="line">        <span class="comment"># update running training loss</span></span><br><span class="line">        <span class="comment"># loss.item是一批数据的平均损失值，此时我们需要记录一批数据的累积损失</span></span><br><span class="line">        train_loss += loss.item() * data.size(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 循环完整个周期后，计算平均损失</span></span><br><span class="line">    train_loss=train_loss / len(train_loader.dataset)</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'Epoch:&#123;&#125; \t Training Loss:&#123;:.6f&#125;'</span>.format(</span><br><span class="line">        epoch + <span class="number">1</span>, train_loss))</span><br><span class="line"></span><br><span class="line"><span class="comment">#--------------------------------测试网络---------------------------------</span></span><br><span class="line"></span><br><span class="line">test_loss=<span class="number">0.0</span></span><br><span class="line">class_correct=list(<span class="number">0.</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>))</span><br><span class="line">class_total=list(<span class="number">0.</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>))</span><br><span class="line"></span><br><span class="line">model.eval() <span class="comment"># prep model for *evaluation*</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> data, target <span class="keyword">in</span> test_loader:</span><br><span class="line">    <span class="comment"># forward pass</span></span><br><span class="line">    output=model(data)</span><br><span class="line">    <span class="comment"># calculate the loss</span></span><br><span class="line">    loss=criterion(output, target)</span><br><span class="line">    <span class="comment"># update test_loss</span></span><br><span class="line">    test_loss += loss.item() * data.size(<span class="number">0</span>)</span><br><span class="line">    <span class="comment"># convert ouput probabilities to predicted class</span></span><br><span class="line">    _, pred=torch.max(output, <span class="number">1</span>)</span><br><span class="line">    <span class="comment"># compare predictions to true label</span></span><br><span class="line">    correct=np.sequeeze(pred.eq(target.data.view <span class="keyword">as</span>(pred)))</span><br><span class="line">    <span class="comment"># calculate test accuracy for each object class</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(batch_size):</span><br><span class="line">        label=target.data[i]</span><br><span class="line">        class_correct[label] += correct[i].item()</span><br><span class="line">        class_total[label] += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># calculate and print avg test loss</span></span><br><span class="line">test_loss=test_loss / len(test_loader.dataset)</span><br><span class="line">print(<span class="string">'Test Loss: &#123;:.6f&#125;\n'</span>.format(test_loss))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    <span class="keyword">if</span> class_total[i] &gt; <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">'Test Accuracy of %5s: %2d%% (%2d/%2d)'</span> % (</span><br><span class="line">            str(i), <span class="number">100</span> * class_correct[i] / class_total[i],</span><br><span class="line">            np.sum(class_correct[i]), np.sum(class_total[i])))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">'Test Accuracy of %5s: N/A (no training examples)'</span> % (classes[i]))</span><br><span class="line"></span><br><span class="line">print(<span class="string">'\nTest Accuracy (Overall): %2d%% (%2d/%2d)'</span> % (</span><br><span class="line">    <span class="number">100.</span> * np.sum(class_correct) / np.sum(class_total),</span><br><span class="line">    np.sum(class_correct), np.sum(class_total)))</span><br></pre></td></tr></table></figure>
+<h4 id="1-6-模型验证"><a href="#1-6-模型验证" class="headerlink" title="1.6 模型验证"></a>1.6 模型验证</h4><ul>
+<li><p>将数据集分为三个部门：模型会单独处理每个数据集</p>
+<ul>
+<li>training set训练集：模型在训练兵判断如何修改权重的过程中，仅查看训练集</li>
+<li>validation set验证集：每个训练周期后，通过查看训练损失和验证损失判断模型的表现效果，但是在模型的反向传播BP中，不会使用验证集中的任何数据</li>
+<li>test set测试集:之所以需要一个单独的验证集，是因为我们在选择模型的时候，是基于验证集和训练集来选择的，所以模型会偏向验证集，因此在评估模型的性能的时候，应该采用从未发现的测试集<br><img src="/2019/05/10/深度学习笔记4/5.jpg" alt></li>
+</ul>
+</li>
+<li><p>创建验证集的目的是</p>
+<ul>
+<li>在训练期间衡量模型的泛化效果 </li>
+<li>判断何时停止训练模型：当验证损失停止下降时（尤其是当验证损失开始增大并且训练损失依然下降时）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">import</span> torchvision.transforms <span class="keyword">as</span> transforms</span><br><span class="line"><span class="keyword">from</span> torch.utils.data.sampler <span class="keyword">import</span> SubsetRandomSampler</span><br><span class="line"><span class="comment"># 拆分数据及</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># number of subprocesses to use for data loading</span></span><br><span class="line">num_workers = <span class="number">0</span></span><br><span class="line"><span class="comment"># how many samples per batch to load</span></span><br><span class="line">batch_size = <span class="number">20</span></span><br><span class="line"><span class="comment"># percentage of training set to use as validation从训练集中拿出一定的比例的数据作为验证集</span></span><br><span class="line">valid_size = <span class="number">0.2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># convert data to torch.FloatTensor</span></span><br><span class="line">transform = transforms.ToTensor()</span><br><span class="line"><span class="comment"># choose the training and test datasets</span></span><br><span class="line">train_data = datasets.MNIST(root=<span class="string">'data'</span>, train=<span class="literal">True</span>,</span><br><span class="line">                                   download=<span class="literal">True</span>, transform=transform)</span><br><span class="line">test_data = datasets.MNIST(root=<span class="string">'data'</span>, train=<span class="literal">False</span>,</span><br><span class="line">                                  download=<span class="literal">True</span>, transform=transform)</span><br><span class="line"></span><br><span class="line"><span class="comment"># obtain training indices that will be used for validation</span></span><br><span class="line">num_train = len(train_data)</span><br><span class="line"><span class="comment">#获取整个训练集的长度，列出所有可能的索引，整个索引指向所有的图片</span></span><br><span class="line">indices = list(range(num_train))</span><br><span class="line"><span class="comment">#重排这些索引，此时从这个索引中任意选择的数据将引用随机数据</span></span><br><span class="line">np.random.shuffle(indices)</span><br><span class="line"><span class="comment">#定义拆分界限，也是定义的验证集应有的向量</span></span><br><span class="line">split = int(np.floor(valid_size * num_train))</span><br><span class="line">train_idx, valid_idx = indices[split:], indices[:split]</span><br><span class="line"></span><br><span class="line"><span class="comment"># define samplers for obtaining training and validation batches使用subsetrandomsampler为训练数据和验证数据创建数据抽样器</span></span><br><span class="line">train_sampler = SubsetRandomSampler(train_idx)</span><br><span class="line">valid_sampler = SubsetRandomSampler(valid_idx)</span><br><span class="line"></span><br><span class="line"><span class="comment"># prepare data loaders此时会添加一个参数sampler，之前只有训练和测试数据加载器</span></span><br><span class="line">train_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size,</span><br><span class="line">    sampler=train_sampler, num_workers=num_workers)</span><br><span class="line">valid_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size, </span><br><span class="line">    sampler=valid_sampler, num_workers=num_workers)</span><br><span class="line">test_loader = torch.utils.data.DataLoader(test_data, batch_size=batch_size, </span><br><span class="line">    num_workers=num_workers)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#------------------------------训练验证数据--------------------------------</span></span><br><span class="line"><span class="comment"># number of epochs to train the model</span></span><br><span class="line">n_epochs = <span class="number">50</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># initialize tracker for minimum validation loss</span></span><br><span class="line">valid_loss_min = np.Inf <span class="comment"># set initial "min" to infinity</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(n_epochs):</span><br><span class="line">    <span class="comment"># monitor training loss</span></span><br><span class="line">    train_loss = <span class="number">0.0</span></span><br><span class="line">    valid_loss = <span class="number">0.0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">###################</span></span><br><span class="line">    <span class="comment"># train the model #</span></span><br><span class="line">    <span class="comment">###################</span></span><br><span class="line">    model.train() <span class="comment"># prep model for training</span></span><br><span class="line">    <span class="keyword">for</span> data, target <span class="keyword">in</span> train_loader:</span><br><span class="line">        <span class="comment"># clear the gradients of all optimized variables</span></span><br><span class="line">        optimizer.zero_grad()</span><br><span class="line">        <span class="comment"># forward pass: compute predicted outputs by passing inputs to the model</span></span><br><span class="line">        output = model(data)</span><br><span class="line">        <span class="comment"># calculate the loss</span></span><br><span class="line">        loss = criterion(output, target)</span><br><span class="line">        <span class="comment"># backward pass: compute gradient of the loss with respect to model parameters</span></span><br><span class="line">        loss.backward()</span><br><span class="line">        <span class="comment"># perform a single optimization step (parameter update)</span></span><br><span class="line">        optimizer.step()</span><br><span class="line">        <span class="comment"># update running training loss</span></span><br><span class="line">        train_loss += loss.item()*data.size(<span class="number">0</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="comment">######################    </span></span><br><span class="line">    <span class="comment"># validate the model #</span></span><br><span class="line">    <span class="comment">######################</span></span><br><span class="line">    model.eval() <span class="comment"># prep model for evaluation</span></span><br><span class="line">    <span class="keyword">for</span> data, target <span class="keyword">in</span> valid_loader:</span><br><span class="line">        <span class="comment"># forward pass: compute predicted outputs by passing inputs to the model</span></span><br><span class="line">        output = model(data)</span><br><span class="line">        <span class="comment"># calculate the loss</span></span><br><span class="line">        loss = criterion(output, target)</span><br><span class="line">        <span class="comment"># update running validation loss </span></span><br><span class="line">        valid_loss += loss.item()*data.size(<span class="number">0</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="comment"># print training/validation statistics </span></span><br><span class="line">    <span class="comment"># calculate average loss over an epoch</span></span><br><span class="line">    train_loss = train_loss/len(train_loader.sampler)</span><br><span class="line">    valid_loss = valid_loss/len(valid_loader.sampler)</span><br><span class="line">    </span><br><span class="line">    print(<span class="string">'Epoch: &#123;&#125; \tTraining Loss: &#123;:.6f&#125; \tValidation Loss: &#123;:.6f&#125;'</span>.format(</span><br><span class="line">        epoch+<span class="number">1</span>, </span><br><span class="line">        train_loss,</span><br><span class="line">        valid_loss</span><br><span class="line">        ))</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># save model if validation loss has decreased</span></span><br><span class="line">    <span class="keyword">if</span> valid_loss &lt;= valid_loss_min:</span><br><span class="line">        print(<span class="string">'Validation loss decreased (&#123;:.6f&#125; --&gt; &#123;:.6f&#125;).  Saving model ...'</span>.format(</span><br><span class="line">        valid_loss_min,</span><br><span class="line">        valid_loss))</span><br><span class="line">        torch.save(model.state_dict(), <span class="string">'model.pt'</span>)</span><br><span class="line">        valid_loss_min = valid_loss</span><br></pre></td></tr></table></figure>
+<h4 id="1-7-总结：图像分类步骤"><a href="#1-7-总结：图像分类步骤" class="headerlink" title="1.7 总结：图像分类步骤"></a>1.7 总结：图像分类步骤</h4><ul>
+<li>步骤<ul>
+<li>加载并可视化要处理的数据</li>
+<li>预处理数据-标准化并转换为张量,使神经网络的层级可以进一步处理数据</li>
+<li>查阅资料，根据研究结果决定使用什么模型架构并定义模型</li>
+<li>确定损失和优化函数并开始训练模型</li>
+<li>使用验证数据集在训练过程中选择和保存最佳模型</li>
+<li>用从未见过的数据来测试模型<br><img src="/2019/05/10/深度学习笔记4/6.jpg" alt></li>
+</ul>
+</li>
+</ul>
+<h3 id="2-卷积神经网络CNN"><a href="#2-卷积神经网络CNN" class="headerlink" title="2. 卷积神经网络CNN"></a>2. 卷积神经网络CNN</h3><h4 id="2-1-局部连接性"><a href="#2-1-局部连接性" class="headerlink" title="2.1 局部连接性"></a>2.1 局部连接性</h4><ul>
+<li>MLP处理的图像需要先flatten，数字形状大小差不多的图像可以处理，且每个图像的像素点一样多</li>
+<li>CNN可以处理复杂图像，可以考虑到数据距离的问题</li>
+<li>CNN使用更加系数互联的层级，层级之间的连接由图像的二维结构决定。CNN接受二维矩阵作为输入</li>
+<li>CNN能够将图像当做整体解析或者按各个部分解析,并且一次分析一组像素</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>MLP</th>
+<th style="text-align:center">CNNs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>only fully connected layers</td>
+<td style="text-align:center">also use sparsely connected layers</td>
+</tr>
+<tr>
+<td>only accepted vectors as input</td>
+<td style="text-align:center">also accepted matrices as input</td>
+</tr>
+<tr>
+<td>col 3 is</td>
+<td style="text-align:center">right-aligned</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li><strong>局部连接性</strong><ul>
+<li>隐藏层的每个神经元只处理其一小部分，不需要全连接</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-2-过滤器和卷积层"><a href="#2-2-过滤器和卷积层" class="headerlink" title="2.2 过滤器和卷积层"></a>2.2 过滤器和卷积层</h4><ul>
+<li><p>要保留空间信息，关键在于<strong>卷积层</strong></p>
+<ul>
+<li>卷积层将一系列不同的图像过滤器，应用到输入图像中，这些过滤器也称作卷积核，过滤后的图像具有不同的外观，过滤器可能会提取各种特征——如图像中对象的边缘或区分不同图像类别的颜色</li>
+</ul>
+</li>
+<li><p>过滤器和边</p>
+<ul>
+<li>通常考虑形状和颜色<ul>
+<li>形状可以看做图像中的强度规律，强度衡量的是深浅度，类似亮度.</li>
+<li>颜色</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>图像频率</p>
+<ul>
+<li>我们很容易理解声音频率的含义。高频是指音调很高的声音，例如小鸟唧唧声或小提琴的声音。低频是指音调很低的声音，例如浑厚的嗓音或低音鼓。声音频率实际上是指声波的振动速度；振动通常用周期 (Hz) 衡量，高音调由高频声波组成。下图显示了低频和高频声波示例。y 轴是振幅，表示声压，对应于听到的声音响度；x 轴是时间。<br><img src="/2019/05/10/深度学习笔记4/7.jpg" alt></li>
+<li>高频和低频<br>同样，图像频率是指变化速率。那么，图像变化是什么意思呢？图像在空间里发生变化。高频图像是指强度变化很大，亮度从一个像素到另一个像素变化很快。低频图像是指亮度相对一致或变化很慢。举个例子。<br><img src="/2019/05/10/深度学习笔记4/8.jpg" alt><br>大多数图像既有高频部分，又有低频部分。在上图中，丝巾和条纹衬衫部分是高频图案；此部分非常快速地从一个亮度变成另一个亮度。在此图的更上方，我们看到天空和背景变化很缓慢，称为平滑的低频图案。<br>高频部分还对应于图像中的对象边缘**，有助于我们分类这些对象。</li>
+</ul>
+</li>
+<li><p>高通滤波器</p>
+<ul>
+<li>滤波器filter作用:<ul>
+<li>在图像处理中，我们用过滤器来过滤掉图像中不需要或无关的信息</li>
+<li>amplify features of interest.放大图像的某些特征，如物体边界或其他显著特征.</li>
+</ul>
+</li>
+<li>高通滤波器<ul>
+<li>锐化图像sharpen an image</li>
+<li>强化图像的高频区域enhance high-frequency parts of an image</li>
+</ul>
+</li>
+<li>应用高通滤波器<ul>
+<li>原图那些强度没有变化或变化不大的区域，会被高通滤波器过滤掉，且像素颜色变为黑色</li>
+<li>但是在变化明显的地方，高通滤波器会加强这一变化并形成一根线条——把边缘强化了</li>
+<li>edge边缘;are areas in an image where the intensity changes very quickly, and they often indicate object boundaries.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>卷积核convenlution kernels<ul>
+<li>a kernel is a matrix of numbers that modifies an image.即一些值网格，可以对图像进行修改.</li>
+</ul>
+</li>
+<li>边缘处理<br>核卷积依赖于某些像素并查看其周围的邻近像素。如果没有邻近像素，例如在图像角落或边缘，该怎么办？有多种处理边缘的方式，如以下列表所示。最常见的方法是使用扩展或裁剪方法，在这些 OpenCV 示例中，我们将使用默认的技巧，即扩展。扩展是指复制图像的边界像素并尽量扩展，形成一个大小和原始图像一样的过滤图像。<ul>
+<li>扩展 从概念上讲，最近的边界像素尽量往远处扩展，为卷积提供值。角落像素扩展 90°，其他边缘像素以直线扩展。</li>
+<li>折叠 图像从概念上被折叠（平铺），值取自相反的边缘或角落。</li>
+<li>裁剪 在输出图像中，任何需要边缘之外的值的像素被跳过。此方法可能会导致输出图像稍微小一些，边缘被裁剪。</li>
+</ul>
+</li>
+<li>卷积层<ul>
+<li>我们通过向输入图像应用一系列不同的图像过滤器（也称为卷积核），生成了卷积层。<br><img src="/2019/05/10/深度学习笔记4/9.jpg" alt><br>在上面的示例中，4 个不同的过滤器生成了 4 个不同的过滤图像。当我们堆叠这些图像时，就形成了深度为 4 的完整卷积层！<br><img src="/2019/05/10/深度学习笔记4/10.jpg" alt><br>一个卷积层</li>
+<li>神经网络实际上会一边用图像数据集进行训练，一边学习最佳过滤器权重。高通过滤器和低通过滤器负责定义这种网络的行为。</li>
+<li>在实际操作中，很多神经网络学习检测图像的边缘，因为对象边缘包含关于图像形状的重要信息。——图片边缘显示为：在深色像素旁边的浅色像素线条.</li>
+</ul>
+</li>
+<li><p>彩色图像</p>
+<ul>
+<li>灰阶图像被计算机解读为具有宽和高的二维数组</li>
+<li>彩色图像被计算机解读为具有宽度、高度和深度的三维数组<ul>
+<li>对RGB图像来说，深度是3.解读为红、绿、蓝。</li>
+</ul>
+</li>
+<li><p>彩色图像可以看做三个二维数组的堆叠，过滤器也可以看做三个二维数组的堆叠.<br><img src="/2019/05/10/深度学习笔记4/11.jpg" alt></p>
+</li>
+<li><p>要从特征映射中获取对应于该过滤器的节点值，流程和灰阶图像的处理差不多.只是现在求和的项是之前的三倍。这里计算的是彩色图片上一个过滤器的卷积层中一个节点的值<br><img src="/2019/05/10/深度学习笔记4/12.jpg" alt></p>
+</li>
+<li>可以将沿着相同线条的卷积层中的每个特征映射看做一个图片通道，将它们堆叠就能获得三维数组，然后将该三维数组作为输入，形成另一个卷积层，以便我们在第一个卷积层中发现的规律中发现规律</li>
+</ul>
+</li>
+<li><p>总结</p>
+<ul>
+<li>卷积层和MLP中的密集层差别不大，密基层是全连接的，表示节点与前一层级的每个节点相连接; 卷积层是局部连接的，节点与前一层及的一小部分节点连接。卷积层还具有参数共享特性.</li>
+<li>卷积层和密集层中推理的工作原理是一样的.二者的权重和偏差一开始都是随机生成的。对CNN来说，权重是卷积过滤器形式，这些过滤器是随机生成的，一开始检测的规律也是随机的.类似MLP,在构建CNN时始终会指定损失函数.对于多类别分类，是分类交叉熵损失，然后通过反向传播训练模型。每个epoch斗湖更新过滤器，以便设定可以最小化损失函数的值.CNN根据损失函数确定它需要检测什么样的规律.</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-3-步长和填充"><a href="#2-3-步长和填充" class="headerlink" title="2.3 步长和填充"></a>2.3 步长和填充</h4><ul>
+<li>我们可以通过指定过滤器的数量和每个过滤器的大小等控制卷积层的行为。<ul>
+<li>增加卷积层的数量：增加过滤器数量</li>
+<li>增加检测图案的大小：增大过滤器的大小</li>
+</ul>
+</li>
+<li>卷积步长<ul>
+<li>步长:过滤器在图像上滑动的像素量<ul>
+<li>对于步长为1的，每次水平和垂直的一定卷积窗口的一个像素，步长为1使卷积层的宽度和高度与输入图像大致相同.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>填充<ul>
+<li>边缘处理的方法<ul>
+<li>删掉边缘节点</li>
+<li>提前准备并用0填充图像</li>
+</ul>
+</li>
+<li>填充是指在图像周围添加像素边界。在 PyTorch 中，你可以指定边界大小。<ul>
+<li>为何需要填充？<ul>
+<li>在创建卷积层时，我们使用中心像素作为锚点，并在图像上移动一个方形过滤器。这种卷积核无法完美地覆盖图像的边边角角。填充功能使我们能够控制输出的空间大小（最常见的用途是保留输入的空间大小，使输入和输出的宽度及高度一样）。</li>
+<li>最常见的填充方法是用0像素填充图像（称为零填充），或者使用最近的像素值填充。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-4-池化层"><a href="#2-4-池化层" class="headerlink" title="2.4 池化层"></a>2.4 池化层</h4><p><img src="/2019/05/10/深度学习笔记4/13.jpg" alt></p>
+<ul>
+<li>池化层<ul>
+<li>输入通常为卷积层，<ul>
+<li>convolutional layer是一种特征图图层</li>
+<li>每个过滤器对应一个特征图，对于有很多不同对象类别的复杂数据集，需要大量的过滤器，每个复杂发现图像中的一种图案.</li>
+<li>越多过滤器说明卷积层的维度可能越大，更多的维度意味着需要更多的参数，容易导致过拟合，此时需要池化层</li>
+</ul>
+</li>
+<li>常见池化层<ul>
+<li>最大池化层</li>
+<li>平均池化层</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>最大池化层<br><img src="/2019/05/10/深度学习笔记4/14.jpg" alt><ul>
+<li>最大池化层将特征图图层当做输入</li>
+<li>对指定大小的窗口里的像素值取最大值</li>
+<li>设置步长和kernel:步长为 4 的任何层级将使输入下采样到 1/4 倍。</li>
+</ul>
+</li>
+<li>平均池化层<ul>
+<li>对指定大小的窗口里的像素值取平均值。在 2x2 窗口里，平均池化运算将涉及 4个像素值，然后返回这四个值的平均值！</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>示例<ul>
+<li><a href="https://viewg9jx2ub1l4.udacity-student-workspaces.com/notebooks/conv_visualization-cn.ipynb" target="_blank" rel="noopener">示例1——卷积层</a></li>
+<li><a href="https://viewg9jx2ub1l4.udacity-student-workspaces.com/notebooks/maxpooling_visualization-cn.ipynb" target="_blank" rel="noopener">示例2——最大池化层</a></li>
+</ul>
+</li>
+<li>池化层的代替方案——胶囊网络<ul>
+<li>池化运算会丢失一些图像信息。这是因为为了获得更小的特征级图像表示，池化会丢弃像素信息。对于图像分类等任务来说，这没关系，但是也会造成一些问题。<ul>
+<li>以人脸识别为例。在识别人脸时，我们会注意显著特征，例如两只眼睛，一个鼻子，一张嘴。这些特征共同形成了完整的一张脸。经过训练的典型人脸识别 CNN也应学习识别这些特征。但是将图像压缩成特征级表示法可能会出现奇怪的结果：</li>
+<li>假设有一张经过 PS 的人脸图像，脸上有三只眼睛或眼睛上方有一个鼻子，特征级表示法将能够识别这些特征并依然识别出人脸！虽然这张脸是 PS 的，包含不合常规的太多特征。</li>
+<li>与池化层相比，有一些分类方法不会丢弃空间信息，而是学习各个部分之间的关系（例如眼睛、鼻子和嘴之间的空间关系）。</li>
+</ul>
+</li>
+<li>胶囊网络能够从图像中检测出对象的各个部分，并表示这些部分之间的空间关系。如果对象（例如人脸）具有不同的形态和典型数量的特征（眼睛、鼻子、嘴），胶囊网络便能够识别同一对象，即使没有在训练数据里见过这些形态。<ul>
+<li>胶囊网络由父节点和子节点组成，这些节点构成了对象的完整样貌。<br><img src="/2019/05/10/深度学习笔记4/15.jpg" alt></li>
+<li>在上述示例中，模型能够识别叶节点中的人脸部分（眼睛、鼻子、嘴等），然后在父节点中形成更完整的人脸部分。</li>
+</ul>
+</li>
+<li>什么是胶囊？<ul>
+<li>胶囊实际上是节点集合，每个节点都包含关于特定部分的信息，例如宽度、方向、颜色等特性。注意，每个胶囊都输出一个向量，该向量由大小和方向组成。<ul>
+<li>大小 (m) = 某个部分存在的概率；值在 0 到 1 之间。</li>
+<li>方向 (theta) = 某个部分的状态。</li>
+</ul>
+</li>
+<li>我们可以对这些输出向量执行数学运算并构建一个解析树，最终识别出由多个小部分组成的完整对象。大小是一个特殊的属性，即使对象朝着不同的方向，大小也应该很大，如下图所示。<br><img src="/2019/05/10/深度学习笔记4/16.jpg" alt></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-5-增加深度"><a href="#2-5-增加深度" class="headerlink" title="2.5 增加深度"></a>2.5 增加深度</h4><p><img src="/2019/05/10/深度学习笔记4/17.jpg" alt></p>
+<ul>
+<li>预处理<ul>
+<li>CNN和MLP一样要求输入数据同样大小<ul>
+<li>法一：因此需要选择一个图像大小，将所有图像调整为该大小之后，再进行处理<ul>
+<li>常见做法调整为正方形，空间维度等于2的幂，或能被很大的2的幂整除的数</li>
+</ul>
+</li>
+<li>法二：标准化</li>
+<li>法三：转换为张量数据类型</li>
+</ul>
+</li>
+<li>计算机会将任何图形解析为三维数组，彩色图像的row<em>high</em>3(红绿蓝)；灰阶图像row<em>high</em>1</li>
+</ul>
+</li>
+<li>CNN结构的设计目标是将该数组逐渐变得越来越深<br><img src="/2019/05/10/深度学习笔记4/18.jpg" alt><ul>
+<li>当数组经过卷积层时，卷积层使数组更深</li>
+<li>最大池化层将缩小x，y维度</li>
+<li>当网络越来越复杂时，会提取越来越复杂的图案和特征，帮助我们识别分析图像。也会丢弃一些我空间特征，如平滑的背景</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-6-pytorch层级"><a href="#2-6-pytorch层级" class="headerlink" title="2.6 pytorch层级"></a>2.6 pytorch层级</h4><ul>
+<li>PyTorch 层级<ul>
+<li>卷积层：通常，我们在 PyTorch 中使用 nn.Conv2d 定义卷积层，并指定以下参数：<ul>
+<li>nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0)</li>
+<li>in_channels 是指输入深度。对于灰阶图像来说，深度 = 1</li>
+<li>out_channels 是指输出深度，或你希望获得的过滤图像数量</li>
+<li>kernel_size 是卷积核的大小（通常为 3，表示 3x3 核）</li>
+<li>tride 和 padding 具有默认值，但是应该根据你希望输出在空间维度 x, y里具有的大小设置它们的值</li>
+</ul>
+</li>
+<li>池化层：最大池化层通常位于卷积层之后，用于缩小输入的 x-y 维度</li>
+</ul>
+</li>
+<li>Pytorch中的卷积层<br>(1)要在 PyTorch 中创建卷积层，必须首先导入必要的模块：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br></pre></td></tr></table></figure>
+<p>(2) 然后定义卷积层和模型的前馈行为（输入如何经过网络层级）。首先必须定义一个 Model 类并填写两个函数。<br>(2.1)init:你可以通过以下格式在 <strong>init</strong> 函数里定义卷积层：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size, stride=<span class="number">1</span>, padding=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>(2.2)forward:然后在 forward函数里引用该层级！在此例中，我传入了输入图像x，并向此层的输出应用了 ReLU 函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x = F.relu(self.conv1(x))</span><br></pre></td></tr></table></figure>
+<p>(3)参数:</p>
+<p>必须传递以下参数： </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>in_channels</td>
+<td style="text-align:center">输入数量（深度），例如 RGB 图像是 3</td>
+</tr>
+<tr>
+<td>out_channels</td>
+<td style="text-align:center">输出通道的数量，即卷积层包含的过滤“图像”数量，或者将应用到输入上的唯一卷积核数量。</td>
+</tr>
+<tr>
+<td>kernel_size</td>
+<td style="text-align:center">表示（方形）卷积核的高度和宽度</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>你还可以调整其他可选参数：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stride</td>
+<td style="text-align:center">卷积步长。如果不指定任何值，stride 将设为 1。</td>
+</tr>
+<tr>
+<td>padding</td>
+<td style="text-align:center">输入数组周围的 0 边。如果不指定任何值，padding 将设为 0。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>注意：可以将 kernel_size 和 stride 表示为数字或元组。你还可以设置很多其他可调参数，从而更改卷积层的行为。</p>
+<ul>
+<li>Pytorch中的池化层<br>(1) 池化层的参数是核大小和步长。通常和下采样因子的值一样。例如，以下代码将使输入的 x-y 维度下采样到一半大小：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.pool = nn.MaxPool2d(<span class="number">2</span>,<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p>(2)forward:以下代码将池化层应用到了 forward 函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = F.relu(self.conv1(x))</span><br><span class="line">x = self.pool(x)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>卷积示例<br>(1)假设我要构建一个 CNN，输入层接受的是 200 x 200 像素（对应于高 200、宽 200、深 1 的三维数组）的灰阶图像。然后，假设下一层是一个卷积层，包含 16 个过滤器，每个过滤器的宽和高都是 2。在进行卷积运算时，我希望过滤器一次跳过 2 个像素。但是我不希望过滤器越过图像边界；换句话说，我不想用 0 填充图像。要构建此卷积层，我会使用以下代码：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.conv1 = nn.Conv2d(<span class="number">1</span>, <span class="number">16</span>, <span class="number">2</span>, stride=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>(2)假设我希望下一层是一个卷积层，它将在示例 1 中构建的层级作为输入。假设新层级有 32 个过滤器，每个的高和宽是 3。在进行卷积运算时，我希望过滤器一次跳过 1 个像素。为了使此层的宽和高与输入层的一样，我将填充图像。要构建此卷积层，我会使用以下代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.conv2 = nn.Conv2d(<span class="number">16</span>, <span class="number">32</span>, <span class="number">3</span>, padding=<span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>序列模型<br>我们还可以在$init$函数里使用 Sequential 封装容器，这样就能在 PyTorch 中创建 CNN 模型。序列模型使我们能够堆叠不同的层级，并在层级之间指定激活函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(ModelName, self).__init__()</span><br><span class="line">        self.features = nn.Sequential(</span><br><span class="line">              nn.Conv2d(<span class="number">1</span>, <span class="number">16</span>, <span class="number">2</span>, stride=<span class="number">2</span>),</span><br><span class="line">              nn.MaxPool2d(<span class="number">2</span>, <span class="number">2</span>),</span><br><span class="line">              nn.ReLU(<span class="literal">True</span>),</span><br><span class="line"></span><br><span class="line">              nn.Conv2d(<span class="number">16</span>, <span class="number">32</span>, <span class="number">3</span>, padding=<span class="number">1</span>),</span><br><span class="line">              nn.MaxPool2d(<span class="number">2</span>, <span class="number">2</span>),</span><br><span class="line">              nn.ReLU(<span class="literal">True</span>) </span><br><span class="line">         )</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>公式：卷积层中的参数数量<br>卷积层中的参数数量取决于为 filters/out_channels、kernel_size 和 input_shape 设定的值。需要定义以下变量：</p>
+<p>| 参数   |      含义      |<br>|—————|:——————-:|<br>|K | 卷积层中的过滤器数量 |<br>|F | 卷积过滤器的高和宽 |<br>|D_in | 上一层的深度 |</p>
+</li>
+</ul>
+<p>注意 K = out_channels，以及 F = kernel_size。同样，D_in 是 input_shape 元组中的最后一个值，通常是 1 或 3（分别表示 RGB 和灰阶图像）。<br>因为每个过滤器有 F<em>F</em>D_in 个权重，并且卷积层由 K个过滤器组成，所以卷积层中的权重总数是$K<em>F</em>F<em>D_{in}$。由于每个过滤器有一个偏差项，所以卷积层有 K个偏差。卷积层的参数数量是 $K</em>F<em>F</em>D_{in} + K$。</p>
+<ul>
+<li><p>公式：卷积层的形状<br>卷积层的形状取决于为 kernel_size、input_shape、padding 和 stride设定的值。需要定义以下变量：</p>
+<p>| 参数   |      含义      |<br>|—————|:——————-:|<br>|K | 卷积层中的过滤器数量 |<br>|F | 卷积过滤器的高和宽 |<br>|S | 卷积步长 |<br>|P | 填充 |<br>|W_in | 上一层的宽/高（方形）|</p>
+</li>
+</ul>
+<p>注意 K = out_channels、F = kernel_size 以及 S = stride。同样，W_in 是 input_shape 元组的第一个和第二个值。</p>
+<p>卷积层的深度将始终等于过滤器数量 K。</p>
+<p>卷积层的空间维度计算公式为： $(W_{in}−F+2P)/S+1$</p>
+<ul>
+<li>扁平化<br>要完成 CNN 结构，有一个步骤是扁平化一系列卷积层和池化层的最终输出，这样才能作为向量参数输入线性分类层中。在此步骤，你必须知道层级输出的确切参数数量。</li>
+</ul>
+<h4 id="2-6-图像增强"><a href="#2-6-图像增强" class="headerlink" title="2.6 图像增强"></a>2.6 图像增强</h4><ul>
+<li>图像不变性<ul>
+<li>scale invariance</li>
+<li>rotation invariance</li>
+<li>translation invariance</li>
+</ul>
+</li>
+<li>使用一些转换增强图像</li>
+<li>梯度消失<ul>
+<li>原理：梯度信号必须散布到整个网络中，网络越深，信道在达到目的地之前就越有可能变弱</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-7-可视化CNN"><a href="#2-7-可视化CNN" class="headerlink" title="2.7 可视化CNN"></a>2.7 可视化CNN</h4><ul>
+<li>可视化激活映射和卷积层来深入了解CNN工作原理</li>
+<li>从卷积层中获取过滤器并构建最大化这些过滤器激活的图片<ul>
+<li>首先使用包含随机噪音的图片。然后逐步修复像素。每一步都将像素更改为使过滤器更加激活的值</li>
+</ul>
+</li>
+<li>示例：我们看一个 CNN 示例，了解具体运行过程。<br>我们要查看的 CNN 在 ImageNet 上进行了训练。在下面的图片中，我们将看到该网络中的每个层级会检测到什么，并查看每个层级如何检测到越来越复杂的规律。<br><img src="/2019/05/10/深度学习笔记4/19.jpg" alt><ul>
+<li>第一层级：上述网格中的每个图片代表的是第一层级的神经元被激活的规律，换句话说，它们是第一层级能够识别的规律。左上角的图片显示的是 -45度线条，顶部中间的图片显示的是 +45 度的线条。下面的这些方框再次供参考。清晰地选出了非常简单的形状和规律，例如线条和色块。<br><img src="/2019/05/10/深度学习笔记4/20.jpg" alt></li>
+<li>第二层级:该 CNN 的第二层级发现了复杂的规律。注意我们选出了更加复杂的规律（例如圆圈和条纹）。左侧的灰色网格表示该 CNN 的这一层级如何根据右侧网格中的图片被激活（即所看到的内容）正如在上述图片中所看到的，该CNN的第二层级识别出圆圈（第二行第二列）、长条（第一行第二列）以及长方形（右下角）<br><img src="/2019/05/10/深度学习笔记4/21.jpg" alt></li>
+<li>第三层级：第 3 层级从第 2 层级中选出复杂的特征组合。包括网格和蜂窝（左上角）、轮子（第二行第二列），甚至面孔（第三行第三列）。<br>我们将跳过第 4 层级（继续这一模式），并直接跳到第 5 层级，即该 CNN 的最后一个层级。<br><img src="/2019/05/10/深度学习笔记4/22.jpg" alt></li>
+<li>第五层级——最后一个层级：最后一个层级选出我们关心的最高级分类规律，例如狗的脸部、鸟类脸部和自行车。</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/卷积神经网络/" rel="tag"># 卷积神经网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/26/深度学习笔记3/" rel="next" title="深度学习笔记3之神经网络简介">
+                <i class="fa fa-chevron-left"></i> 深度学习笔记3之神经网络简介
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/14/深度学习笔记5/" rel="prev" title="深度学习笔记5">
+                深度学习笔记5 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="focus">
+            
+              <p class="site-author-name" itemprop="name">focus</p>
+              <div class="site-description motion-element" itemprop="description">认知，理解，接纳</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/focusLeeee" title="GitHub &rarr; https://github.com/focusLeeee" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:amethyst5991@@gmail.com" title="E-Mail &rarr; mailto:amethyst5991@@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/focusWfocus" title="Weibo &rarr; https://weibo.com/focusWfocus" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-MLP"><span class="nav-text">1. MLP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-计算机如何解析图像"><span class="nav-text">1.1 计算机如何解析图像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-MLP-结构和类别分数"><span class="nav-text">1.2 MLP 结构和类别分数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-损失和优化"><span class="nav-text">1.3 损失和优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-在pytorch中定义网络"><span class="nav-text">1.4 在pytorch中定义网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-在Pytorch中训练网络"><span class="nav-text">1.5 在Pytorch中训练网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-模型验证"><span class="nav-text">1.6 模型验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-7-总结：图像分类步骤"><span class="nav-text">1.7 总结：图像分类步骤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-卷积神经网络CNN"><span class="nav-text">2. 卷积神经网络CNN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-局部连接性"><span class="nav-text">2.1 局部连接性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-过滤器和卷积层"><span class="nav-text">2.2 过滤器和卷积层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-步长和填充"><span class="nav-text">2.3 步长和填充</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-池化层"><span class="nav-text">2.4 池化层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-增加深度"><span class="nav-text">2.5 增加深度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-pytorch层级"><span class="nav-text">2.6 pytorch层级</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-图像增强"><span class="nav-text">2.6 图像增强</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-可视化CNN"><span class="nav-text">2.7 可视化CNN</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">focus</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.0.1"></script>
+
+  <script src="/js/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.0.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.0.1"></script>
+<script src="/js/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+  <script id="dsq-count-scr" src="https://focus.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2019/05/10/深度学习笔记4/";
+    this.page.identifier = "2019/05/10/深度学习笔记4/";
+    this.page.title = '深度学习笔记4之卷积神经网络';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://focus.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
