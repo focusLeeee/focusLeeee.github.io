@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1. 安装 windows  1234conda create -n tensorflow python=3.5activate tensorflowconda install pandas matplotlib jupyter notebook scipy scikit-learnconda install -c conda-forge tensorflow 2. 测试——hello，word！">
+<meta name="keywords" content="tensorflow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tensorflow学习">
+<meta property="og:url" content="http://yoursite.com/2019/05/24/tensorflow学习/index.html">
+<meta property="og:site_name" content="focus">
+<meta property="og:description" content="1. 安装 windows  1234conda create -n tensorflow python=3.5activate tensorflowconda install pandas matplotlib jupyter notebook scipy scikit-learnconda install -c conda-forge tensorflow 2. 测试——hello，word！">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/05/24/tensorflow学习/1.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/24/tensorflow学习/2.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/24/tensorflow学习/3.jpg">
+<meta property="og:updated_time" content="2019-08-27T06:27:41.827Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="tensorflow学习">
+<meta name="twitter:description" content="1. 安装 windows  1234conda create -n tensorflow python=3.5activate tensorflowconda install pandas matplotlib jupyter notebook scipy scikit-learnconda install -c conda-forge tensorflow 2. 测试——hello，word！">
+<meta name="twitter:image" content="http://yoursite.com/2019/05/24/tensorflow学习/1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/05/24/tensorflow学习/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>tensorflow学习 | focus</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">focus</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>公益 404</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/24/tensorflow学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="focus">
+      <meta itemprop="description" content="认知，理解，接纳">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="focus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">tensorflow学习
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-24 09:16:11" itemprop="dateCreated datePublished" datetime="2019-05-24T09:16:11+08:00">2019-05-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-27 14:27:41" itemprop="dateModified" datetime="2019-08-27T14:27:41+08:00">2019-08-27</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/深度学习/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/05/24/tensorflow学习/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/05/24/tensorflow学习/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1-安装"><a href="#1-安装" class="headerlink" title="1. 安装"></a>1. 安装</h3><ul>
+<li>windows</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">conda create -n tensorflow python=<span class="number">3.5</span></span><br><span class="line">activate tensorflow</span><br><span class="line">conda install pandas matplotlib jupyter notebook scipy scikit-learn</span><br><span class="line">conda install -c conda-forge tensorflow</span><br></pre></td></tr></table></figure>
+<h3 id="2-测试——hello，word！"><a href="#2-测试——hello，word！" class="headerlink" title="2. 测试——hello，word！"></a>2. 测试——hello，word！</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create TensorFlow object called tensor</span></span><br><span class="line">hello_constant = tf.constant(<span class="string">'Hello World!'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    <span class="comment"># Run the tf.constant operation in the session</span></span><br><span class="line">    output = sess.run(hello_constant)</span><br><span class="line">    print(output)</span><br></pre></td></tr></table></figure>
+<h4 id="2-1-tensor"><a href="#2-1-tensor" class="headerlink" title="2.1 tensor"></a>2.1 tensor</h4><ul>
+<li><p>在tensorflow中，数据不是以整数、浮点数或者字符串形式存储的。这些值被封装在一个叫<strong>tensor</strong>的对象中</p>
+<ul>
+<li>在上述代码中, “hello_constant”是一个0维度的字符串tensor，tensor还有很多不同的大小。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># A is a 0-dimensional int32 tensor</span></span><br><span class="line">A = tf.constant(<span class="number">1234</span>) </span><br><span class="line"><span class="comment"># B is a 1-dimensional int32 tensor</span></span><br><span class="line">B = tf.constant([<span class="number">123</span>,<span class="number">456</span>,<span class="number">789</span>]) </span><br><span class="line"> <span class="comment"># C is a 2-dimensional int32 tensor</span></span><br><span class="line">C = tf.constant([ [<span class="number">123</span>,<span class="number">456</span>,<span class="number">789</span>], [<span class="number">222</span>,<span class="number">333</span>,<span class="number">444</span>] ])</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>“tf.constant”返回的tensor是一个常量tensor，这个tensor的值不会变</p>
+</li>
+</ul>
+<h4 id="2-2-Session"><a href="#2-2-Session" class="headerlink" title="2.2 Session"></a>2.2 Session</h4><ul>
+<li><p>TensorFlow 的 api 构建在 computational graph的概念上，它是一种对数学运算过程进行可视化的方法。把刚才运行的 TensorFlow 代码变成一个图：<br><img src="/2019/05/24/tensorflow学习/1.jpg" alt></p>
+</li>
+<li><p>如上图所示，一个 “TensorFlow Session” 是用来运行图的环境。这个 session 负责分配 GPU(s) 和／或 CPU(s)，包括远程计算机的运算。</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    output = sess.run(hello_constant)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>代码已经从之前的一行中创建了 tensor hello_constant。接下来是在 session 里对 tensor 求值。</li>
+<li>这段代码用 tf.Session 创建了一个 sess 的 session 实例。然后 sess.run() 函数对 tensor 求值，并返回结果。</li>
+</ul>
+<h3 id="3-练习"><a href="#3-练习" class="headerlink" title="3. 练习"></a>3. 练习</h3><h4 id="3-1-tensorflow输入"><a href="#3-1-tensorflow输入" class="headerlink" title="3.1 tensorflow输入"></a>3.1 tensorflow输入</h4><ul>
+<li>tf.placeholder<ul>
+<li>当需要非常量时，需要tf.tensorfolw</li>
+<li>数据经过 tf.session.run() 函数得到的值，由 tf.placeholder() 返回成一个tensor，这样你可以在 session 运行之前，设置输入</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x = tf.placeholder(tf.string)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    output = sess.run(x, feed_dict=&#123;x: <span class="string">'Hello World'</span>&#125;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Session的feed_dict<ul>
+<li>用 tf.session.run() 里的 feed_dict 参数设置占位 tensor。上面的例子显示 tensor x 被设置成字符串 “Hello, world”。如下所示，也可以用 feed_dict 设置多个 tensor。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">x = tf.placeholder(tf.string)</span><br><span class="line">y = tf.placeholder(tf.int32)</span><br><span class="line">z = tf.placeholder(tf.float32)</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    output = sess.run(x, feed_dict=&#123;x: <span class="string">'Test String'</span>, y: <span class="number">123</span>, z: <span class="number">45.67</span>&#125;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>注意：如果传入 feed_dict 的数据与 tensor 类型不符，就无法被正确处理，你会得到 “ValueError: invalid literal for…”。</p>
+</li>
+<li><p>练习：返回数字 123</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">()</span>:</span></span><br><span class="line">    output = <span class="literal">None</span></span><br><span class="line">    x = tf.placeholder(tf.int32)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">        <span class="comment"># <span class="doctag">TODO:</span> Feed the x tensor 123</span></span><br><span class="line">        output = sess.run(x, feed_dict=&#123;x:<span class="number">123</span>&#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> output</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="3-2-tensorflow数学"><a href="#3-2-tensorflow数学" class="headerlink" title="3.2 tensorflow数学"></a>3.2 tensorflow数学</h4><ul>
+<li><p>加法</p>
+<ul>
+<li>从加法开始，tf.add() 函数如你所想，它传入两个数字、两个 tensor、或数字和 tensor各一个，以 tensor 的形式返回它们的和。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x = tf.add(<span class="number">5</span>, <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>减法和乘法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = tf.subtract(<span class="number">10</span>, <span class="number">4</span>) <span class="comment"># 6</span></span><br><span class="line">y = tf.multiply(<span class="number">2</span>, <span class="number">5</span>)  <span class="comment"># 10</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>类型转换</p>
+<ul>
+<li><p>为了让特定运算能运行，有时会对类型进行转换。，你尝试下列代码，会报错：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tf.subtract(tf.constant(<span class="number">2.0</span>),tf.constant(<span class="number">1</span>))</span><br><span class="line"><span class="comment"># Fails with ValueError: Tensor conversion requested dtype float32 for Tensor with dtype int32:</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这是因为常量 1 是整数，但是常量 2.0 是浮点数，subtract 需要它们的类型匹配。在这种情况下，你可以确保数据都是同一类型，或者强制转换一个值为另一个类型。这里，我们可以把 2.0 转换成整数再相减，这样就能得出正确的结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.subtract(tf.cast(tf.constant(<span class="number">2.0</span>), tf.int32), tf.constant(<span class="number">1</span>))   <span class="comment"># 1</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>练习: 简单的用除和减的算法。把这个算法从 Python 转换到 TensorFlow 并把结果打印出来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line"><span class="comment"># <span class="doctag">TODO:</span> Convert the following to TensorFlow:</span></span><br><span class="line">x = tf.constant(<span class="number">10</span>)</span><br><span class="line">y = tf.constant(<span class="number">2</span>)</span><br><span class="line">z = tf.subtract(tf.cast(tf.divide(x, y), tf.int32), tf.constant(<span class="number">1</span>))</span><br><span class="line"><span class="comment"># x = 10</span></span><br><span class="line"><span class="comment"># y = 2</span></span><br><span class="line"><span class="comment"># z = x/y - 1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># <span class="doctag">TODO:</span> Print z from a session</span></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    output = sess.run(z)</span><br><span class="line">    print(output</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="3-3-tensorflow里的线性函数"><a href="#3-3-tensorflow里的线性函数" class="headerlink" title="3.3 tensorflow里的线性函数"></a>3.3 tensorflow里的线性函数</h4><ul>
+<li>对于线性运算<script type="math/tex; mode=display">y = xW+b</script>$W$是连接两层的权重矩阵，输出$y$, 输入$x$，偏差$b$全部都是向量</li>
+<li>tensorflow里的权重和偏差<ul>
+<li>训练神经网络的目的是更新权重和偏差来更好地预测目标。为了使用权重和偏差，你需要一个能修改的 Tensor。这就排除了 tf.placeholder() 和 tf.constant()，因为它们的Tensor 不能改变。这里就需要 tf.Variable 了。</li>
+</ul>
+</li>
+<li><p>tf.Variable()</p>
+<ul>
+<li>tf.Variable 类创建一个 tensor，其初始值可以被改变，就像普通的 Python变量一样。该 tensor 把它的状态存在 session里，所以你必须手动初始化它的状态。</li>
+<li>使用 tf.global_variables_initializer() 函数来初始化所有可变 tensor。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x = tf.Variable(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>初始化</p>
+<ul>
+<li>tf.global_variables_initializer() 会返回一个操作，它会从 graph中初始化所有的TensorFlow 变量。你可以通过 session来调用这个操作来初始化所有上面的变量。用 tf.Variable类可以让我们改变权重和偏差，但还是要选择一个初始值。</li>
+<li>从正态分布中取随机数来初始化权重是个好习惯。随机化权重可以避免模型每次训练时候卡在同一个地方。</li>
+<li>类似地，从正态分布中选择权重可以避免任意一个权重与其他权重相比有压倒性的特性。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">init = tf.global_variables_initializer()</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    sess.run(init)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>tf.truncated_normal()</p>
+<ul>
+<li>可以用 tf.truncated_normal() 函数从一个正态分布中生成随机数。</li>
+<li>tf.truncated_normal() 返回一个 tensor，它的随机值取自一个正态分布，并且它们的取值会在这个正态分布平均值的两个标准差之内。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">n_features = <span class="number">120</span></span><br><span class="line">n_labels = <span class="number">5</span></span><br><span class="line">weights = tf.Variable(tf.truncated_normal((n_features, n_labels)))</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>tf.zeros()</p>
+<ul>
+<li>因为权重已经被随机化来帮助模型不被卡住，你不需要再把偏差随机化了。让我们简单地把偏差设为 0。</li>
+<li>tf.zeros() 函数返回一个都是 0 的 tensor。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">n_labels = <span class="number">5</span></span><br><span class="line">bias = tf.Variable(tf.zeros(n_labels))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>练习： 线性分类练习</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Solution is available in the other "quiz_solution.py" tab</span></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_weights</span><span class="params">(n_features, n_labels)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Return TensorFlow weights</span></span><br><span class="line"><span class="string">    :param n_features: Number of features</span></span><br><span class="line"><span class="string">    :param n_labels: Number of labels</span></span><br><span class="line"><span class="string">    :return: TensorFlow weights</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">return</span> tf.Variable(tf.truncated_normal((n_features, n_labels)))</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_biases</span><span class="params">(n_labels)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Return TensorFlow bias</span></span><br><span class="line"><span class="string">    :param n_labels: Number of labels</span></span><br><span class="line"><span class="string">    :return: TensorFlow bias</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">return</span> tf.Variable(tf.zeros(n_labels))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">linear</span><span class="params">(input, w, b)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Return linear function in TensorFlow</span></span><br><span class="line"><span class="string">    :param input: TensorFlow input</span></span><br><span class="line"><span class="string">    :param w: TensorFlow weights</span></span><br><span class="line"><span class="string">    :param b: TensorFlow biases</span></span><br><span class="line"><span class="string">    :return: TensorFlow linear function</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">return</span> tf.add(tf.matmul(input, w), b)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Solution is available in the other "sandbox_solution.py" tab</span></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow.examples.tutorials.mnist <span class="keyword">import</span> input_data</span><br><span class="line"><span class="keyword">from</span> quiz <span class="keyword">import</span> get_weights, get_biases, linear</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mnist_features_labels</span><span class="params">(n_labels)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Gets the first &lt;n&gt; labels from the MNIST dataset</span></span><br><span class="line"><span class="string">    :param n_labels: Number of labels to use</span></span><br><span class="line"><span class="string">    :return: Tuple of feature list and label list</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    mnist_features = []</span><br><span class="line">    mnist_labels = []</span><br><span class="line"></span><br><span class="line">    mnist = input_data.read_data_sets(<span class="string">'/datasets/ud730/mnist'</span>, one_hot=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># In order to make quizzes run faster, we're only looking at 10000 images</span></span><br><span class="line">    <span class="keyword">for</span> mnist_feature, mnist_label <span class="keyword">in</span> zip(*mnist.train.next_batch(<span class="number">10000</span>)):</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Add features and labels if it's for the first &lt;n&gt;th labels</span></span><br><span class="line">        <span class="keyword">if</span> mnist_label[:n_labels].any():</span><br><span class="line">            mnist_features.append(mnist_feature)</span><br><span class="line">            mnist_labels.append(mnist_label[:n_labels])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> mnist_features, mnist_labels</span><br><span class="line"></span><br><span class="line"><span class="comment"># Number of features (28*28 image is 784 features)</span></span><br><span class="line">n_features = <span class="number">784</span></span><br><span class="line"><span class="comment"># Number of labels</span></span><br><span class="line">n_labels = <span class="number">3</span></span><br><span class="line"><span class="comment"># Features and Labels</span></span><br><span class="line">features = tf.placeholder(tf.float32)</span><br><span class="line">labels = tf.placeholder(tf.float32)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Weights and Biases</span></span><br><span class="line">w = get_weights(n_features, n_labels)</span><br><span class="line">b = get_biases(n_labels)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Linear Function xW + b</span></span><br><span class="line">logits = linear(features, w, b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Training data</span></span><br><span class="line">train_features, train_labels = mnist_features_labels(n_labels)</span><br><span class="line">init = tf.global_variables_initializer()</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> session:</span><br><span class="line">    <span class="comment"># <span class="doctag">TODO:</span> Initialize session variables</span></span><br><span class="line">    session.run(init)</span><br><span class="line">    <span class="comment"># Softmax</span></span><br><span class="line">    prediction = tf.nn.softmax(logits)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Cross entropy</span></span><br><span class="line">    <span class="comment"># This quantifies how far off the predictions were.</span></span><br><span class="line">    <span class="comment"># You'll learn more about this in future lessons.</span></span><br><span class="line">    cross_entropy = -tf.reduce_sum(labels * tf.log(prediction), reduction_indices=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Training loss</span></span><br><span class="line">    <span class="comment"># You'll learn more about this in future lessons.</span></span><br><span class="line">    loss = tf.reduce_mean(cross_entropy)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Rate at which the weights are changed</span></span><br><span class="line">    <span class="comment"># You'll learn more about this in future lessons.</span></span><br><span class="line">    learning_rate = <span class="number">0.08</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Gradient Descent</span></span><br><span class="line">    <span class="comment"># This is the method used to train the model</span></span><br><span class="line">    <span class="comment"># You'll learn more about this in future lessons.</span></span><br><span class="line">    optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Run optimizer and get loss</span></span><br><span class="line">    _, l = session.run(</span><br><span class="line">        [optimizer, loss],</span><br><span class="line">        feed_dict=&#123;features: train_features, labels: train_labels&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Print loss</span></span><br><span class="line">print(<span class="string">'Loss: &#123;&#125;'</span>.format(l))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="3-4-tensorflow-softmax"><a href="#3-4-tensorflow-softmax" class="headerlink" title="3.4 tensorflow softmax"></a>3.4 tensorflow softmax</h4><ul>
+<li>Softmax 函数可以把它的输入，通常被称为 logits 或者 logit scores，处理成 0 到 1 之间，并且能够把输出归一化到和为 1。<ul>
+<li>这意味着softmax函数与分类的概率分布等价。它是一个网络预测多分类问题的最佳输出激活函数。<br><img src="/2019/05/24/tensorflow学习/2.jpg" alt></li>
+</ul>
+</li>
+<li><p>当我们用 TensorFlow 来构建一个神经网络时，相应地，它有一个计算 softmax 的函数。</p>
+<ul>
+<li>tf.nn.softmax() 直接为你实现了 softmax 函数，它输入 logits，返回 softmax激活函数。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x = tf.nn.softmax([<span class="number">2.0</span>, <span class="number">1.0</span>, <span class="number">0.2</span>])</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>练习： 使用 softmax 函数返回 logits 的 softmax。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">()</span>:</span></span><br><span class="line">    output = <span class="literal">None</span></span><br><span class="line">    logit_data = [<span class="number">2.0</span>, <span class="number">1.0</span>, <span class="number">0.1</span>]</span><br><span class="line">    logits = tf.placeholder(tf.float32)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># <span class="doctag">TODO:</span> Calculate the softmax of the logits</span></span><br><span class="line">    softmax = tf.nn.softmax(logits)   </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">        <span class="comment"># <span class="doctag">TODO:</span> Feed in the logit data</span></span><br><span class="line">        output = sess.run(softmax, feed_dict=&#123;logits: logit_data&#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> output</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="3-5-tensorflow交叉熵"><a href="#3-5-tensorflow交叉熵" class="headerlink" title="3.5 tensorflow交叉熵"></a>3.5 tensorflow交叉熵</h4><ul>
+<li>与 softmax 一样，TensorFlow 也有一个函数可以方便地帮我们实现交叉熵。<br><img src="/2019/05/24/tensorflow学习/3.jpg" alt></li>
+<li><p>tf.reduce_sum()</p>
+<ul>
+<li>tf.reduce_sum() 函数输入一个序列，返回它们的和<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x = tf.reduce_sum([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])  <span class="comment"># 15</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>tf.log()</p>
+<ul>
+<li>tf.log() 所做跟你所想的一样，它返回所输入值的自然对数。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x = tf.log(<span class="number">100</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>练习：用softmax_data和one_hot_encod_label打印交叉熵</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">softmax_data = [<span class="number">0.7</span>, <span class="number">0.2</span>, <span class="number">0.1</span>]</span><br><span class="line">one_hot_data = [<span class="number">1.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>]</span><br><span class="line"></span><br><span class="line">softmax = tf.placeholder(tf.float32)</span><br><span class="line">one_hot = tf.placeholder(tf.float32)</span><br><span class="line"></span><br><span class="line">cross_entropy = -tf.reduce_sum(tf.multiply(one_hot, tf.log(softmax)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># <span class="doctag">TODO:</span> Print cross entropy from session</span></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    output = sess.run(cross_entropy, feed_dict=&#123;softmax:softmax_data, one_hot:one_hot_data&#125;)</span><br><span class="line">    print(output)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="3-6-mini-batching"><a href="#3-6-mini-batching" class="headerlink" title="3.6 mini-batching"></a>3.6 mini-batching</h4><ul>
+<li><p>Mini-batching</p>
+<ul>
+<li>是一个一次训练数据集的一小部分，而不是整个训练集的技术。它可以使内存较小、不能同时训练整个数据集的电脑也可以训练模型。</li>
+<li>Mini-batching 从运算角度来说是低效的，因为你不能在所有样本中计算 loss。但是这点小代价也比根本不能运行模型要划算。</li>
+<li>它跟随机梯度下降（SGD）结合在一起用也很有帮助。方法是在每一代训练之前，对数据进行随机混洗，然后创建mini-batches，对每一个mini-batch，用梯度下降训练网络权重。因为这些 batches 是随机的，你其实是在对每个 batch 做随机梯度下降（SGD）。</li>
+</ul>
+</li>
+<li><p>TensorFlow Mini-batching</p>
+<ul>
+<li>要使用 mini-batching，你首先要把你的数据集分成 batch。</li>
+<li>不幸的是，有时候不可能把数据完全分割成相同数量的batch。例如有1000个数据点，你想每个 batch 有 128个数据。但是1000无法被128整除。你得到的结果是其中7个batch有128个数据点，一个batch有104个数据点。(7<em>128 + 1</em>104 = 1000)</li>
+<li>batch 里面的数据点数量会不同的情况下，你需要利用TensorFlow的tf.placeholder() 函数来接收这些不同的 batch。</li>
+</ul>
+</li>
+<li>示例<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 4 个特征</span></span><br><span class="line">example_features = [</span><br><span class="line">    [<span class="string">'F11'</span>,<span class="string">'F12'</span>,<span class="string">'F13'</span>,<span class="string">'F14'</span>],</span><br><span class="line">    [<span class="string">'F21'</span>,<span class="string">'F22'</span>,<span class="string">'F23'</span>,<span class="string">'F24'</span>],</span><br><span class="line">    [<span class="string">'F31'</span>,<span class="string">'F32'</span>,<span class="string">'F33'</span>,<span class="string">'F34'</span>],</span><br><span class="line">    [<span class="string">'F41'</span>,<span class="string">'F42'</span>,<span class="string">'F43'</span>,<span class="string">'F44'</span>]]</span><br><span class="line"><span class="comment"># 4 个 label</span></span><br><span class="line">example_labels = [</span><br><span class="line">    [<span class="string">'L11'</span>,<span class="string">'L12'</span>],</span><br><span class="line">    [<span class="string">'L21'</span>,<span class="string">'L22'</span>],</span><br><span class="line">    [<span class="string">'L31'</span>,<span class="string">'L32'</span>],</span><br><span class="line">    [<span class="string">'L41'</span>,<span class="string">'L42'</span>]]</span><br><span class="line"></span><br><span class="line">example_batches = batches(<span class="number">3</span>, example_features, example_labels)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>example_batches的示例如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    <span class="comment"># 分 2 个 batch:</span></span><br><span class="line">    <span class="comment">#   第一个 batch 的 size 是 3</span></span><br><span class="line">    <span class="comment">#   第二个 batch 的 size 是 1</span></span><br><span class="line">    [</span><br><span class="line">        <span class="comment"># size 为 3 的第一个 Batch</span></span><br><span class="line">        [</span><br><span class="line">            <span class="comment"># 3 个特征样本</span></span><br><span class="line">            <span class="comment"># 每个样本有四个特征</span></span><br><span class="line">            [<span class="string">'F11'</span>, <span class="string">'F12'</span>, <span class="string">'F13'</span>, <span class="string">'F14'</span>],</span><br><span class="line">            [<span class="string">'F21'</span>, <span class="string">'F22'</span>, <span class="string">'F23'</span>, <span class="string">'F24'</span>],</span><br><span class="line">            [<span class="string">'F31'</span>, <span class="string">'F32'</span>, <span class="string">'F33'</span>, <span class="string">'F34'</span>]</span><br><span class="line">        ], [</span><br><span class="line">            <span class="comment"># 3 个标签样本</span></span><br><span class="line">            <span class="comment"># 每个标签有两个 label</span></span><br><span class="line">            [<span class="string">'L11'</span>, <span class="string">'L12'</span>],</span><br><span class="line">            [<span class="string">'L21'</span>, <span class="string">'L22'</span>],</span><br><span class="line">            [<span class="string">'L31'</span>, <span class="string">'L32'</span>]</span><br><span class="line">        ]</span><br><span class="line">    ], [</span><br><span class="line">        <span class="comment"># size 为 1 的第二个 Batch </span></span><br><span class="line">        <span class="comment"># 因为 batch size 是 3。所以四个样品中只有一个在这里。</span></span><br><span class="line">        [</span><br><span class="line">            <span class="comment"># 1 一个样本特征</span></span><br><span class="line">            [<span class="string">'F41'</span>, <span class="string">'F42'</span>, <span class="string">'F43'</span>, <span class="string">'F44'</span>]</span><br><span class="line">        ], [</span><br><span class="line">            <span class="comment"># 1 个 label</span></span><br><span class="line">            [<span class="string">'L41'</span>, <span class="string">'L42'</span>]</span><br><span class="line">        ]</span><br><span class="line">    ]</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>batches 代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">batches</span><span class="params">(batch_size, features, labels)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Create batches of features and labels</span></span><br><span class="line"><span class="string">    :param batch_size: The batch size</span></span><br><span class="line"><span class="string">    :param features: List of features</span></span><br><span class="line"><span class="string">    :param labels: List of labels</span></span><br><span class="line"><span class="string">    :return: Batches of (Features, Labels)</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">assert</span> len(features) == len(labels)</span><br><span class="line">    <span class="comment"># <span class="doctag">TODO:</span> Implement batching</span></span><br><span class="line">    output_batches = []</span><br><span class="line">    </span><br><span class="line">    sample_size = len(features)</span><br><span class="line">    <span class="keyword">for</span> start_i <span class="keyword">in</span> range(<span class="number">0</span>, sample_size, batch_size):</span><br><span class="line">        end_i = start_i + batch_size</span><br><span class="line">        batch = [features[start_i:end_i], labels[start_i:end_i]]</span><br><span class="line">        output_batches.append(batch)</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> output_batches</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>训练代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> tensorflow.examples.tutorials.mnist <span class="keyword">import</span> input_data</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> helper <span class="keyword">import</span> batches</span><br><span class="line"></span><br><span class="line">learning_rate = <span class="number">0.001</span></span><br><span class="line">n_input = <span class="number">784</span>  <span class="comment"># MNIST data input (img shape: 28*28)</span></span><br><span class="line">n_classes = <span class="number">10</span>  <span class="comment"># MNIST total classes (0-9 digits)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Import MNIST data</span></span><br><span class="line">mnist = input_data.read_data_sets(<span class="string">'/datasets/ud730/mnist'</span>, one_hot=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># The features are already scaled and the data is shuffled</span></span><br><span class="line">train_features = mnist.train.images</span><br><span class="line">test_features = mnist.test.images</span><br><span class="line"></span><br><span class="line">train_labels = mnist.train.labels.astype(np.float32)</span><br><span class="line">test_labels = mnist.test.labels.astype(np.float32)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Features and Labels</span></span><br><span class="line">features = tf.placeholder(tf.float32, [<span class="literal">None</span>, n_input])</span><br><span class="line">labels = tf.placeholder(tf.float32, [<span class="literal">None</span>, n_classes])</span><br><span class="line"></span><br><span class="line"><span class="comment"># Weights &amp; bias</span></span><br><span class="line">weights = tf.Variable(tf.random_normal([n_input, n_classes]))</span><br><span class="line">bias = tf.Variable(tf.random_normal([n_classes]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Logits - xW + b</span></span><br><span class="line">logits = tf.add(tf.matmul(features, weights), bias)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Define loss and optimizer</span></span><br><span class="line">cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=labels))</span><br><span class="line">optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(cost)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Calculate accuracy</span></span><br><span class="line">correct_prediction = tf.equal(tf.argmax(logits, <span class="number">1</span>), tf.argmax(labels, <span class="number">1</span>))</span><br><span class="line">accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># <span class="doctag">TODO:</span> Set batch size</span></span><br><span class="line">batch_size = <span class="number">128</span></span><br><span class="line"><span class="keyword">assert</span> batch_size <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>, <span class="string">'You must set the batch size'</span></span><br><span class="line"></span><br><span class="line">init = tf.global_variables_initializer()</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    sess.run(init)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># <span class="doctag">TODO:</span> Train optimizer on all batches</span></span><br><span class="line">    <span class="keyword">for</span> batch_features, batch_labels <span class="keyword">in</span> batches(batch_size, train_features, train_labels):</span><br><span class="line">        sess.run(optimizer, feed_dict=&#123;features: batch_features, labels: batch_labels&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Calculate accuracy for test dataset</span></span><br><span class="line">    test_accuracy = sess.run(</span><br><span class="line">        accuracy,</span><br><span class="line">        feed_dict=&#123;features: test_features, labels: test_labels&#125;)</span><br><span class="line"></span><br><span class="line">print(<span class="string">'Test Accuracy: &#123;&#125;'</span>.format(test_accuracy))</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/tensorflow/" rel="tag"># tensorflow</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/16/差分进化算法/" rel="next" title="差分进化算法">
+                <i class="fa fa-chevron-left"></i> 差分进化算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/20/leetcode之算法刷题笔记/" rel="prev" title="leetcode之算法刷题笔记">
+                leetcode之算法刷题笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="focus">
+            
+              <p class="site-author-name" itemprop="name">focus</p>
+              <div class="site-description motion-element" itemprop="description">认知，理解，接纳</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/focusLeeee" title="GitHub &rarr; https://github.com/focusLeeee" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:amethyst5991@@gmail.com" title="E-Mail &rarr; mailto:amethyst5991@@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/focusWfocus" title="Weibo &rarr; https://weibo.com/focusWfocus" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-安装"><span class="nav-text">1. 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-测试——hello，word！"><span class="nav-text">2. 测试——hello，word！</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-tensor"><span class="nav-text">2.1 tensor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-Session"><span class="nav-text">2.2 Session</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-练习"><span class="nav-text">3. 练习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-tensorflow输入"><span class="nav-text">3.1 tensorflow输入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-tensorflow数学"><span class="nav-text">3.2 tensorflow数学</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-tensorflow里的线性函数"><span class="nav-text">3.3 tensorflow里的线性函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-tensorflow-softmax"><span class="nav-text">3.4 tensorflow softmax</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-tensorflow交叉熵"><span class="nav-text">3.5 tensorflow交叉熵</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-mini-batching"><span class="nav-text">3.6 mini-batching</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">focus</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.0.1"></script>
+
+  <script src="/js/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.0.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.0.1"></script>
+<script src="/js/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+  <script id="dsq-count-scr" src="https://focus.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2019/05/24/tensorflow学习/";
+    this.page.identifier = "2019/05/24/tensorflow学习/";
+    this.page.title = 'tensorflow学习';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://focus.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

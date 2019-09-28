@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1. 牛客——获取select 在 SQLite 语句之前，可以使用 “EXPLAIN” 关键字或 “EXPLAIN QUERY PLAN” 短语，用于描述表的细节。   如果省略了 EXPLAIN 关键字或短语，任何的修改都会引起 SQLite 语句的查询行为，并返回有关 SQLite 语句如何操作的信息。  来自 EXPLAIN 和 EXPLAIN QUERY PLAN 的输出只用于交互式分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode之sql刷题笔记">
+<meta property="og:url" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/index.html">
+<meta property="og:site_name" content="focus">
+<meta property="og:description" content="1. 牛客——获取select 在 SQLite 语句之前，可以使用 “EXPLAIN” 关键字或 “EXPLAIN QUERY PLAN” 短语，用于描述表的细节。   如果省略了 EXPLAIN 关键字或短语，任何的修改都会引起 SQLite 语句的查询行为，并返回有关 SQLite 语句如何操作的信息。  来自 EXPLAIN 和 EXPLAIN QUERY PLAN 的输出只用于交互式分析">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/2.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/3.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/5.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/7.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/9.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/10.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/11.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/12.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/14.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/15.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/19.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/21-1.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/21-2.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/23.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/24.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/26.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/27.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/28.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/29-1.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/29-2.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/30.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/31.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/32.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/33.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/34.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/36-1.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/36-2.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/37.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/38.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/39.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/39-1.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/39-2.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/39-3.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/39-4.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/40.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/41.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/42.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/42-1.jpg">
+<meta property="og:updated_time" content="2019-09-28T05:31:18.331Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="leetcode之sql刷题笔记">
+<meta name="twitter:description" content="1. 牛客——获取select 在 SQLite 语句之前，可以使用 “EXPLAIN” 关键字或 “EXPLAIN QUERY PLAN” 短语，用于描述表的细节。   如果省略了 EXPLAIN 关键字或短语，任何的修改都会引起 SQLite 语句的查询行为，并返回有关 SQLite 语句如何操作的信息。  来自 EXPLAIN 和 EXPLAIN QUERY PLAN 的输出只用于交互式分析">
+<meta name="twitter:image" content="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/2.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>leetcode之sql刷题笔记 | focus</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">focus</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>公益 404</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="focus">
+      <meta itemprop="description" content="认知，理解，接纳">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="focus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">leetcode之sql刷题笔记
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-20 17:05:55" itemprop="dateCreated datePublished" datetime="2019-09-20T17:05:55+08:00">2019-09-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-28 13:31:18" itemprop="dateModified" datetime="2019-09-28T13:31:18+08:00">2019-09-28</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/09/20/leetcode之sql刷题笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/09/20/leetcode之sql刷题笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="1-牛客——获取select"><a href="#1-牛客——获取select" class="headerlink" title="1. 牛客——获取select"></a>1. 牛客<sql实战>——获取select</sql实战></h4><ul>
+<li>在 SQLite 语句之前，可以使用 “EXPLAIN” 关键字或 “EXPLAIN QUERY PLAN” 短语，用于描述表的细节。  </li>
+<li><p>如果省略了 EXPLAIN 关键字或短语，任何的修改都会引起 SQLite 语句的查询行为，并返回有关 SQLite 语句如何操作的信息。</p>
+<ul>
+<li>来自 EXPLAIN 和 EXPLAIN QUERY PLAN 的输出只用于交互式分析和排除故障。  </li>
+<li>输出格式的细节可能会随着 SQLite 版本的不同而有所变化。  </li>
+<li>应用程序不应该使用 EXPLAIN 或 EXPLAIN QUERY PLAN，因为其确切的行为是可变的且只有部分会被记录。</li>
+</ul>
+</li>
+<li><p>语法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">EXPLAIN</span> [SQLite <span class="keyword">Query</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>explain模拟优化器执行SQL语句，在5.6以及以后的版本中，除过select，其他比如insert，update和delete均可以使用explain查看执行计划，从而知道mysql是如何处理sql语句，分析查询语句或者表结构的性能瓶颈。</p>
+</li>
+<li>作用<ul>
+<li>表的读取顺序</li>
+<li>数据读取操作的操作类型</li>
+<li>哪些索引可以使用</li>
+<li>哪些索引被实际使用</li>
+<li>表之间的引用</li>
+<li>每张表有多少行被优化器查询</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-牛客——如何获取emp-v和employees有相同的数据no"><a href="#2-牛客——如何获取emp-v和employees有相同的数据no" class="headerlink" title="2. 牛客——如何获取emp_v和employees有相同的数据no"></a>2. 牛客<sql实战>——如何获取emp_v和employees有相同的数据no</sql实战></h4><ul>
+<li><p>题目:<br><img src="/2019/09/20/leetcode之sql刷题笔记/2.jpg" alt></p>
+</li>
+<li><p>方法一：用WHERE 选取二者的emp_no相等的记录</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> em.*</span><br><span class="line"><span class="keyword">FROM</span> employees <span class="keyword">AS</span> ey, emp_v <span class="keyword">AS</span> ep</span><br><span class="line"><span class="keyword">WHERE</span> ey.emp_no = ep.emp_no</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法二：用INTERSECT关键字求两者交集</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">INTERSECT</span> <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> emp_v</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法三：仔细一想，emp_v的全部记录均由 employees 导出，因此可以投机取巧，直接输出 emp_v 所有记录</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> emp_v</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>【错误方法：】用以下方法直接输出会得到两张表中符合条件的重复记录，因此不合题意，必须在前加表名作限定</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees, emp_v <span class="keyword">WHERE</span> employees.emp_no = emp_v.emp_no</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="3-牛客——分页查询employees表，每5行一页，返回第2页的数据"><a href="#3-牛客——分页查询employees表，每5行一页，返回第2页的数据" class="headerlink" title="3. 牛客——分页查询employees表，每5行一页，返回第2页的数据"></a>3. 牛客<sql实战>——分页查询employees表，每5行一页，返回第2页的数据</sql实战></h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/3.jpg" alt><br>根据题意，每行5页，返回第2页的数据，即返回第6~10条记录，以下有两种方法可以解决：</p>
+<ul>
+<li><p>方法一：利用 LIMIT 和 OFFSET 关键字。LIMIT 后的数字代表返回几条记录，OFFSET 后的数字代表从第几条记录开始返回（第一条记录序号为0），也可理解为跳过多少条记录后开始返回。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">LIMIT</span> <span class="number">5</span> <span class="keyword">OFFSET</span> <span class="number">5</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法二：只利用 LIMIT 关键字。注意：在 LIMIT X,Y中，Y代表返回几条记录，X代表从第几条记录开始返回（第一条记录序号为0），切勿记反。(显然index从0开始)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">LIMIT</span> <span class="number">5</span>,<span class="number">5</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="4-获取employees中的行数据，且这些行也存在于emp-v中。注意不能使用intersect关键字。"><a href="#4-获取employees中的行数据，且这些行也存在于emp-v中。注意不能使用intersect关键字。" class="headerlink" title="4.获取employees中的行数据，且这些行也存在于emp_v中。注意不能使用intersect关键字。"></a>4.获取employees中的行数据，且这些行也存在于emp_v中。注意不能使用intersect关键字。</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/4.png" alt></p>
+<ul>
+<li><p>方法一：用 WHERE 选取二者 emp_no 相等的记录</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> em.* <span class="keyword">FROM</span> employees <span class="keyword">AS</span> em, emp_v <span class="keyword">AS</span> ev <span class="keyword">WHERE</span> em.emp_no = ev.emp_no</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法二：由于emp_v的全部记录均由 employees 导出，因此可以投机取巧，直接输出 emp_v 所有记录</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> emp_v</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="5-获取Employees中的first-name，查询按照first-name最后两个字母，按照升序进行排列"><a href="#5-获取Employees中的first-name，查询按照first-name最后两个字母，按照升序进行排列" class="headerlink" title="5.获取Employees中的first_name，查询按照first_name最后两个字母，按照升序进行排列"></a>5.获取Employees中的first_name，查询按照first_name最后两个字母，按照升序进行排列</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/5.jpg" alt><br>本题考查 substr(X,Y,Z) 或 substr(X,Y) 函数的使用。</p>
+<pre><code>* 其中X是要截取的字符串。Y是字符串的起始位置（注意第一个字符的位置为1，而不为0），取值范围是±(1~length(X))，当Y等于length(X)时，则截取最后一个字符；
+* 当Y等于负整数-n时，则从倒数第n个字符处截取。
+* Z是要截取字符串的长度，取值范围是正整数，若Z省略，则从Y处一直截取到字符串末尾；若Z大于剩下的字符串长度，也是截取到字符串末尾为止。
+</code></pre><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> first_name <span class="keyword">FROM</span> employees <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="keyword">substr</span>(first_name, <span class="keyword">length</span>(first_name)<span class="number">-1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> first_name <span class="keyword">FROM</span> employees <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="keyword">substr</span>(first_name, <span class="number">-2</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="6-查找字符串’10-A-B’-中逗号’-’出现的次数cnt。"><a href="#6-查找字符串’10-A-B’-中逗号’-’出现的次数cnt。" class="headerlink" title="6.查找字符串’10,A,B’ 中逗号’,’出现的次数cnt。"></a>6.查找字符串’10,A,B’ 中逗号’,’出现的次数cnt。</h4><p>由于 SQLite 中没有直接统计字符串中子串出现次数的函数，因此本题用length()函数与replace()函数的结合灵活地解决了统计子串出现次数的问题，属于技巧题，即先用replace函数将原串中出现的子串用空串替换，再用原串长度减去替换后字符串的长度，最后除以子串的长度（本题中此步可省略，若子串长度大于1则不可省）<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> (<span class="keyword">length</span>(<span class="string">'10,A,B'</span>) - <span class="keyword">length</span>(<span class="keyword">replace</span>(<span class="string">'10,A,B'</span>, <span class="string">','</span>, <span class="string">''</span>)))/<span class="keyword">length</span>(<span class="string">','</span>) <span class="keyword">as</span> cnt</span><br></pre></td></tr></table></figure></p>
+<h4 id="7-将id-5以及emp-no-10001的行数据替换成id-5以及emp-no-10005-其他数据保持不变"><a href="#7-将id-5以及emp-no-10001的行数据替换成id-5以及emp-no-10005-其他数据保持不变" class="headerlink" title="7.将id=5以及emp_no=10001的行数据替换成id=5以及emp_no=10005,其他数据保持不变"></a>7.将id=5以及emp_no=10001的行数据替换成id=5以及emp_no=10005,其他数据保持不变</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/7.jpg" alt></p>
+<p>本题运用 REPLACE 有两种解法</p>
+<ul>
+<li><p>方法一：全字段更新替换。由于 REPLACE 的新记录中 id=5，与表中的主键 id=5 冲突，故会替换掉表中 id=5 的记录，否则会插入一条新记录（例如新插入的记录 id = 10）。并且要将所有字段的值写出，否则将置为空。可<br><a href="http://blog.csdn.net/zhangjg_blog/article/details/23267761" target="_blank" rel="noopener">参考</a><br>(因为replace操作的过程是有冲突时先删除原有的有冲突的记录再插入新的记录，所以对于记录没有插入数据的字段的值是null,所以如果采用这条语句，那么title、from_date、to_date字段的值都是null，)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">REPLACE</span> <span class="keyword">INTO</span> titles_test <span class="keyword">VALUES</span> (<span class="number">5</span>, <span class="number">10005</span>, <span class="string">'Senior Engineer'</span>, <span class="string">'1986-06-26'</span>, <span class="string">'9999-01-01'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法二：运用REPLACE(X,Y,Z)函数。其中X是要处理的字符串，Y是X中将要被替换的字符串，Z是用来替换Y的字符串，最终返回替换后的字符串。以下语句用 UPDATE和REPLACE 配合完成，用REPLACE函数替换后的新值复制给 id=5 的 emp_no。REPLACE的参数为整型时也可通过。可参考：<br><a href="http://www.cnblogs.com/huangtailang/p/5cfbd242cae2bcc929c81c266d0c875b.html" target="_blank" rel="noopener">http://www.cnblogs.com/huangtailang/p/5cfbd242cae2bcc929c81c266d0c875b.html</a><br><a href="http://sqlite.org/lang_corefunc.html#replace" target="_blank" rel="noopener">http://sqlite.org/lang_corefunc.html#replace</a></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> titles_test </span><br><span class="line"><span class="keyword">SET</span> emp_no = <span class="keyword">REPLACE</span>(emp_no, <span class="number">10001</span>, <span class="number">10005</span>)</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">id</span> = <span class="number">5</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">REPLACE</span>(<span class="keyword">string</span>, from_str, to_str)</span><br><span class="line"></span><br><span class="line"><span class="keyword">UPDATE</span> table_name </span><br><span class="line"><span class="keyword">SET</span> 语句</span><br><span class="line"><span class="keyword">WHERE</span> 条件</span><br></pre></td></tr></table></figure>
+<h4 id="8-将titles-test表名修改为titles-2017。"><a href="#8-将titles-test表名修改为titles-2017。" class="headerlink" title="8.将titles_test表名修改为titles_2017。"></a>8.将titles_test表名修改为titles_2017。</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> titles_test</span><br><span class="line"><span class="keyword">RENAME</span> <span class="keyword">TO</span> titles_2017</span><br></pre></td></tr></table></figure>
+<h4 id="9-按照dept-no进行汇总"><a href="#9-按照dept-no进行汇总" class="headerlink" title="9. 按照dept_no进行汇总"></a>9. 按照dept_no进行汇总</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/9.jpg" alt><br>本题要用到SQLite的聚合函数group_concat(X,Y)，其中X是要连接的字段，Y是连接时用的符号，可省略，默认为逗号。此函数必须与 GROUP BY 配合使用。此题以 dept_no 作为分组，将每个分组中不同的emp_no用逗号连接起来（即可省略Y）。可参考：<br><a href="http://www.sqlite.org/lang_aggfunc.html#groupconcat" target="_blank" rel="noopener">http://www.sqlite.org/lang_aggfunc.html#groupconcat</a><br><a href="http://blog.csdn.net/langzxz/article/details/16807859" target="_blank" rel="noopener">http://blog.csdn.net/langzxz/article/details/16807859</a></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> dept_no, <span class="keyword">group_concat</span>(emp_no) <span class="keyword">AS</span> employees</span><br><span class="line"><span class="keyword">FROM</span> dept_emp <span class="keyword">GROUP</span> <span class="keyword">BY</span> dept_no</span><br></pre></td></tr></table></figure>
+<h4 id="10-删除emp-no重复的记录，只保留最小的id对应的记录。"><a href="#10-删除emp-no重复的记录，只保留最小的id对应的记录。" class="headerlink" title="10.删除emp_no重复的记录，只保留最小的id对应的记录。"></a>10.删除emp_no重复的记录，只保留最小的id对应的记录。</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/10.jpg" alt></p>
+<p>本题思路如下：先用 GROUP BY 和 MIN() 选出每个 emp_no 分组中最小的 id，然后用 DELETE FROM … WHERE … NOT IN … 语句删除 “非每个分组最小id对应的所有记录”</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> titles_test <span class="keyword">WHERE</span> <span class="keyword">id</span> <span class="keyword">NOT</span> <span class="keyword">IN</span> </span><br><span class="line">(<span class="keyword">SELECT</span> <span class="keyword">MIN</span>(<span class="keyword">id</span>) <span class="keyword">FROM</span> titles_test <span class="keyword">GROUP</span> <span class="keyword">BY</span> emp_no)</span><br></pre></td></tr></table></figure>
+<h4 id="11-从titles表获取按照title进行分组"><a href="#11-从titles表获取按照title进行分组" class="headerlink" title="11.从titles表获取按照title进行分组"></a>11.从titles表获取按照title进行分组</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/11.jpg" alt><br>此题应注意以下三点：</p>
+<ul>
+<li>用COUNT()函数和GROUP BY语句可以统计同一title值的记录条数</li>
+<li>根据题意，输出每个title的个数为t，故用AS语句将COUNT(title)的值转换为t</li>
+<li>由于WHERE后不可跟COUNT()函数，故用HAVING语句来限定t&gt;=2的条件<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> title, <span class="keyword">COUNT</span>(title) <span class="keyword">AS</span> t <span class="keyword">FROM</span> titles</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> title <span class="keyword">HAVING</span> t &gt;= <span class="number">2</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>自己的解答<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> title, <span class="keyword">COUNT</span>(<span class="number">1</span>) <span class="keyword">AS</span> t</span><br><span class="line"><span class="keyword">FROM</span> titles</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> title</span><br><span class="line"><span class="keyword">HAVING</span> t &gt;= <span class="number">2</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="12-将所有to-date为9999-01-01的全部更新为NULL"><a href="#12-将所有to-date为9999-01-01的全部更新为NULL" class="headerlink" title="12.将所有to_date为9999-01-01的全部更新为NULL,"></a>12.将所有to_date为9999-01-01的全部更新为NULL,</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/12.jpg" alt></p>
+<p>用 UPDATE 语句更新若干列的最基本用法，详细可参考：<br><a href="http://www.w3school.com.cn/sql/sql_update.asp" target="_blank" rel="noopener">http://www.w3school.com.cn/sql/sql_update.asp</a><br><a href="https://www.w3schools.com/sql/sql_update.asp" target="_blank" rel="noopener">https://www.w3schools.com/sql/sql_update.asp</a></p>
+<ul>
+<li>另外要注意若干列 to_date = NULL 和 from_date = ‘2001-01-01’ 之间只能用逗号连接，切勿用 AND 连接。<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> titles_test <span class="keyword">SET</span> <span class="keyword">to_date</span> = <span class="literal">NULL</span>, from_date = <span class="string">'2001-01-01'</span></span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">to_date</span> = <span class="string">'9999-01-01'</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="13-将employees表中的所有员工的last-name和first-name通过-‘-连接起来。"><a href="#13-将employees表中的所有员工的last-name和first-name通过-‘-连接起来。" class="headerlink" title="13. 将employees表中的所有员工的last_name和first_name通过(‘)连接起来。"></a>13. 将employees表中的所有员工的last_name和first_name通过(‘)连接起来。</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sqlite语句</span></span><br><span class="line"><span class="keyword">SELECT</span> last_name || <span class="string">"'"</span> || first_name <span class="keyword">FROM</span> employees</span><br><span class="line"></span><br><span class="line"><span class="comment"># mysql语句</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">CONCAT</span>(last_name, <span class="string">"'"</span>, first_name) <span class="keyword">AS</span> <span class="keyword">name</span></span><br><span class="line"><span class="keyword">FROM</span> employees</span><br></pre></td></tr></table></figure>
+<h4 id="14-批量插入数据，如果重复不插入"><a href="#14-批量插入数据，如果重复不插入" class="headerlink" title="14. 批量插入数据，如果重复不插入"></a>14. 批量插入数据，如果重复不插入</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/14.jpg" alt></p>
+<ul>
+<li><p>在 SQLite 中，用 INSERT OR IGNORE 来插入记录，或忽略插入与表内UNIQUE字段都相同的记录</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">OR</span> <span class="keyword">IGNORE</span> <span class="keyword">INTO</span> actor <span class="keyword">VALUES</span> (<span class="number">3</span>, <span class="string">'ED'</span>, <span class="string">'CHASE'</span>, <span class="string">'2006-02-15 12:34:33'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用 INSERT OR REPLACE 来插入记录，或更新替代与表内UNIQUE字段都相同的记录</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">INTO</span> actor <span class="keyword">VALUES</span> (<span class="number">3</span>, <span class="string">'ED'</span>, <span class="string">'CHASE'</span>, <span class="string">'2006-02-15 12:34:33'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>mysql没有into</p>
+<ul>
+<li>insert into:插入数据,如果主键重复，则报错</li>
+<li>insert repalce:插入替换数据,如果存在主键或unique数据则替换数据</li>
+<li>insert ignore:如果存在数据,则忽略。</li>
+</ul>
+</li>
+</ul>
+<h4 id="15-找出所有员工当前薪水salary情况"><a href="#15-找出所有员工当前薪水salary情况" class="headerlink" title="15. 找出所有员工当前薪水salary情况"></a>15. 找出所有员工当前薪水salary情况</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/15.jpg" alt></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> salary</span><br><span class="line"><span class="keyword">FROM</span> salaries</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">to_date</span> = <span class="string">'9999-01-01'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> salary <span class="keyword">DESC</span></span><br><span class="line"><span class="comment"># 需要注意的是，大表使用distinct效率不高，因此数据量比较大的时候可以使用group by</span></span><br><span class="line"><span class="keyword">select</span> salary </span><br><span class="line"><span class="keyword">from</span> salaries </span><br><span class="line"><span class="keyword">where</span> <span class="keyword">to_date</span>=<span class="string">'9999-01-01'</span> </span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> salary <span class="keyword">order</span> <span class="keyword">by</span> salary <span class="keyword">desc</span></span><br></pre></td></tr></table></figure>
+<h4 id="16-针对actor表创建视图actor-name-view"><a href="#16-针对actor表创建视图actor-name-view" class="headerlink" title="16. 针对actor表创建视图actor_name_view"></a>16. 针对actor表创建视图actor_name_view</h4><ul>
+<li>针对actor表创建视图actor_name_view，只包含first_name以及last_name两列，并对这两列重新命名，first_name为first_name_v，last_name修改为last_name_v：</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 我的代码</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> actor_name_view <span class="keyword">AS</span></span><br><span class="line"><span class="keyword">SELECT</span> first_name <span class="keyword">AS</span> first_name_v, last_name <span class="keyword">AS</span> last_name_v</span><br><span class="line"><span class="keyword">FROM</span> actor</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>方法一：注意 CREATE VIEW … AS … 的 AS 是创建视图语法中的一部分，而后面的两个 AS 只是为字段创建别名</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> actor_name_view <span class="keyword">AS</span></span><br><span class="line"><span class="keyword">SELECT</span> first_name <span class="keyword">AS</span> first_name_v, last_name <span class="keyword">AS</span> last_name_v</span><br><span class="line"><span class="keyword">FROM</span> actor</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法二：直接在视图名的后面用小括号创建视图中的字段名</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> actor_name_view (first_name_v, last_name_v) <span class="keyword">AS</span></span><br><span class="line"><span class="keyword">SELECT</span> first_name, last_name <span class="keyword">FROM</span> actor</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="17-查找员工编号emp-no为10001其自入职以来的薪水salary涨幅值growth"><a href="#17-查找员工编号emp-no为10001其自入职以来的薪水salary涨幅值growth" class="headerlink" title="17.查找员工编号emp_no为10001其自入职以来的薪水salary涨幅值growth"></a>17.查找员工编号emp_no为10001其自入职以来的薪水salary涨幅值growth</h4><ul>
+<li><p>本题严谨的思路如下：</p>
+<ul>
+<li>先分别找到emp_no=10001的员工的第一次工资记录与最后一次工资记录</li>
+<li>再将最后一次工资记录减去第一次工资记录得到入职以来salary的涨幅，最后用别名growth代替<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> ( </span><br><span class="line">(<span class="keyword">SELECT</span> salary <span class="keyword">FROM</span> salaries <span class="keyword">WHERE</span> emp_no = <span class="number">10001</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="keyword">to_date</span> <span class="keyword">DESC</span> <span class="keyword">LIMIT</span> <span class="number">1</span>) -</span><br><span class="line">(<span class="keyword">SELECT</span> salary <span class="keyword">FROM</span> salaries <span class="keyword">WHERE</span> emp_no = <span class="number">10001</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="keyword">to_date</span> <span class="keyword">ASC</span> <span class="keyword">LIMIT</span> <span class="number">1</span>)</span><br><span class="line">) <span class="keyword">AS</span> growth</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>本题的另一种解法也能通过测试，但实际上不严谨，只有在员工最后一条工资记录为最大值时成立，如果最后一次的工资调整为降薪，则此思路通不过。具体思路如下：</p>
+<ul>
+<li>直接找到emp_no=10001的员工的工资记录，将其最大工资减去最小工资得到涨幅<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> (<span class="keyword">MAX</span>(salary)-<span class="keyword">MIN</span>(salary)) <span class="keyword">AS</span> growth </span><br><span class="line"><span class="keyword">FROM</span> salaries <span class="keyword">WHERE</span> emp_no = <span class="string">'10001'</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="18-针对库中的所有表生成select-count-对应的SQL语句"><a href="#18-针对库中的所有表生成select-count-对应的SQL语句" class="headerlink" title="18. 针对库中的所有表生成select count(*)对应的SQL语句"></a>18. 针对库中的所有表生成select count(*)对应的SQL语句</h4><p>本题主要有以下两个关键点：</p>
+<ul>
+<li><p>在 SQLite 系统表 sqlite_master 中可以获得所有表的索引，其中字段 name 是所有表的名字，而且对于自己创建的表而言，字段 type 永远是 ‘table’，详情可<a href="http://blog.csdn.net/xingfeng0501/article/details/7804378" target="_blank" rel="noopener">参考</a></p>
+</li>
+<li><p>在 SQLite 中用 “||” 符号连接字符串</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="string">"select count(*) from "</span> || <span class="keyword">name</span> || <span class="string">";"</span> <span class="keyword">AS</span> cnts</span><br><span class="line"><span class="keyword">FROM</span> sqlite_master <span class="keyword">WHERE</span> <span class="keyword">type</span> = <span class="string">'table'</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mysql中的写法</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">concat</span>(<span class="string">"select count(*) from "</span>,new.table_name,<span class="string">";"</span>) <span class="keyword">AS</span> cnts </span><br><span class="line"><span class="keyword">FROM</span> (<span class="keyword">SELECT</span> table_name <span class="keyword">FROM</span> information_schema.columns <span class="keyword">WHERE</span> table_schema = <span class="string">'sqlite_master'</span>) <span class="keyword">AS</span> <span class="keyword">new</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="19-将所有获取奖金的员工当前的薪水增加10-。"><a href="#19-将所有获取奖金的员工当前的薪水增加10-。" class="headerlink" title="19. 将所有获取奖金的员工当前的薪水增加10%。"></a>19. 将所有获取奖金的员工当前的薪水增加10%。</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/19.jpg" alt></p>
+<ul>
+<li>按照正常的逻辑以及之前题目的尿性，要先选出符合条件的 emp_no，即用 INNER JOIN 连接 salaries 和 emp_bonus，且用 s.to_date = ‘9999-01-01’ 表示当前薪水，然后再用 UPDATE … SET … WHERE … IN … 语句来更新表中数据。<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> salaries <span class="keyword">SET</span> salary = salary * <span class="number">1.1</span> <span class="keyword">WHERE</span> emp_no <span class="keyword">IN</span></span><br><span class="line">(<span class="keyword">SELECT</span> s.emp_no <span class="keyword">FROM</span> salaries <span class="keyword">AS</span> s <span class="keyword">INNER</span> <span class="keyword">JOIN</span> emp_bonus <span class="keyword">AS</span> eb </span><br><span class="line"><span class="keyword">ON</span> s.emp_no = eb.emp_no <span class="keyword">AND</span> s.to_date = <span class="string">'9999-01-01'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="20-查找employees表"><a href="#20-查找employees表" class="headerlink" title="20.查找employees表"></a>20.查找employees表</h4><ul>
+<li>查找employees表所有emp_no为奇数，且last_name不为Mary的员工信息，并按照hire_date逆序排列</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">WHERE</span> emp_no % <span class="number">2</span> = <span class="number">1</span> <span class="keyword">AND</span> last_name != <span class="string">'Mary'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> hire_date <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+<h4 id="21-使用子查询的方式找出属于Action分类的所有电影对应的title-description"><a href="#21-使用子查询的方式找出属于Action分类的所有电影对应的title-description" class="headerlink" title="21.使用子查询的方式找出属于Action分类的所有电影对应的title,description"></a>21.使用子查询的方式找出属于Action分类的所有电影对应的title,description</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/21-1.jpg" alt><br><img src="/2019/09/20/leetcode之sql刷题笔记/21-2.jpg" alt><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--法一</span></span><br><span class="line"><span class="keyword">SELECT</span> title, description</span><br><span class="line"><span class="keyword">FROM</span> film</span><br><span class="line"><span class="keyword">WHERE</span> film_id <span class="keyword">IN</span> (</span><br><span class="line">    <span class="keyword">SELECT</span> film_id</span><br><span class="line">    <span class="keyword">FROM</span> film_category</span><br><span class="line">    <span class="keyword">WHERE</span> category_id <span class="keyword">IN</span> (</span><br><span class="line">        <span class="keyword">SELECT</span> category_id</span><br><span class="line">        <span class="keyword">FROM</span> <span class="keyword">category</span></span><br><span class="line">        <span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">'Action'</span></span><br><span class="line">    )</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">--法二</span></span><br><span class="line"><span class="keyword">SELECT</span> f.title, f.description</span><br><span class="line"><span class="keyword">FROM</span> film <span class="keyword">AS</span> f <span class="keyword">INNER</span> <span class="keyword">JOIN</span> film_category <span class="keyword">AS</span> fc <span class="keyword">ON</span> f.film_id = fc.film_id</span><br><span class="line"><span class="keyword">WHERE</span> fc.category_id <span class="keyword">IN</span> (</span><br><span class="line">    <span class="keyword">SELECT</span> category_id</span><br><span class="line">    <span class="keyword">FROM</span> <span class="keyword">category</span></span><br><span class="line">    <span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">'Action'</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">--法三</span></span><br><span class="line"><span class="keyword">SELECT</span> f.title, f.description </span><br><span class="line"><span class="keyword">FROM</span> film f, film_category fc, <span class="keyword">category</span> c</span><br><span class="line"><span class="keyword">WHERE</span> f.film_id = fc.film_id </span><br><span class="line"><span class="keyword">AND</span> fc.category_id = c.category_id </span><br><span class="line"><span class="keyword">AND</span> c.name = <span class="string">'Action'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 法四</span></span><br><span class="line"><span class="keyword">select</span> f.title,f.description</span><br><span class="line"><span class="keyword">from</span> film <span class="keyword">as</span> f <span class="keyword">inner</span> <span class="keyword">join</span> film_category <span class="keyword">as</span> fc <span class="keyword">on</span> f.film_id = fc.film_id</span><br><span class="line">               <span class="keyword">inner</span> <span class="keyword">join</span> <span class="keyword">category</span> <span class="keyword">as</span> c <span class="keyword">on</span> c.category_id = fc.category_id</span><br><span class="line"><span class="keyword">where</span> c.name = <span class="string">'Action'</span>;</span><br></pre></td></tr></table></figure></p>
+<h4 id="22-获取当前（to-date-’9999-01-01’）薪水第二多的员工"><a href="#22-获取当前（to-date-’9999-01-01’）薪水第二多的员工" class="headerlink" title="22.获取当前（to_date=’9999-01-01’）薪水第二多的员工"></a>22.获取当前（to_date=’9999-01-01’）薪水第二多的员工</h4><ul>
+<li>题目：获取当前（to_date=’9999-01-01’）薪水第二多的员工的emp_no以及其对应的薪水salary<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> emp_no, salary </span><br><span class="line"><span class="keyword">FROM</span> salaries</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">to_date</span> = <span class="string">'9999-01-01'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> salary <span class="keyword">DESC</span> <span class="keyword">LIMIT</span> <span class="number">1</span>,<span class="number">1</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> emp_no, salary <span class="keyword">from</span> salaries</span><br><span class="line"><span class="keyword">where</span> <span class="keyword">to_date</span> = <span class="string">'9999-01-01'</span> <span class="keyword">and</span> salary = (<span class="keyword">select</span> <span class="keyword">distinct</span> salary <span class="keyword">from</span> salaries <span class="keyword">order</span> <span class="keyword">by</span> salary <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">1</span>,<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>避免了2个问题：<ul>
+<li>首先这样可以解决多个人工资相同的问题；</li>
+<li>另外，筛选出第二多的工资时要注意distinct salary，否则不能选出第二多的工资。</li>
+</ul>
+</li>
+</ul>
+<h4 id="23-对first-name创建唯一索引uniq-idx-firstname"><a href="#23-对first-name创建唯一索引uniq-idx-firstname" class="headerlink" title="23.对first_name创建唯一索引uniq_idx_firstname"></a>23.对first_name创建唯一索引uniq_idx_firstname</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/23.jpg" alt></p>
+<ul>
+<li>根据题意，本题要用两条语句完成，先用 CREATE UNIQUE INDEX … ON … 对first_name创建唯一索引值，再用 CREATE INDEX … ON … 对last_name创建普通索引值<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> <span class="keyword">INDEX</span> uniq_idx_firstname <span class="keyword">ON</span> actor(first_name);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> idx_lastname <span class="keyword">ON</span> actor(last_name);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="24-创建一个actor-name表"><a href="#24-创建一个actor-name表" class="headerlink" title="24.创建一个actor_name表"></a>24.创建一个actor_name表</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/24.jpg" alt><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> actor_name(</span><br><span class="line">    first_name <span class="built_in">VARCHAR</span>(<span class="number">45</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    last_name <span class="built_in">VARCHAR</span>(<span class="number">45</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> actor_name</span><br><span class="line"><span class="keyword">SELECT</span> first_name, last_name</span><br><span class="line"><span class="keyword">FROM</span> actor;</span><br></pre></td></tr></table></figure></p>
+<h4 id="25-查找薪水涨幅超过15次的员工号emp-no以及其对应的涨幅次数t"><a href="#25-查找薪水涨幅超过15次的员工号emp-no以及其对应的涨幅次数t" class="headerlink" title="25.查找薪水涨幅超过15次的员工号emp_no以及其对应的涨幅次数t"></a>25.查找薪水涨幅超过15次的员工号emp_no以及其对应的涨幅次数t</h4><ul>
+<li>此题应注意以下四点：<ul>
+<li>用COUNT()函数和GROUP BY语句可以统计同一emp_no值的记录条数</li>
+<li>根据题意，输出的涨幅次数为t，故用AS语句将COUNT(emp_no)的值转换为t</li>
+<li>由于COUNT()函数不可用于WHERE语句中，故使用HAVING语句来限定t&gt;15的条件</li>
+<li>最后存在一个理解误区，涨幅超过15次，salaries中相应的记录数应该超过16（从第2条记录开始算作第1次涨幅），不过题目为了简单起见，将第1条记录当作第1次涨幅，所以令t&gt;15即可</li>
+</ul>
+</li>
+</ul>
+<p><strong>  注意： 严格来说，下一条salary高于本条才算涨幅，但本题只要出现了一条记录就算一次涨幅，salary相同可以理解为涨幅为0，salary变少理解为涨幅为负 </strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> emp_no, <span class="keyword">COUNT</span>(emp_no) <span class="keyword">AS</span> t <span class="keyword">FROM</span> salaries </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> emp_no <span class="keyword">HAVING</span> t &gt; <span class="number">15</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> emp_no, <span class="keyword">COUNT</span>(<span class="number">1</span>) <span class="keyword">AS</span> t</span><br><span class="line"><span class="keyword">FROM</span> salaries</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> emp_no</span><br><span class="line"><span class="keyword">HAVING</span> <span class="keyword">COUNT</span>(<span class="number">1</span>) &gt; <span class="number">15</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--更为严谨的做法，考虑到是否涨薪</span></span><br><span class="line"><span class="keyword">SELECT</span> s1.emp_no,<span class="keyword">count</span>(s1.emp_no) <span class="keyword">AS</span> t</span><br><span class="line"><span class="keyword">FROM</span> salaries s1 <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> salaries s2</span><br><span class="line"><span class="keyword">ON</span> s1.emp_no = s2.emp_no </span><br><span class="line"><span class="keyword">WHERE</span> s1.from_date=s2.to_date <span class="keyword">AND</span> s1.salary&gt;s2.salary</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> s1.emp_no <span class="keyword">HAVING</span> t&gt;<span class="number">15</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="26-构造一个触发器audit-log"><a href="#26-构造一个触发器audit-log" class="headerlink" title="26.构造一个触发器audit_log"></a>26.构造一个触发器audit_log</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/26.jpg" alt><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> audit_log <span class="keyword">AFTER</span> <span class="keyword">INSERT</span> <span class="keyword">ON</span> employees_test <span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">    <span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">audit</span></span><br><span class="line">    <span class="keyword">SELECT</span> NEW.id, NEW.NAME;</span><br><span class="line"><span class="keyword">END</span>;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>构造触发器时注意以下几点：<ul>
+<li>用 CREATE TRIGGER 语句构造触发器，用 BEFORE或AFTER 来指定在执行后面的SQL语句之前或之后来触发TRIGGER</li>
+<li>触发器执行的内容写出 BEGIN与END 之间</li>
+<li>可以使用 NEW与OLD 关键字访问触发后或触发前的employees_test表单记录<br>可<a href="http://www.runoob.com/sqlite/sqlite-trigger.html" target="_blank" rel="noopener">参考</a></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> audit_log <span class="keyword">AFTER</span> <span class="keyword">INSERT</span> <span class="keyword">ON</span> employees_test</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">    <span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">audit</span> <span class="keyword">VALUES</span> (NEW.ID, NEW.NAME);</span><br><span class="line"><span class="keyword">END</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="27-从titles表获取按照title进行分组"><a href="#27-从titles表获取按照title进行分组" class="headerlink" title="27. 从titles表获取按照title进行分组"></a>27. 从titles表获取按照title进行分组</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/27.jpg" alt></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> title, <span class="keyword">COUNT</span>(<span class="keyword">DISTINCT</span> emp_no) <span class="keyword">AS</span> t</span><br><span class="line"><span class="keyword">FROM</span> titles</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> title</span><br><span class="line"><span class="keyword">HAVING</span> t &gt;= <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>此题应注意以下三点：<ul>
+<li>先用GROUP BY title将表格以title分组，再用COUNT(DISTINCT emp_no)可以统计同一title值且不包含重复emp_no值的记录条数</li>
+<li>根据题意，输出每个title的个数为t，故用AS语句将COUNT(DISTINCT emp_no)的值转换为t</li>
+<li>由于WHERE后不可跟COUNT()函数，故用HAVING语句来限定t&gt;=2的条件</li>
+</ul>
+</li>
+</ul>
+<h4 id="28-针对salaries表emp-no字段创建索引idx-emp-no，查询emp-no为10005-使用强制索引。"><a href="#28-针对salaries表emp-no字段创建索引idx-emp-no，查询emp-no为10005-使用强制索引。" class="headerlink" title="28. 针对salaries表emp_no字段创建索引idx_emp_no，查询emp_no为10005, 使用强制索引。"></a>28. 针对salaries表emp_no字段创建索引idx_emp_no，查询emp_no为10005, 使用强制索引。</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/28.jpg" alt></p>
+<ul>
+<li>首先，题目中已经创造了强制索引</li>
+<li><p>SQLite中，使用 INDEXED BY 语句进行强制索引查询，可<a href="http://www.runoob.com/sqlite/sqlite-indexed-by.html" target="_blank" rel="noopener">参考</a></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> salaries INDEXED <span class="keyword">BY</span> idx_emp_no <span class="keyword">WHERE</span> emp_no = <span class="number">10005</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>MySQL中，使用 FORCE INDEX 语句进行强制索引查询，可<a href="http://www.jb51.net/article/49807.html" target="_blank" rel="noopener">参考</a></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> salaries <span class="keyword">FORCE</span> <span class="keyword">INDEX</span> idx_emp_no <span class="keyword">WHERE</span> emp_no = <span class="number">10005</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="29-获取所有员工的emp-no"><a href="#29-获取所有员工的emp-no" class="headerlink" title="29.获取所有员工的emp_no"></a>29.获取所有员工的emp_no</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/29-1.png" alt><br><img src="/2019/09/20/leetcode之sql刷题笔记/29-2.png" alt></p>
+<ul>
+<li>本题严谨的思路为，先将 employees与dept_emp 用 INNER JOIN 连接，挑选出分配了部门的员工，再用 LEFT JOIN 连接 emp_bonus（在前面的题中可看到此表），分配了奖金的员工显示奖金类型和授予时间，没分配奖金的员工则不显示。</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> em.emp_no , dp.dept_no, eb.btype, eb.recevied </span><br><span class="line"><span class="keyword">FROM</span> dept_emp <span class="keyword">AS</span> dp <span class="keyword">INNER</span> <span class="keyword">JOIN</span> employees <span class="keyword">AS</span> em</span><br><span class="line"><span class="keyword">ON</span> dp.emp_no = em.emp_no</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> emp_bonus <span class="keyword">AS</span> eb</span><br><span class="line"><span class="keyword">ON</span> dp.emp_no = eb.emp_no</span><br></pre></td></tr></table></figure>
+<ul>
+<li>由于dept_emp表中都是已分配部门的员工，因此只用 dept_emp表与emp_bonus表就可以解决问题：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> de.emp_no, de.dept_no, eb.btype, eb.recevied</span><br><span class="line"><span class="keyword">FROM</span> dept_emp <span class="keyword">AS</span> de <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> emp_bonus <span class="keyword">AS</span> eb </span><br><span class="line"><span class="keyword">ON</span> de.emp_no = eb.emp_no</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="30-查找最晚入职员工的所有信息"><a href="#30-查找最晚入职员工的所有信息" class="headerlink" title="30.查找最晚入职员工的所有信息"></a>30.查找最晚入职员工的所有信息</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/30.jpg" alt><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">ORDER</span> <span class="keyword">BY</span> hire_date <span class="keyword">DESC</span> <span class="keyword">LIMIT</span> <span class="number">0</span>,<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--说是两种方法，但比较推荐下面这种方法，前一种没有考虑到同一天入职有多个人的情况。</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> hire_date = (<span class="keyword">SELECT</span> <span class="keyword">MAX</span>(hire_date) <span class="keyword">FROM</span> employees);</span><br></pre></td></tr></table></figure></p>
+<h4 id="31-使用含有关键字exists查找未分配具体部门的员工的所有信息。"><a href="#31-使用含有关键字exists查找未分配具体部门的员工的所有信息。" class="headerlink" title="31. 使用含有关键字exists查找未分配具体部门的员工的所有信息。"></a>31. 使用含有关键字exists查找未分配具体部门的员工的所有信息。</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/31.jpg" alt></p>
+<ul>
+<li><p>本题用 EXISTS 关键字的方法如下：意为在 employees 中挑选出令(SELECT emp_no FROM dept_emp WHERE emp_no = employees.emp_no)不成立的记录，也就是当 employees.emp_no=10011的时候。反之，把NOT去掉，则输出 employees.emp_no=10001~10010时的记录。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> </span><br><span class="line">(<span class="keyword">SELECT</span> emp_no <span class="keyword">FROM</span> dept_emp <span class="keyword">WHERE</span> emp_no = employees.emp_no)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>由于 OJ系统没有限制我们只能使用 EXISTS 关键字，因此还能用 NOT IN 关键字替换，即在employees 中选出 dept_emp 中没有的 emp_no。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> emp_no <span class="keyword">NOT</span> <span class="keyword">IN</span> (<span class="keyword">SELECT</span> emp_no <span class="keyword">FROM</span> dept_emp)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Exists的用法：</p>
+<ul>
+<li>exists对外表用loop逐条查询，每次查询都会查看exists的条件语句，当 exists里的条件语句能够返回记录行时(无论记录行是的多少，只要能返回)，条件就为真，返回当前loop到的这条记录;反之如果exists里的条 件语句不能返回记录行，则当前loop到的这条记录被丢弃，exists的条件就像一个bool条件，当能返回结果集则为true，不能返回结果集则为 false。</li>
+<li>总的来说，如果外表有n条记录，那么exists查询就是将这n条记录逐条取出，然后判断n遍exists条件</li>
+<li><p>如果使用：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employees</span><br><span class="line"><span class="keyword">where</span>  <span class="keyword">exists</span>( <span class="keyword">select</span> emp_no <span class="keyword">from</span> dept_emp <span class="keyword">where</span> dept_emp.emp_no != employees.emp_no)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>那么，Exists都会从外表employees里面逐条比对，如，第一条的emp_no = ‘10001’，那么Exists判断：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> emp_no <span class="keyword">from</span> dept_emp <span class="keyword">where</span> dept_emp.emp_no !=<span class="string">'10001'</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可想而知，一定存在不等于10001的结果集。那么上面的查询语句其实也就等效于：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employees</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p><a href="https://www.cnblogs.com/beijingstruggle/p/5885137.html" target="_blank" rel="noopener">参考链接</a></p>
+<h4 id="32-获取所有非manager的员工emp-no"><a href="#32-获取所有非manager的员工emp-no" class="headerlink" title="32. 获取所有非manager的员工emp_no"></a>32. 获取所有非manager的员工emp_no</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/32.jpg" alt></p>
+<ul>
+<li><p>方法一：使用NOT IN选出在employees但不在dept_manager中的emp_no记录</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> emp_no <span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">WHERE</span> emp_no <span class="keyword">NOT</span> <span class="keyword">IN</span> (<span class="keyword">SELECT</span> emp_no <span class="keyword">FROM</span> dept_manager)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法二：先使用LEFT JOIN连接两张表，再从此表中选出dept_no值为NULL对应的emp_no记录</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> emp_no <span class="keyword">FROM</span> (<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> dept_manager</span><br><span class="line"><span class="keyword">ON</span> employees.emp_no = dept_manager.emp_no)</span><br><span class="line"><span class="keyword">WHERE</span> dept_no <span class="keyword">IS</span> <span class="literal">NULL</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法三：方法二的简版，使用单层SELECT语句即可</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> employees.emp_no <span class="keyword">FROM</span> employees <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> dept_manager</span><br><span class="line"><span class="keyword">ON</span> employees.emp_no = dept_manager.emp_no</span><br><span class="line"><span class="keyword">WHERE</span> dept_no <span class="keyword">IS</span> <span class="literal">NULL</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="33-查找入职员工时间排名倒数第三的员工所有信息"><a href="#33-查找入职员工时间排名倒数第三的员工所有信息" class="headerlink" title="33. 查找入职员工时间排名倒数第三的员工所有信息"></a>33. 查找入职员工时间排名倒数第三的员工所有信息</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/33.jpg" alt></p>
+<ul>
+<li>首先需要加distinct去重。<br>假设 5-23（入职最晚日期）入职的有a,b,c 3人；  <pre><code>  5-22（入职第二晚日期）入职的有d,e 2人；  
+  5-21(入职倒数第三晚)入职的有f,g,h 3人；  
+  5-21前入职的若干...  
+</code></pre>若不加distinct去重，那么按照日期倒序，limit 2,1（从倒数第2行开始，取一条数据）的查询结果为 5-23<br>加了distinct去重，会按入职日期进行分组，多个相同入职日期会分为一组，这样limit 2,1的结果即为 5-21。</li>
+<li><p>外层的where条件中根据子查询查出的倒数第三晚入职的日期，就能查询出符合条件的员工信息。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employees </span><br><span class="line"><span class="keyword">where</span> hire_date = (</span><br><span class="line">    <span class="keyword">select</span> <span class="keyword">distinct</span> hire_date <span class="keyword">from</span> employees <span class="keyword">order</span> <span class="keyword">by</span> hire_date <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">2</span>,<span class="number">1</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>LIMIT m,n : 表示从第m+1条开始，取n条数据；</p>
+</li>
+<li>LIMIT n ： 表示从第0条开始，取n条数据，是limit(0,n)的缩写。</li>
+</ul>
+<h4 id="34-批量插入数据"><a href="#34-批量插入数据" class="headerlink" title="34.批量插入数据"></a>34.批量插入数据</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/34.jpg" alt><br>本题的批量插入数据要求在一条语句内完成，以下有两种方法供参考：</p>
+<ul>
+<li><p>方法一：利用VALUES(value1, value2, …), (value1, value2, …), …(value1, value2, …),</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> actor</span><br><span class="line"><span class="keyword">VALUES</span> (<span class="number">1</span>, <span class="string">'PENELOPE'</span>, <span class="string">'GUINESS'</span>, <span class="string">'2006-02-15 12:34:33'</span>),</span><br><span class="line">(<span class="number">2</span>, <span class="string">'NICK'</span>, <span class="string">'WAHLBERG'</span>, <span class="string">'2006-02-15 12:34:33'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法二：利用 UNION SELECT 批量插入</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> actor</span><br><span class="line"><span class="keyword">SELECT</span> <span class="number">1</span>, <span class="string">'PENELOPE'</span>, <span class="string">'GUINESS'</span>, <span class="string">'2006-02-15 12:34:33'</span></span><br><span class="line"><span class="keyword">UNION</span> <span class="keyword">SELECT</span> <span class="number">2</span>, <span class="string">'NICK'</span>, <span class="string">'WAHLBERG'</span>, <span class="string">'2006-02-15 12:34:33'</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="35-将employees表的所有员工的last-name和first-name拼接起来作为Name"><a href="#35-将employees表的所有员工的last-name和first-name拼接起来作为Name" class="headerlink" title="35. 将employees表的所有员工的last_name和first_name拼接起来作为Name"></a>35. 将employees表的所有员工的last_name和first_name拼接起来作为Name</h4><p>将employees表的所有员工的last_name和first_name拼接起来作为Name，中间以一个空格区分</p>
+<ul>
+<li>不同数据库连接字符串的方法不完全相同，MySQL、SQL Server、Oracle等数据库支持CONCAT方法，而本题所用的SQLite数据库只支持用连接符号”||”来连接字符串<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> last_name||<span class="string">" "</span>||first_name <span class="keyword">AS</span> <span class="keyword">Name</span> <span class="keyword">FROM</span> employees</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="36-使用join查询方式找出没有分类的电影id以及名称"><a href="#36-使用join查询方式找出没有分类的电影id以及名称" class="headerlink" title="36. 使用join查询方式找出没有分类的电影id以及名称"></a>36. 使用join查询方式找出没有分类的电影id以及名称</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/36-1.jpg" alt><br><img src="/2019/09/20/leetcode之sql刷题笔记/36-2.jpg" alt></p>
+<ul>
+<li>用 LEFT JOIN 连接 film 和 film_category，限定条件为 f.film_id = fc.film_id，即连接电影 id 和电影分类 id，如果电影没有分类，则电影分类 id 显示 null</li>
+<li>再用 WHERE 来限定条件 fc.category_id IS NULL 选出没分类的电影</li>
+</ul>
+<ul>
+<li>注意：最后一句若写成 ON f.film_id = fc.film_id AND fc.category_id IS NULL，则意义变成左连接两表 film_id 相同的记录，且 film_category 原表中的 fc.category 的值为 null。显然，原表中的 fc.category 的值恒不为 null，因此（f.film_id = fc.film_id AND fc.category_id IS NULL）恒为 FALSE，左连接后则只会显示 film 表的数据，而 film_category 表的数据全显示为 null <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> f.film_id, f.title <span class="keyword">FROM</span> film f <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> film_category fc</span><br><span class="line"><span class="keyword">ON</span> f.film_id = fc.film_id <span class="keyword">WHERE</span> fc.category_id <span class="keyword">IS</span> <span class="literal">NULL</span></span><br><span class="line"><span class="comment">###非常需要注意的是不能用=NULL，只能用IS NULL</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="37-查找所有员工的last-name和first-name以及对应部门编号dept-no"><a href="#37-查找所有员工的last-name和first-name以及对应部门编号dept-no" class="headerlink" title="37.查找所有员工的last_name和first_name以及对应部门编号dept_no"></a>37.查找所有员工的last_name和first_name以及对应部门编号dept_no</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/37.jpg" alt></p>
+<ul>
+<li>内连接，左连接，右连接<ul>
+<li>INNER JOIN 两边表同时有对应的数据，即任何一边缺失数据就不显示。</li>
+<li>LEFT JOIN 会读取左边数据表的全部数据，即便右边表无对应数据。</li>
+<li>RIGHT JOIN 会读取右边数据表的全部数据，即便左边表无对应数据。</li>
+</ul>
+</li>
+<li>注意on与where有什么区别，两个表连接时用on，在使用left join时，on和where条件的区别如下：<ul>
+<li>on条件是在生成临时表时使用的条件，它不管on中的条件是否为真，都会返回左边表中的记录。</li>
+<li>where条件是在临时表生成好后，再对临时表进行过滤的条件。这时已经没有left  join的含义（必须返回左边表的记录）了，条件不为真的就全部过滤掉。<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> e.last_name, e.first_name,d.dept_no</span><br><span class="line"><span class="keyword">FROM</span> employees <span class="keyword">AS</span> e <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> dept_emp <span class="keyword">AS</span> d</span><br><span class="line"><span class="keyword">ON</span> e.emp_no = d.emp_no</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="38-查找所有已经分配部门的员工的last-name和first-name"><a href="#38-查找所有已经分配部门的员工的last-name和first-name" class="headerlink" title="38.查找所有已经分配部门的员工的last_name和first_name"></a>38.查找所有已经分配部门的员工的last_name和first_name</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/38.jpg" alt></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> e.last_name, e.first_name,d.dept_no</span><br><span class="line"><span class="keyword">FROM</span> dept_emp <span class="keyword">AS</span> d <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> employees <span class="keyword">AS</span> e </span><br><span class="line"><span class="keyword">ON</span> e.emp_no = d.emp_no</span><br></pre></td></tr></table></figure>
+<h4 id="39-统计salary的累计和running-total"><a href="#39-统计salary的累计和running-total" class="headerlink" title="39.统计salary的累计和running_total"></a>39.统计salary的累计和running_total</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/39.jpg" alt></p>
+<ul>
+<li><p>本题的思路为复用 salaries 表进行子查询，最后以 s1.emp_no 排序输出求和结果。</p>
+<ul>
+<li>输出的第三个字段，是由一个 SELECT 子查询构成。将子查询内复用的 salaries 表记为 s2，主查询的 salaries 表记为 s1，当主查询的 s1.emp_no 确定时，对子查询中不大于 s1.emp_no 的 s2.emp_no 所对应的薪水求和</li>
+<li>注意是对员工当前的薪水求和，所以在主查询和子查询内都要加限定条件 to_date = ‘9999-01-01’<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> s1.emp_no, s1.salary, </span><br><span class="line">(<span class="keyword">SELECT</span> <span class="keyword">SUM</span>(s2.salary) <span class="keyword">FROM</span> salaries <span class="keyword">AS</span> s2 </span><br><span class="line"> <span class="keyword">WHERE</span> s2.emp_no &lt;= s1.emp_no <span class="keyword">AND</span> s2.to_date = <span class="string">'9999-01-01'</span>) <span class="keyword">AS</span> running_total </span><br><span class="line"><span class="keyword">FROM</span> salaries <span class="keyword">AS</span> s1 <span class="keyword">WHERE</span> s1.to_date = <span class="string">'9999-01-01'</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> s1.emp_no</span><br><span class="line"><span class="comment">#其中order by只是为了让最后出来的结果更加有序</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- 另一种解法</span></span><br><span class="line"><span class="keyword">select</span> a.emp_no, a.salary, <span class="keyword">sum</span>(b.salary)</span><br><span class="line"><span class="keyword">from</span> salaries <span class="keyword">as</span> a, salaries <span class="keyword">as</span> b</span><br><span class="line"><span class="keyword">where</span> b.emp_no &lt;= a.emp_no</span><br><span class="line"><span class="keyword">and</span> a.to_date = <span class="string">'9999-01-01'</span></span><br><span class="line"><span class="keyword">and</span> b.to_date = <span class="string">'9999-01-01'</span></span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> a.emp_no</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> a.emp_no <span class="keyword">asc</span></span><br><span class="line"><span class="comment"># 其中group by必须留下，但是order by可以取消</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- 窗口函数</span></span><br><span class="line"><span class="keyword">SELECT</span> emp_no,salary,</span><br><span class="line"><span class="keyword">SUM</span>(salary) <span class="keyword">OVER</span> (<span class="keyword">ORDER</span> <span class="keyword">BY</span> emp_no) <span class="keyword">AS</span> running_total</span><br><span class="line"><span class="keyword">FROM</span> salaries</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">to_date</span> = <span class="string">'9999-01-01'</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><strong>OVER函数的写法</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">OVER(PARTITION BY class ORDER BY score)</span><br><span class="line"><span class="comment">-- 按照score排序进行累计，ORDER BY 是个默认的开窗函数，按照class进行分区。</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>开窗的窗口范围</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">OVER (ORDER BY SCORE RANGE BETWEEN 5 PRECEDING AND 5 FOLLOWING)</span><br><span class="line"><span class="comment">-- 窗口范围为当前行数据幅度减5加5后的范围内的。</span></span><br><span class="line"></span><br><span class="line">OVER (ORDER BY score ROWS BETWEEN 5 PRECEDING AND 5 FOLLOWING)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 窗口范围为当前行前后各移动5行。</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>与OVER()函数结合的函数的介绍</strong> </p>
+</li>
+</ul>
+<p><strong>(1). 查询每个班第一名的成绩</strong><br>注意：在求第一名成绩的时候，不能用row_number()，因为如果同班有两个并列第一，row_number()只返回一个结果。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> (<span class="keyword">select</span> t.name,t.class,t.sroce,<span class="keyword">rank</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> t.class <span class="keyword">order</span> <span class="keyword">by</span> t.sroce <span class="keyword">desc</span>) <span class="keyword">AS</span> mm <span class="keyword">from</span> T2_TEMP t) <span class="keyword">where</span> mm = <span class="number">1</span>;</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2019/09/20/leetcode之sql刷题笔记/39-1.jpg" alt></p>
+<p><strong>(2). rank()和dense_rank()可以将所有的都查找出来，rank可以将并列第一名的都查找出来；rank()和dense_rank()区别：rank()是跳跃排序，有两个第二名时接下来就是第四名。</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> t.name,t.class,t.sroce,<span class="keyword">rank</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> t.class <span class="keyword">order</span> <span class="keyword">by</span> t.sroce <span class="keyword">desc</span>) mm <span class="keyword">from</span> T2_TEMP t;</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2019/09/20/leetcode之sql刷题笔记/39-2.jpg" alt></p>
+<p>dense_rank()l是连续排序，有两个第二名时仍然跟着第三名<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> t.name,t.class,t.sroce,<span class="keyword">dense_rank</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> t.class <span class="keyword">order</span> <span class="keyword">by</span> t.sroce <span class="keyword">desc</span>) mm <span class="keyword">from</span> T2_TEMP t;</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2019/09/20/leetcode之sql刷题笔记/39-3.jpg" alt></p>
+<p><strong>(3).sum()over（）的使用</strong></p>
+<p>根据班级进行分数求和<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> t.name,t.class,t.sroce,<span class="keyword">sum</span>(t.sroce) <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> t.class <span class="keyword">order</span> <span class="keyword">by</span> t.sroce <span class="keyword">desc</span>) mm <span class="keyword">from</span> T2_TEMP t;</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2019/09/20/leetcode之sql刷题笔记/39-4.jpg" alt></p>
+<p><strong>(4).first_value() over()和last_value() over()的使用</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> t.name,t.class,t.sroce,<span class="keyword">first_value</span>(t.sroce) <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> t.class <span class="keyword">order</span> <span class="keyword">by</span> t.sroce <span class="keyword">desc</span>) mm <span class="keyword">from</span> T2_TEMP t;</span><br><span class="line"><span class="keyword">select</span> t.name,t.class,t.sroce,<span class="keyword">last_value</span>(t.sroce) <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> t.class <span class="keyword">order</span> <span class="keyword">by</span> t.sroce <span class="keyword">desc</span>) mm <span class="keyword">from</span> T2_TEMP t;</span><br></pre></td></tr></table></figure></p>
+<p>分别求出第一个和最后一个成绩</p>
+<p><strong>(5).sum() over()的使用</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> t.name,t.class,t.sroce,<span class="keyword">sum</span>(t.sroce) <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> t.class <span class="keyword">order</span> <span class="keyword">by</span> t.sroce <span class="keyword">desc</span>) mm <span class="keyword">from</span> T2_TEMP t;</span><br></pre></td></tr></table></figure></p>
+<p>求出班级的总分</p>
+<p><strong>(6).其他函数</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">　count() over(partition by ... order by ...)</span><br><span class="line"><span class="comment">-- 求分组后的总数。</span></span><br><span class="line">　　max() over(partition by ... order by ...)</span><br><span class="line"><span class="comment">-- 求分组后的最大值。</span></span><br><span class="line">　　min() over(partition by ... order by ...)</span><br><span class="line"><span class="comment">-- 求分组后的最小值。</span></span><br><span class="line">　　avg() over(partition by ... order by ...)</span><br><span class="line"><span class="comment">-- 求分组后的平均值。</span></span><br><span class="line">　　lag() over(partition by ... order by ...)</span><br><span class="line"><span class="comment">-- 取出前n行数据。　　</span></span><br><span class="line"></span><br><span class="line">　　lead() over(partition by ... order by ...)</span><br><span class="line"><span class="comment">-- 取出后n行数据。</span></span><br><span class="line"></span><br><span class="line">　　ratio_to_report() over(partition by ... order by ...)</span><br><span class="line"><span class="comment">-- Ratio_to_report() 括号中就是分子，over() 括号中就是分母。</span></span><br><span class="line"></span><br><span class="line">　　percent_rank() over(partition by ... order by ...)：</span><br></pre></td></tr></table></figure></p>
+<p><strong>(7).over partition by与group by的区别：</strong><br>group by是对检索结果的保留行进行单纯分组，一般和聚合函数一起使用例如max、min、sum、avg、count等一块用。partition by虽然也具有分组功能，但同时也具有其他的高级功能。</p>
+<h4 id="40-在last-update后面新增加一列名字为create-date"><a href="#40-在last-update后面新增加一列名字为create-date" class="headerlink" title="40.在last_update后面新增加一列名字为create_date"></a>40.在last_update后面新增加一列名字为create_date</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/40.jpg" alt></p>
+<ul>
+<li>用 ALTER TABLE … ADD … 语句可以向已存在的表插入新字段，并且能够与创建表时一样，在字段名和数据类型后加入NOT NULL、DEFAULT等限定，可<a href="http://www.runoob.com/sqlite/sqlite-alter-command.html" target="_blank" rel="noopener">参考</a><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> actor <span class="keyword">ADD</span> <span class="keyword">COLUMN</span> create_date datetime <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">'0000-00-00 00:00:00'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 其中 ADD 后的 COLUMN 可省略，NOT NULL 和 DEFAULT '0000-00-00 00:00:00' 可交换：</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> actor <span class="keyword">ADD</span> create_date datetime <span class="keyword">DEFAULT</span> <span class="string">'0000-00-00 00:00:00'</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> ;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="40-对于employees表中，给出奇数行的first-name"><a href="#40-对于employees表中，给出奇数行的first-name" class="headerlink" title="40.对于employees表中，给出奇数行的first_name"></a>40.对于employees表中，给出奇数行的first_name</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/41.jpg" alt></p>
+<ul>
+<li>首先题目的叙述有问题，导致理解有误，输出的数据与参考答案不同。先给出正确的题目叙述：【对于employees表，在对first_name进行排名后，选出奇数排名对应的first_name】。<ul>
+<li>本题用到了三层 SELECT 查询，为了便于理解，采用缩进方式分层，且最外层对应e1，最内层对应e3；</li>
+<li>在e3层中，采用 COUNT() 函数对 e2.first_name 进行排名标号，即在给定 e2.first_name的情况下，不大于 e2.first_name 的 e3.first_name 的个数有多少，该个数刚好与 e2.first_name 的排名标号匹配，且将该值命名为 rowid；<br>/<em>注意：排名标号后并未排序，即[Bob, Carter, Amy]的排名是[2,3,1]，选取奇数排名后输出[Carter, Amy]，所以可见参考答案中的first_name并未按字母大小排序</em>/</li>
+<li>在e1层中，直接在限定条件 e1.rowid % 2 = 1 下，代表奇数行的 rowid，选取对应的 e1.first_name；</li>
+<li>e2层则相当于连接e1层（选取表示层）与e3层（标号层）的桥梁。<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> e1.first_name <span class="keyword">FROM</span> </span><br><span class="line">  (<span class="keyword">SELECT</span> e2.first_name, </span><br><span class="line">    (<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*) <span class="keyword">FROM</span> employees <span class="keyword">AS</span> e3 </span><br><span class="line">     <span class="keyword">WHERE</span> e3.first_name &lt;= e2.first_name) </span><br><span class="line">   <span class="keyword">AS</span> <span class="keyword">rowid</span> <span class="keyword">FROM</span> employees <span class="keyword">AS</span> e2) <span class="keyword">AS</span> e1</span><br><span class="line"><span class="keyword">WHERE</span> e1.rowid % <span class="number">2</span> = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 更为清爽的写法</span></span><br><span class="line"><span class="keyword">SELECT</span> e1.first_name <span class="keyword">FROM</span></span><br><span class="line">employees e1</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">(<span class="keyword">SELECT</span> <span class="keyword">count</span>(*) <span class="keyword">FROM</span> employees e2</span><br><span class="line"><span class="keyword">WHERE</span> e1.first_name &lt;=e2.first_name)%<span class="number">2</span>=<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="41-统计出当前各个title类型对应的员工当前薪水对应的平均工资"><a href="#41-统计出当前各个title类型对应的员工当前薪水对应的平均工资" class="headerlink" title="41.统计出当前各个title类型对应的员工当前薪水对应的平均工资"></a>41.统计出当前各个title类型对应的员工当前薪水对应的平均工资</h4><p><img src="/2019/09/20/leetcode之sql刷题笔记/42.jpg" alt><br><img src="/2019/09/20/leetcode之sql刷题笔记/42-1.jpg" alt><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> t.title, <span class="keyword">AVG</span>(s.salary)</span><br><span class="line"><span class="keyword">FROM</span> salaries <span class="keyword">AS</span> s <span class="keyword">INNER</span> <span class="keyword">JOIN</span> titles <span class="keyword">AS</span> t <span class="keyword">ON</span> s.emp_no = t.emp_no</span><br><span class="line"><span class="keyword">WHERE</span> s.to_date = <span class="string">'9999-01-01'</span> <span class="keyword">AND</span> t.to_date = <span class="string">'9999-01-01'</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> t.title</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>首先本题有毒，思路如下：</p>
+<ul>
+<li>先算出当前员工的当前工资表，即由每个emp_no的to_date为最大时的记录构成的表</li>
+<li>再将此表与titles连接，限定条件为emp_no相等且to_date相等，即得当前员工的工资表</li>
+<li>最后以title分组，利用AVG()函数计算每个title下的平均工资<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> t.title <span class="keyword">AS</span> title, <span class="keyword">AVG</span>(s.salary) <span class="keyword">AS</span> <span class="keyword">avg</span> </span><br><span class="line"><span class="keyword">FROM</span> titles <span class="keyword">AS</span> t </span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> (<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> salaries <span class="keyword">GROUP</span> <span class="keyword">BY</span> emp_no <span class="keyword">HAVING</span> <span class="keyword">to_date</span> = <span class="keyword">MAX</span>(<span class="keyword">to_date</span>)) <span class="keyword">AS</span> s</span><br><span class="line"><span class="keyword">ON</span> s.emp_no = t.emp_no <span class="keyword">AND</span> s.to_date = t.to_date </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> t.title</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>无奈以上代码无法通过，必须再加一条限定s.to_date = ‘9999-01-01’，则意义变为【当前各个title类型对应的经理当前薪水对应的平均工资】，并且查看测试代码发现emp_no=10008的员工最新工资记录的to_date不等于’9999-01-01’。 所以不是题错了就是OJ系统错了。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> t.title <span class="keyword">AS</span> title, <span class="keyword">AVG</span>(s.salary) <span class="keyword">AS</span> <span class="keyword">avg</span> </span><br><span class="line"><span class="keyword">FROM</span> titles <span class="keyword">AS</span> t </span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> (<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> salaries <span class="keyword">GROUP</span> <span class="keyword">BY</span> emp_no <span class="keyword">HAVING</span> <span class="keyword">to_date</span> = <span class="keyword">MAX</span>(<span class="keyword">to_date</span>)) <span class="keyword">AS</span> s</span><br><span class="line"><span class="keyword">ON</span> s.emp_no = t.emp_no <span class="keyword">AND</span> s.to_date = t.to_date <span class="keyword">AND</span> s.to_date = <span class="string">'9999-01-01'</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> t.title</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="42-统计各个部门对应员工涨幅的次数总和"><a href="#42-统计各个部门对应员工涨幅的次数总和" class="headerlink" title="42. 统计各个部门对应员工涨幅的次数总和"></a>42. 统计各个部门对应员工涨幅的次数总和</h4>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/20/leetcode之算法刷题笔记/" rel="next" title="leetcode之算法刷题笔记">
+                <i class="fa fa-chevron-left"></i> leetcode之算法刷题笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="focus">
+            
+              <p class="site-author-name" itemprop="name">focus</p>
+              <div class="site-description motion-element" itemprop="description">认知，理解，接纳</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/focusLeeee" title="GitHub &rarr; https://github.com/focusLeeee" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:amethyst5991@@gmail.com" title="E-Mail &rarr; mailto:amethyst5991@@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/focusWfocus" title="Weibo &rarr; https://weibo.com/focusWfocus" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-牛客——获取select"><span class="nav-text">1. 牛客——获取select</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-牛客——如何获取emp-v和employees有相同的数据no"><span class="nav-text">2. 牛客——如何获取emp_v和employees有相同的数据no</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-牛客——分页查询employees表，每5行一页，返回第2页的数据"><span class="nav-text">3. 牛客——分页查询employees表，每5行一页，返回第2页的数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-获取employees中的行数据，且这些行也存在于emp-v中。注意不能使用intersect关键字。"><span class="nav-text">4.获取employees中的行数据，且这些行也存在于emp_v中。注意不能使用intersect关键字。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-获取Employees中的first-name，查询按照first-name最后两个字母，按照升序进行排列"><span class="nav-text">5.获取Employees中的first_name，查询按照first_name最后两个字母，按照升序进行排列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-查找字符串’10-A-B’-中逗号’-’出现的次数cnt。"><span class="nav-text">6.查找字符串’10,A,B’ 中逗号’,’出现的次数cnt。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-将id-5以及emp-no-10001的行数据替换成id-5以及emp-no-10005-其他数据保持不变"><span class="nav-text">7.将id=5以及emp_no=10001的行数据替换成id=5以及emp_no=10005,其他数据保持不变</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-将titles-test表名修改为titles-2017。"><span class="nav-text">8.将titles_test表名修改为titles_2017。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-按照dept-no进行汇总"><span class="nav-text">9. 按照dept_no进行汇总</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-删除emp-no重复的记录，只保留最小的id对应的记录。"><span class="nav-text">10.删除emp_no重复的记录，只保留最小的id对应的记录。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-从titles表获取按照title进行分组"><span class="nav-text">11.从titles表获取按照title进行分组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-将所有to-date为9999-01-01的全部更新为NULL"><span class="nav-text">12.将所有to_date为9999-01-01的全部更新为NULL,</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#13-将employees表中的所有员工的last-name和first-name通过-‘-连接起来。"><span class="nav-text">13. 将employees表中的所有员工的last_name和first_name通过(‘)连接起来。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#14-批量插入数据，如果重复不插入"><span class="nav-text">14. 批量插入数据，如果重复不插入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-找出所有员工当前薪水salary情况"><span class="nav-text">15. 找出所有员工当前薪水salary情况</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-针对actor表创建视图actor-name-view"><span class="nav-text">16. 针对actor表创建视图actor_name_view</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#17-查找员工编号emp-no为10001其自入职以来的薪水salary涨幅值growth"><span class="nav-text">17.查找员工编号emp_no为10001其自入职以来的薪水salary涨幅值growth</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#18-针对库中的所有表生成select-count-对应的SQL语句"><span class="nav-text">18. 针对库中的所有表生成select count(*)对应的SQL语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#19-将所有获取奖金的员工当前的薪水增加10-。"><span class="nav-text">19. 将所有获取奖金的员工当前的薪水增加10%。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#20-查找employees表"><span class="nav-text">20.查找employees表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#21-使用子查询的方式找出属于Action分类的所有电影对应的title-description"><span class="nav-text">21.使用子查询的方式找出属于Action分类的所有电影对应的title,description</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#22-获取当前（to-date-’9999-01-01’）薪水第二多的员工"><span class="nav-text">22.获取当前（to_date=’9999-01-01’）薪水第二多的员工</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#23-对first-name创建唯一索引uniq-idx-firstname"><span class="nav-text">23.对first_name创建唯一索引uniq_idx_firstname</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#24-创建一个actor-name表"><span class="nav-text">24.创建一个actor_name表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#25-查找薪水涨幅超过15次的员工号emp-no以及其对应的涨幅次数t"><span class="nav-text">25.查找薪水涨幅超过15次的员工号emp_no以及其对应的涨幅次数t</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#26-构造一个触发器audit-log"><span class="nav-text">26.构造一个触发器audit_log</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#27-从titles表获取按照title进行分组"><span class="nav-text">27. 从titles表获取按照title进行分组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#28-针对salaries表emp-no字段创建索引idx-emp-no，查询emp-no为10005-使用强制索引。"><span class="nav-text">28. 针对salaries表emp_no字段创建索引idx_emp_no，查询emp_no为10005, 使用强制索引。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#29-获取所有员工的emp-no"><span class="nav-text">29.获取所有员工的emp_no</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#30-查找最晚入职员工的所有信息"><span class="nav-text">30.查找最晚入职员工的所有信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#31-使用含有关键字exists查找未分配具体部门的员工的所有信息。"><span class="nav-text">31. 使用含有关键字exists查找未分配具体部门的员工的所有信息。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#32-获取所有非manager的员工emp-no"><span class="nav-text">32. 获取所有非manager的员工emp_no</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#33-查找入职员工时间排名倒数第三的员工所有信息"><span class="nav-text">33. 查找入职员工时间排名倒数第三的员工所有信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#34-批量插入数据"><span class="nav-text">34.批量插入数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#35-将employees表的所有员工的last-name和first-name拼接起来作为Name"><span class="nav-text">35. 将employees表的所有员工的last_name和first_name拼接起来作为Name</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#36-使用join查询方式找出没有分类的电影id以及名称"><span class="nav-text">36. 使用join查询方式找出没有分类的电影id以及名称</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#37-查找所有员工的last-name和first-name以及对应部门编号dept-no"><span class="nav-text">37.查找所有员工的last_name和first_name以及对应部门编号dept_no</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#38-查找所有已经分配部门的员工的last-name和first-name"><span class="nav-text">38.查找所有已经分配部门的员工的last_name和first_name</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#39-统计salary的累计和running-total"><span class="nav-text">39.统计salary的累计和running_total</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#40-在last-update后面新增加一列名字为create-date"><span class="nav-text">40.在last_update后面新增加一列名字为create_date</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#40-对于employees表中，给出奇数行的first-name"><span class="nav-text">40.对于employees表中，给出奇数行的first_name</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#41-统计出当前各个title类型对应的员工当前薪水对应的平均工资"><span class="nav-text">41.统计出当前各个title类型对应的员工当前薪水对应的平均工资</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#42-统计各个部门对应员工涨幅的次数总和"><span class="nav-text">42. 统计各个部门对应员工涨幅的次数总和</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">focus</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.0.1"></script>
+
+  <script src="/js/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.0.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.0.1"></script>
+<script src="/js/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+  <script id="dsq-count-scr" src="https://focus.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2019/09/20/leetcode之sql刷题笔记/";
+    this.page.identifier = "2019/09/20/leetcode之sql刷题笔记/";
+    this.page.title = 'leetcode之sql刷题笔记';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://focus.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

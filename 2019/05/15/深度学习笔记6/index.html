@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1. 权重初始化 权重初始化目标 在训练过程中为模型带来最好的学习机会 很多模型的学习方式是通过查看犯过的错误迭代地改进自己，因此我们希望模型一开始犯的错更具有参考性，能为模型到底如何改进自己提供启发和信息   初始化方式 初始化为常量权重值，无法满足需求 初始化为随机均匀分布，效果好得多   一般法则 初始权重应该和接受节点的个数有关 应该设为接近0，但不能太小 初始权重:$[-y, y]$,">
+<meta name="keywords" content="权重">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习笔记6之权重初始化">
+<meta property="og:url" content="http://yoursite.com/2019/05/15/深度学习笔记6/index.html">
+<meta property="og:site_name" content="focus">
+<meta property="og:description" content="1. 权重初始化 权重初始化目标 在训练过程中为模型带来最好的学习机会 很多模型的学习方式是通过查看犯过的错误迭代地改进自己，因此我们希望模型一开始犯的错更具有参考性，能为模型到底如何改进自己提供启发和信息   初始化方式 初始化为常量权重值，无法满足需求 初始化为随机均匀分布，效果好得多   一般法则 初始权重应该和接受节点的个数有关 应该设为接近0，但不能太小 初始权重:$[-y, y]$,">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/05/15/深度学习笔记6/1.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/15/深度学习笔记6/2.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/15/深度学习笔记6/3.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/15/深度学习笔记6/4.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/15/深度学习笔记6/5.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/15/深度学习笔记6/6.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/15/深度学习笔记6/7.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/15/深度学习笔记6/8.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/15/深度学习笔记6/9.jpg">
+<meta property="og:updated_time" content="2019-05-15T05:37:59.601Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深度学习笔记6之权重初始化">
+<meta name="twitter:description" content="1. 权重初始化 权重初始化目标 在训练过程中为模型带来最好的学习机会 很多模型的学习方式是通过查看犯过的错误迭代地改进自己，因此我们希望模型一开始犯的错更具有参考性，能为模型到底如何改进自己提供启发和信息   初始化方式 初始化为常量权重值，无法满足需求 初始化为随机均匀分布，效果好得多   一般法则 初始权重应该和接受节点的个数有关 应该设为接近0，但不能太小 初始权重:$[-y, y]$,">
+<meta name="twitter:image" content="http://yoursite.com/2019/05/15/深度学习笔记6/1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/05/15/深度学习笔记6/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>深度学习笔记6之权重初始化 | focus</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">focus</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>公益 404</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/15/深度学习笔记6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="focus">
+      <meta itemprop="description" content="认知，理解，接纳">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="focus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深度学习笔记6之权重初始化
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-15 10:36:56 / 修改时间：13:37:59" itemprop="dateCreated datePublished" datetime="2019-05-15T10:36:56+08:00">2019-05-15</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/深度学习/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/05/15/深度学习笔记6/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/05/15/深度学习笔记6/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1-权重初始化"><a href="#1-权重初始化" class="headerlink" title="1. 权重初始化"></a>1. 权重初始化</h3><ul>
+<li>权重初始化目标<ul>
+<li>在训练过程中为模型带来最好的学习机会</li>
+<li>很多模型的学习方式是通过查看犯过的错误迭代地改进自己，因此我们希望模型一开始犯的错更具有参考性，能为模型到底如何改进自己提供启发和信息</li>
+</ul>
+</li>
+<li>初始化方式<ul>
+<li>初始化为常量权重值，无法满足需求</li>
+<li>初始化为随机均匀分布，效果好得多</li>
+</ul>
+</li>
+<li>一般法则<ul>
+<li>初始权重应该和接受节点的个数有关</li>
+<li>应该设为接近0，但不能太小</li>
+<li>初始权重:$[-y, y]$, 其中$y = \frac{1}{\sqrt{n}}$, $n$是输入节点的个数</li>
+</ul>
+</li>
+<li>正态分布</li>
+</ul>
+<h3 id="2-实战：初始化权重和比较"><a href="#2-实战：初始化权重和比较" class="headerlink" title="2. 实战：初始化权重和比较"></a>2. 实战：初始化权重和比较</h3><ul>
+<li>权重初始化只发生一次，发生在模型创建时及训练之前。合适的初始权重使神经网络更接近最佳模型，从而使神经网络能更快地达到最佳模型。</li>
+</ul>
+<h4 id="2-1-初始权重和观察训练损失"><a href="#2-1-初始权重和观察训练损失" class="headerlink" title="2.1 初始权重和观察训练损失"></a>2.1 初始权重和观察训练损失</h4><ul>
+<li>要查看不同权重的效果，我们将用相同的数据集和神经网络进行测试。这样我们就知道模型行为的任何变化是由权重导致的，而不是数据变化或模型架构导致的。<ul>
+<li>我们将实例化至少两个相同的模型，并且具有不同的初始权重，看看训练损失是如何降低的，如以下示例所示。<br><img src="/2019/05/15/深度学习笔记6/1.jpg" alt><br>有时候训练损失的差异将很大，有时候某些权重带来的改进很小。</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-1-1-导入数据集并加载数据"><a href="#2-1-1-导入数据集并加载数据" class="headerlink" title="2.1.1 导入数据集并加载数据"></a>2.1.1 导入数据集并加载数据</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">import</span> torchvision.transforms <span class="keyword">as</span> transforms</span><br><span class="line"><span class="keyword">from</span> torch.utils.data.sampler <span class="keyword">import</span> SubsetRandomSampler</span><br><span class="line"></span><br><span class="line"><span class="comment"># number of subprocesses to use for data loading</span></span><br><span class="line">num_workers = <span class="number">0</span></span><br><span class="line"><span class="comment"># how many samples per batch to load</span></span><br><span class="line">batch_size = <span class="number">100</span></span><br><span class="line"><span class="comment"># percentage of training set to use as validation</span></span><br><span class="line">valid_size = <span class="number">0.2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># convert data to torch.FloatTensor</span></span><br><span class="line">transform = transforms.ToTensor()</span><br><span class="line"></span><br><span class="line"><span class="comment"># choose the training and test datasets</span></span><br><span class="line">train_data = datasets.FashionMNIST(root=<span class="string">'data'</span>, train=<span class="literal">True</span>,</span><br><span class="line">                                   download=<span class="literal">True</span>, transform=transform)</span><br><span class="line">test_data = datasets.FashionMNIST(root=<span class="string">'data'</span>, train=<span class="literal">False</span>,</span><br><span class="line">                                  download=<span class="literal">True</span>, transform=transform)</span><br><span class="line"></span><br><span class="line"><span class="comment"># obtain training indices that will be used for validation</span></span><br><span class="line">num_train = len(train_data)</span><br><span class="line">indices = list(range(num_train))</span><br><span class="line">np.random.shuffle(indices)</span><br><span class="line">split = int(np.floor(valid_size * num_train))</span><br><span class="line">train_idx, valid_idx = indices[split:], indices[:split]</span><br><span class="line"></span><br><span class="line"><span class="comment"># define samplers for obtaining training and validation batches</span></span><br><span class="line">train_sampler = SubsetRandomSampler(train_idx)</span><br><span class="line">valid_sampler = SubsetRandomSampler(valid_idx)</span><br><span class="line"></span><br><span class="line"><span class="comment"># prepare data loaders (combine dataset and sampler)</span></span><br><span class="line">train_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size,</span><br><span class="line">    sampler=train_sampler, num_workers=num_workers)</span><br><span class="line">valid_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size, </span><br><span class="line">    sampler=valid_sampler, num_workers=num_workers)</span><br><span class="line">test_loader = torch.utils.data.DataLoader(test_data, batch_size=batch_size, </span><br><span class="line">    num_workers=num_workers)</span><br><span class="line"></span><br><span class="line"><span class="comment"># specify the image classes</span></span><br><span class="line">classes = [<span class="string">'T-shirt/top'</span>, <span class="string">'Trouser'</span>, <span class="string">'Pullover'</span>, <span class="string">'Dress'</span>, <span class="string">'Coat'</span>, </span><br><span class="line">    <span class="string">'Sandal'</span>, <span class="string">'Shirt'</span>, <span class="string">'Sneaker'</span>, <span class="string">'Bag'</span>, <span class="string">'Ankle boot'</span>]</span><br></pre></td></tr></table></figure>
+<h5 id="2-1-2-可视化一些训练数据"><a href="#2-1-2-可视化一些训练数据" class="headerlink" title="2.1.2 可视化一些训练数据"></a>2.1.2 可视化一些训练数据</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">%matplotlib inline</span><br><span class="line">    </span><br><span class="line"><span class="comment"># obtain one batch of training images</span></span><br><span class="line">dataiter = iter(train_loader)</span><br><span class="line">images, labels = dataiter.next()</span><br><span class="line">images = images.numpy()</span><br><span class="line"></span><br><span class="line"><span class="comment"># plot the images in the batch, along with the corresponding labels</span></span><br><span class="line">fig = plt.figure(figsize=(<span class="number">25</span>, <span class="number">4</span>))</span><br><span class="line"><span class="keyword">for</span> idx <span class="keyword">in</span> np.arange(<span class="number">20</span>):</span><br><span class="line">    ax = fig.add_subplot(<span class="number">2</span>, <span class="number">20</span>/<span class="number">2</span>, idx+<span class="number">1</span>, xticks=[], yticks=[])</span><br><span class="line">    ax.imshow(np.squeeze(images[idx]), cmap=<span class="string">'gray'</span>)</span><br><span class="line">    ax.set_title(classes[labels[idx]])</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/05/15/深度学习笔记6/2.jpg" alt></p>
+<h4 id="2-2-定义模型框架"><a href="#2-2-定义模型框架" class="headerlink" title="2.2 定义模型框架"></a>2.2 定义模型框架</h4><p><img src="/2019/05/15/深度学习笔记6/3.jpg" alt></p>
+<ul>
+<li>模型<ul>
+<li>该 MLP 有 3 层，隐藏层的大小为 256 和 128。</li>
+<li>该 MLP 接受扁平化图像（长为 784 的向量），并生成 10 个类别分数。</li>
+<li>我们将用这个 3 层神经网络测试不同初始权重的效果，该网络使用的是 ReLU 激活函数和 Adam 优化器。</li>
+<li>这里提到的经验适用于包含不同激活函数和优化器的其他神经网络。</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-2-1-初始化权重为常数"><a href="#2-2-1-初始化权重为常数" class="headerlink" title="2.2.1 初始化权重为常数"></a>2.2.1 初始化权重为常数</h5><pre><code>* 全为0和1时
+    - 如果你知道Occam&#39;s razor定律，你可能认为将所有权重设为 0 或 1 是最佳策略。但事实并非如此。
+    - 如果所有权重一样，每个层级的所有神经元都将生成相同的输出。这样就很难判断要调整哪些权重。
+    - 我们定义两个模型并将权重全设为 1 或 0，比较这两种模型的损失
+    - 下面我们使用 PyTorch 的nn.init 用常量权重初始化每个线性层级。init 库提供了大量权重初始化函数，让你能够根据层级类型初始化每个层级的权重。
+    - 在下面的情形中，我们查看模型里的每个层级/模块。如果是线性层级（这个 MLP 的所有三个层级都是线性层级），则将这些层级的权重初始化为 constant_weight，偏差为 0，代码如下所示：
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> isinstance(m, nn.Linear):</span><br><span class="line">    nn.init.constant_(m.weight, constant_weight)</span><br><span class="line">    nn.init.constant_(m.bias, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"><span class="comment"># define the NN architecture</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Net</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, hidden_1=<span class="number">256</span>, hidden_2=<span class="number">128</span>, constant_weight=None)</span>:</span></span><br><span class="line">        super(Net, self).__init__()</span><br><span class="line">        <span class="comment"># linear layer (784 -&gt; hidden_1)</span></span><br><span class="line">        self.fc1 = nn.Linear(<span class="number">28</span> * <span class="number">28</span>, hidden_1)</span><br><span class="line">        <span class="comment"># linear layer (hidden_1 -&gt; hidden_2)</span></span><br><span class="line">        self.fc2 = nn.Linear(hidden_1, hidden_2)</span><br><span class="line">        <span class="comment"># linear layer (hidden_2 -&gt; 10)</span></span><br><span class="line">        self.fc3 = nn.Linear(hidden_2, <span class="number">10</span>)</span><br><span class="line">        <span class="comment"># dropout layer (p=0.2)</span></span><br><span class="line">        self.dropout = nn.Dropout(<span class="number">0.2</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># initialize the weights to a specified, constant value</span></span><br><span class="line">        <span class="keyword">if</span>(constant_weight <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>):</span><br><span class="line">            <span class="keyword">for</span> m <span class="keyword">in</span> self.modules():</span><br><span class="line">                <span class="keyword">if</span> isinstance(m, nn.Linear):</span><br><span class="line">                    nn.init.constant_(m.weight, constant_weight)</span><br><span class="line">                    nn.init.constant_(m.bias, <span class="number">0</span>)</span><br><span class="line">    </span><br><span class="line">            </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        <span class="comment"># flatten image input</span></span><br><span class="line">        x = x.view(<span class="number">-1</span>, <span class="number">28</span> * <span class="number">28</span>)</span><br><span class="line">        <span class="comment"># add hidden layer, with relu activation function</span></span><br><span class="line">        x = F.relu(self.fc1(x))</span><br><span class="line">        <span class="comment"># add dropout layer</span></span><br><span class="line">        x = self.dropout(x)</span><br><span class="line">        <span class="comment"># add hidden layer, with relu activation function</span></span><br><span class="line">        x = F.relu(self.fc2(x))</span><br><span class="line">        <span class="comment"># add dropout layer</span></span><br><span class="line">        x = self.dropout(x)</span><br><span class="line">        <span class="comment"># add output layer</span></span><br><span class="line">        x = self.fc3(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
+<h5 id="2-2-2-比较模型行为"><a href="#2-2-2-比较模型行为" class="headerlink" title="2.2.2 比较模型行为"></a>2.2.2 比较模型行为</h5><ul>
+<li>下面我们使用 helpers.compare_init_weights 比较在上面定义的两个模型 model_0 和model_1 的训练和验证损失。<ul>
+<li>此函数的输入参数是模型列表（每个具有不同的初始权重）、要生成的图形的名称，以及训练和验证数据集加载器。对于每个给定模型，它将绘制前 100批的训练损失，并输出 2 个训练周期后的验证准确率。</li>
+<li>注意：如果批次大小很小，则可能需要增加周期数，以便更好地比较模型在观察几百张图像之后的行为。</li>
+<li>我们绘出前 100批的损失，以便更好地判断哪种模型权重在训练开始时效果更好。建议查看 helpers.py 中的代码，详细了解模型是如何训练、验证和比较的。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># initialize two NN's with 0 and 1 constant weights</span></span><br><span class="line">model_0 = Net(constant_weight=<span class="number">0</span>)</span><br><span class="line">model_1 = Net(constant_weight=<span class="number">1</span>)</span><br><span class="line"><span class="keyword">import</span> helpers</span><br><span class="line"></span><br><span class="line"><span class="comment"># put them in list form to compare</span></span><br><span class="line">model_list = [(model_0, <span class="string">'All Zeros'</span>),</span><br><span class="line">              (model_1, <span class="string">'All Ones'</span>)]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># plot the loss over the first 100 batches</span></span><br><span class="line">helpers.compare_init_weights(model_list, </span><br><span class="line">                             <span class="string">'All Zeros vs All Ones'</span>, </span><br><span class="line">                             train_loader,</span><br><span class="line">                             valid_loader)</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/05/15/深度学习笔记6/4.jpg" alt></p>
+<ul>
+<li>可以看出，对于全为 0 和 1 来说，准确率都和猜测结果差不多，约为 10%<ul>
+<li>神经网络很难判断哪些权重需要更改，因为每个层级的神经元输出是一样的。为了避免神经元具有相同的输出，我们使用独特权重。我们还可以随机选择权重，避免每个周期后的损失都陷于局部最低点。</li>
+<li>获取随机权重的很好方法是从均匀分布里取样。</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-2-3-均匀分布"><a href="#2-2-3-均匀分布" class="headerlink" title="2.2.3 均匀分布"></a>2.2.3 均匀分布</h5><ul>
+<li>均匀分布：从一组数字里选择任何数字的概率是一样的。我们将从连续分布里选择数字，因此选择相同数字的概率很低。我们将使用 NumPy 的 np.random.uniform 函数从均匀分布里随机选择数字。<ul>
+<li>np.random_uniform(low=0.0, high=1.0, size=None)从均匀分布里随机选择值。</li>
+<li>生成的值符合均匀分布，范围是[low, high)。下限包含在内，而上限不包含。<ul>
+<li>low：要生成的随机值的范围下限。默认为 0。</li>
+<li>high：要生成的随机值的范围上限。默认为 1。</li>
+<li>大小：一个整数或整数元组，指定输出数组的形状。</li>
+</ul>
+</li>
+<li>我们可以使用直方图可视化均匀分布。我们使用 helper.hist_dist 函数将np.random_uniform(-3, 3, [1000]) 中的值映射到直方图。它们将是 1000 个随机浮点值，范围从 -3 到 3，不含值 3。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">helpers.hist_dist(<span class="string">'Random Uniform (low=-3, high=3)'</span>, np.random.uniform(<span class="number">-3</span>, <span class="number">3</span>, [<span class="number">1000</span>]))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>直方图针对 1000 个值使用了 500个区间。因为落入任何区间的概率是一样的，因此每个区间应该约有 2个值。直方图正好是这种效果。某些区间有更多值，某些有更少的值，但是约为 2 个。使用 PyTorch 的 nn.init 将其应用到模型的初始权重上</li>
+</ul>
+<h5 id="2-2-4-均匀分布基准"><a href="#2-2-4-均匀分布基准" class="headerlink" title="2.2.4 均匀分布基准"></a>2.2.4 均匀分布基准</h5><ul>
+<li>我们看看使用均匀权重初始化方式的神经网络训练效果如何，其中 low=0.0 和 high=1.0。下面我将演示另一种初始化网络权重的方式（除了 Net类中的代码之外）。要在函数定义部分之外定义权重，你可以：<ul>
+<li>定义一个函数，它将按照网络层级类型分配权重，然后 </li>
+<li>使用 model.apply(fn)将这些权重应用到初始化的模型上，它会向每个模型层级应用一个函数。</li>
+</ul>
+</li>
+<li>这次我们将使用 weight.data.uniform_ 直接初始化模型的权重。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -----------------takes in a module and applies the specified weight initialization</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">weights_init_uniform</span><span class="params">(m)</span>:</span></span><br><span class="line">    classname = m.__class__.__name__</span><br><span class="line">    <span class="comment"># for every Linear layer in a model..</span></span><br><span class="line">    <span class="keyword">if</span> classname.find(<span class="string">'Linear'</span>) != <span class="number">-1</span>:</span><br><span class="line">        <span class="comment"># apply a uniform distribution to the weights and a bias=0</span></span><br><span class="line">        m.weight.data.uniform_(<span class="number">0.0</span>, <span class="number">1.0</span>)</span><br><span class="line">        m.bias.data.fill_(<span class="number">0</span>)</span><br><span class="line"><span class="comment"># --------------------create a new model with these weights</span></span><br><span class="line">model_uniform = Net()</span><br><span class="line">model_uniform.apply(weights_init_uniform)</span><br><span class="line"></span><br><span class="line"><span class="comment">#---------------------------- evaluate behavior </span></span><br><span class="line">helpers.compare_init_weights([(model_uniform, <span class="string">'Uniform Weights'</span>)], </span><br><span class="line">                             <span class="string">'Uniform Baseline'</span>, </span><br><span class="line">                             train_loader,</span><br><span class="line">                             valid_loader)</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/05/15/深度学习笔记6/5.jpg" alt></p>
+<ul>
+<li>损失图表明神经网络在学习，而权重全为 0 或 1 时没有在学习。这表示我们的做法是正确的！</li>
+</ul>
+<h4 id="2-3-设置权重的一般法则"><a href="#2-3-设置权重的一般法则" class="headerlink" title="2.3 设置权重的一般法则"></a>2.3 设置权重的一般法则</h4><ul>
+<li>设置神经网络权重的一般法则是将它们设为接近 0，但是不能太小。<br>  建议初始权重的范围是$[−𝑦,𝑦]$ ，其中$y = \frac{1}{\sqrt{n}}$($𝑛$  是指给定神经元的输入数量).</li>
+<li>我们看看这个法则是否成立。我们创建一个基准模型，并使均匀分布以 0 居中，范围偏移 0.5，得出范围是 $[-0.5, 0.5)$。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># takes in a module and applies the specified weight initialization</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">weights_init_uniform_center</span><span class="params">(m)</span>:</span></span><br><span class="line">    classname = m.__class__.__name__</span><br><span class="line">    <span class="comment"># for every Linear layer in a model..</span></span><br><span class="line">    <span class="keyword">if</span> classname.find(<span class="string">'Linear'</span>) != <span class="number">-1</span>:</span><br><span class="line">        <span class="comment"># apply a centered, uniform distribution to the weights</span></span><br><span class="line">        m.weight.data.uniform_(<span class="number">-0.5</span>, <span class="number">0.5</span>)</span><br><span class="line">        m.bias.data.fill_(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># create a new model with these weights</span></span><br><span class="line">model_centered = Net()</span><br><span class="line">model_centered.apply(weights_init_uniform_center)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>然后创建一个分布和使用一般法则初始化权重的模型；范围是$[−𝑦,𝑦]$ ，其中$y = \frac{1}{\sqrt{n}}$.最后比较这两种模型。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># takes in a module and applies the specified weight initialization</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">weights_init_uniform_rule</span><span class="params">(m)</span>:</span></span><br><span class="line">    classname = m.__class__.__name__</span><br><span class="line">    <span class="comment"># for every Linear layer in a model..</span></span><br><span class="line">    <span class="keyword">if</span> classname.find(<span class="string">'Linear'</span>) != <span class="number">-1</span>:</span><br><span class="line">        <span class="comment"># get the number of the inputs</span></span><br><span class="line">        n = m.in_features</span><br><span class="line">        y = <span class="number">1.0</span>/np.sqrt(n)</span><br><span class="line">        m.weight.data.uniform_(-y, y)</span><br><span class="line">        m.bias.data.fill_(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># create a new model with these weights</span></span><br><span class="line">model_rule = Net()</span><br><span class="line">model_rule.apply(weights_init_uniform_rule)</span><br><span class="line"></span><br><span class="line"><span class="comment"># compare these two models</span></span><br><span class="line">model_list = [(model_centered, <span class="string">'Centered Weights [-0.5, 0.5)'</span>), </span><br><span class="line">              (model_rule, <span class="string">'General Rule [-y, y)'</span>)]</span><br><span class="line"></span><br><span class="line"><span class="comment"># evaluate behavior </span></span><br><span class="line">helpers.compare_init_weights(model_list, </span><br><span class="line">                             <span class="string">'[-0.5, 0.5) vs [-y, y)'</span>, </span><br><span class="line">                             train_loader,</span><br><span class="line">                             valid_loader)</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/05/15/深度学习笔记6/6.jpg" alt></p>
+<ul>
+<li>模型行为很不错！不仅损失降低了，而且遵守一般法则的均匀权重损失似乎下降得很快；仅过了两个周期，验证准确率就很高了，这就是为什么合适的初始权重非常有助于模型训练！</li>
+<li>由于均匀分布从某个范围里选择任何值的概率是一样的，如果我们使用一种分布，这种分布下，接近 0 的值被选择的概率更高，又会怎样？我们来看看正态分布。</li>
+</ul>
+<h4 id="2-4-正态分布"><a href="#2-4-正态分布" class="headerlink" title="2.4 正态分布"></a>2.4 正态分布</h4><ul>
+<li>与均匀分布不同，正态分布下，接近均值的数字被选中的概率更高。要可视化正态分布，我们将 NumPy 的 np.random.normal 函数中的值绘制为直方图。<ul>
+<li>np.random.normal(loc=0.0, scale=1.0, size=None)</li>
+<li>从正态分布里随机选择值。</li>
+<li>loc：正态分布的均值.</li>
+<li>scale：正态分布的标准偏差。</li>
+<li>shape：输出数组的形状。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">helpers.hist_dist(<span class="string">'Random Normal (mean=0.0, stddev=1.0)'</span>, np.random.normal(size=[<span class="number">1000</span>]))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2019/05/15/深度学习笔记6/7.jpg" alt></p>
+<ul>
+<li>我们将正态分布与之前遵守一般法则的均匀分布进行比较。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## complete this function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">weights_init_normal</span><span class="params">(m)</span>:</span></span><br><span class="line">    <span class="string">'''Takes in a module and initializes all linear layers with weight</span></span><br><span class="line"><span class="string">       values taken from a normal distribution.'''</span></span><br><span class="line">    </span><br><span class="line">    classname = m.__class__.__name__</span><br><span class="line">    <span class="comment"># for every Linear layer in a model</span></span><br><span class="line">    <span class="comment"># m.weight.data shoud be taken from a normal distribution</span></span><br><span class="line">    <span class="comment"># m.bias.data should be 0</span></span><br><span class="line">    <span class="keyword">if</span> classname.find(<span class="string">'Linear'</span>) != <span class="number">-1</span>:</span><br><span class="line">        n = m.in_features</span><br><span class="line">        y = <span class="number">1.0</span> / np.sqrt(n)</span><br><span class="line">        m.weight.data.normal_(<span class="number">0</span>, y)</span><br><span class="line">        m.bias.data.fill_(<span class="number">0</span>) </span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------create a new model with the rule-based, uniform weights</span></span><br><span class="line">model_uniform_rule = Net()</span><br><span class="line">model_uniform_rule.apply(weights_init_uniform_rule)</span><br><span class="line"></span><br><span class="line"><span class="comment"># create a new model with the rule-based, NORMAL weights</span></span><br><span class="line">model_normal_rule = Net()</span><br><span class="line">model_normal_rule.apply(weights_init_normal)</span><br><span class="line"><span class="comment">#---------------------- compare the two models</span></span><br><span class="line">model_list = [(model_uniform_rule, <span class="string">'Uniform Rule [-y, y)'</span>), </span><br><span class="line">              (model_normal_rule, <span class="string">'Normal Distribution'</span>)]</span><br><span class="line"></span><br><span class="line"><span class="comment"># -------------evaluate behavior </span></span><br><span class="line">helpers.compare_init_weights(model_list, </span><br><span class="line">                             <span class="string">'Uniform vs Normal'</span>, </span><br><span class="line">                             train_loader,</span><br><span class="line">                             valid_loader)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="/2019/05/15/深度学习笔记6/8.jpg" alt></p>
+<ul>
+<li>在这种情形下，正态分布的行为和均匀分布的很相似。这可能是因为网络很小，大型网络将从每种分布里抽取更多权重值，从而放大两种初始化方式的影响。通常，正态分布会使模型的效果更好。</li>
+</ul>
+<h4 id="2-5-自动初始化"><a href="#2-5-自动初始化" class="headerlink" title="2.5 自动初始化"></a>2.5 自动初始化</h4><ul>
+<li>没有初始化权重的模型<ul>
+<li>均匀分布<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## Instantiate a model with _no_ explicit weight initialization </span></span><br><span class="line">model_no_weight_ini = Net()</span><br><span class="line">model_list = [(model_no_weight_ini , <span class="string">'no_weight_ini '</span>), </span><br><span class="line">              (model_normal_rule, <span class="string">'Normal Distribution'</span>)]</span><br><span class="line"><span class="comment">## evaluate the behavior using helpers.compare_init_weights</span></span><br><span class="line">helpers.compare_init_weights(model_list, </span><br><span class="line">                             <span class="string">'no ini vs Normal'</span>, </span><br><span class="line">                             train_loader,</span><br><span class="line">                             valid_loader)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2019/05/15/深度学习笔记6/9.jpg" alt></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/权重/" rel="tag"># 权重</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/10/深度学习笔记4/" rel="next" title="深度学习笔记4之卷积神经网络">
+                <i class="fa fa-chevron-left"></i> 深度学习笔记4之卷积神经网络
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/16/深度学习笔记7/" rel="prev" title="深度学习笔记7之癌症检测深度学习">
+                深度学习笔记7之癌症检测深度学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="focus">
+            
+              <p class="site-author-name" itemprop="name">focus</p>
+              <div class="site-description motion-element" itemprop="description">认知，理解，接纳</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/focusLeeee" title="GitHub &rarr; https://github.com/focusLeeee" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:amethyst5991@@gmail.com" title="E-Mail &rarr; mailto:amethyst5991@@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/focusWfocus" title="Weibo &rarr; https://weibo.com/focusWfocus" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-权重初始化"><span class="nav-text">1. 权重初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-实战：初始化权重和比较"><span class="nav-text">2. 实战：初始化权重和比较</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-初始权重和观察训练损失"><span class="nav-text">2.1 初始权重和观察训练损失</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-1-导入数据集并加载数据"><span class="nav-text">2.1.1 导入数据集并加载数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-2-可视化一些训练数据"><span class="nav-text">2.1.2 可视化一些训练数据</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-定义模型框架"><span class="nav-text">2.2 定义模型框架</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-1-初始化权重为常数"><span class="nav-text">2.2.1 初始化权重为常数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-2-比较模型行为"><span class="nav-text">2.2.2 比较模型行为</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-3-均匀分布"><span class="nav-text">2.2.3 均匀分布</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-4-均匀分布基准"><span class="nav-text">2.2.4 均匀分布基准</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-设置权重的一般法则"><span class="nav-text">2.3 设置权重的一般法则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-正态分布"><span class="nav-text">2.4 正态分布</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-自动初始化"><span class="nav-text">2.5 自动初始化</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">focus</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.0.1"></script>
+
+  <script src="/js/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.0.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.0.1"></script>
+<script src="/js/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+  <script id="dsq-count-scr" src="https://focus.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2019/05/15/深度学习笔记6/";
+    this.page.identifier = "2019/05/15/深度学习笔记6/";
+    this.page.title = '深度学习笔记6之权重初始化';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://focus.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

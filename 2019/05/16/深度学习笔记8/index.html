@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1. linear regression1.1 调整一条曲线 绝对值技巧 平方技巧 梯度下降  1.2 误差 平均绝对值误差 平均平方误差 两者差别1.3 最小化误差函数 拟合一条直线方法 使用tricks 最小化误差函数    平方技巧等同于平方误差+梯度下降  绝对值技巧等同于绝对值误差+梯度下降   1.3 解数学方程组 解数学方程表组答案+在这一可选部分中，我们将开发在上一个视频中介绍的解">
+<meta name="keywords" content="回归; 深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习笔记8之神经网络中的回归">
+<meta property="og:url" content="http://yoursite.com/2019/05/16/深度学习笔记8/index.html">
+<meta property="og:site_name" content="focus">
+<meta property="og:description" content="1. linear regression1.1 调整一条曲线 绝对值技巧 平方技巧 梯度下降  1.2 误差 平均绝对值误差 平均平方误差 两者差别1.3 最小化误差函数 拟合一条直线方法 使用tricks 最小化误差函数    平方技巧等同于平方误差+梯度下降  绝对值技巧等同于绝对值误差+梯度下降   1.3 解数学方程组 解数学方程表组答案+在这一可选部分中，我们将开发在上一个视频中介绍的解">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/05/16/深度学习笔记8/1.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/16/深度学习笔记8/2.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/16/深度学习笔记8/3.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/16/深度学习笔记8/4.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/16/深度学习笔记8/5.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/16/深度学习笔记8/6.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/16/深度学习笔记8/7.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/16/深度学习笔记8/8.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/16/深度学习笔记8/9.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/16/深度学习笔记8/10.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/16/深度学习笔记8/11.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/16/深度学习笔记8/12.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/16/深度学习笔记8/13.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/16/深度学习笔记8/14.jpg">
+<meta property="og:updated_time" content="2019-05-16T07:54:19.447Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深度学习笔记8之神经网络中的回归">
+<meta name="twitter:description" content="1. linear regression1.1 调整一条曲线 绝对值技巧 平方技巧 梯度下降  1.2 误差 平均绝对值误差 平均平方误差 两者差别1.3 最小化误差函数 拟合一条直线方法 使用tricks 最小化误差函数    平方技巧等同于平方误差+梯度下降  绝对值技巧等同于绝对值误差+梯度下降   1.3 解数学方程组 解数学方程表组答案+在这一可选部分中，我们将开发在上一个视频中介绍的解">
+<meta name="twitter:image" content="http://yoursite.com/2019/05/16/深度学习笔记8/1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/05/16/深度学习笔记8/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>深度学习笔记8之神经网络中的回归 | focus</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">focus</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>公益 404</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/16/深度学习笔记8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="focus">
+      <meta itemprop="description" content="认知，理解，接纳">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="focus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深度学习笔记8之神经网络中的回归
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-16 10:14:35 / 修改时间：15:54:19" itemprop="dateCreated datePublished" datetime="2019-05-16T10:14:35+08:00">2019-05-16</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/深度学习/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/05/16/深度学习笔记8/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/05/16/深度学习笔记8/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="1-linear-regression"><a href="#1-linear-regression" class="headerlink" title="1. linear regression"></a>1. linear regression</h4><h5 id="1-1-调整一条曲线"><a href="#1-1-调整一条曲线" class="headerlink" title="1.1 调整一条曲线"></a>1.1 调整一条曲线</h5><ul>
+<li>绝对值技巧<br><img src="/2019/05/16/深度学习笔记8/1.jpg" alt></li>
+<li>平方技巧<br><img src="/2019/05/16/深度学习笔记8/2.jpg" alt></li>
+<li>梯度下降<br><img src="/2019/05/16/深度学习笔记8/3.jpg" alt></li>
+</ul>
+<h5 id="1-2-误差"><a href="#1-2-误差" class="headerlink" title="1.2 误差"></a>1.2 误差</h5><ul>
+<li>平均绝对值误差<br><img src="/2019/05/16/深度学习笔记8/4.jpg" alt></li>
+<li>平均平方误差<br><img src="/2019/05/16/深度学习笔记8/5.jpg" alt></li>
+<li>两者差别<h5 id="1-3-最小化误差函数"><a href="#1-3-最小化误差函数" class="headerlink" title="1.3 最小化误差函数"></a>1.3 最小化误差函数</h5></li>
+<li>拟合一条直线方法<ul>
+<li>使用tricks</li>
+<li>最小化误差函数 </li>
+</ul>
+</li>
+<li><p>平方技巧等同于平方误差+梯度下降<br><img src="/2019/05/16/深度学习笔记8/6.jpg" alt></p>
+</li>
+<li><p>绝对值技巧等同于绝对值误差+梯度下降<br><img src="/2019/05/16/深度学习笔记8/7.jpg" alt></p>
+</li>
+</ul>
+<h5 id="1-3-解数学方程组"><a href="#1-3-解数学方程组" class="headerlink" title="1.3 解数学方程组"></a>1.3 解数学方程组</h5><ul>
+<li>解数学方程表组答案<br>+在这一可选部分中，我们将开发在上一个视频中介绍的解数学方程表组。 首先，我们将讲解二维情况，然后讲解一般情况。</li>
+<li>二维情况的答案</li>
+<li>我们的数据将会是值 $x_1, x_2, \ldots, x_m$,而我们的标签将会是值$y_1,y_2, \ldots, y_n$.我们将权重记为 $w_1$,和$w_2$.因此，我们的预测是$\hat{y_i} = w_1x_i + w_2$.<br>平均平方误差是<script type="math/tex; mode=display">E(w_1, w_2) = \frac{1}{2m}\sum_{i=1}^{m}(\hat{y} - y)^2</script>我们需要最小化误差函数。因此,$\frac{1}{m}$可以被忽略。现在替换$\hat{y}$值，我们得到<script type="math/tex; mode=display">E(w_1, w_2) = \frac{1}{2}\sum_{i=1}^{m}(\hat{y} - y)^2 = \frac{1}{2}\sum_{i=1}^{m}(w_1x_i+w_2 - y)^2</script></li>
+</ul>
+<p>现在，为了最小化这一误差函数，我们需要将$w_1$和$w_1$的导数设置为 0.<br>使用链式规则，我们得到</p>
+<script type="math/tex; mode=display">\frac{\partial E}{\partial w_1} = \sum_{i=1}^{m}(w_1x_i+w_2 - y)x_i = w_i\sum_{i=1}^{m}x_i^2 + w_2\sum_{i=1}^{m}x_i - \sum_{i=1}^{m} x_iy_i</script><p>和</p>
+<script type="math/tex; mode=display">\frac{\partial E}{\partial w_2} = \sum_{i=1}^{m}(w_1x_i+w_2 - y) = w_i\sum_{i=1}^{m}x_i + w_2\sum_{i=1}^{m}1 - \sum_{i=1}^{m}y_i</script><p>将以上两则公式设置为 0 ，我们得到一下两则公式和两个变量 （这里变量是$w_1$和$w_2$。</p>
+<script type="math/tex; mode=display">w_i\sum_{i=1}^{m}x_i^2 + w_2\sum_{i=1}^{m}x_i = \sum_{i=1}^{m} x_iy_i</script><script type="math/tex; mode=display">w_i\sum_{i=1}^{m}x_i + w_2(m) = \sum_{i=1}^{m}y_i</script><p>我们可以用任何方法来求解 2 个方程和 2 个变量。 例如，如果我们将第二个方程乘以 $\sum_{i=1}^m$,第一个乘以 $m$, 两者相减得到值 $w_1$,然后在第一个方程中替换该值，我们得到如下结果：</p>
+<script type="math/tex; mode=display">w_1 = \frac{m(\sum_{i=1}^{m}x_iy_i) - (\sum_{i=1}^{m}x_i)(\sum_{i=1}^{m}y_i)}{m(\sum_{i=1}^{m}x_i^2) - (\sum_{i=1}^{m}x_i)^2}</script><script type="math/tex; mode=display">w_2 = \frac{(\sum_{i=1}^{m}x_iy_i)(\sum_{i=1}^{m}x_i) - (\sum_{i=1}^{m}x_i^2)(\sum_{i=1}^{m}y_i)}{m(\sum_{i=1}^{m}x_i^2) - (m\sum_{i=1}^{m}x_i)^2}</script><p>这是我们理想的答案。</p>
+<ul>
+<li>n-维度情况下的答案<br>当我们的数据有n 个维度时，而不只是 2个，我们需要介绍一下的表示法。我们的矩阵$X$ 包含的数据如接下来所示，每一行都是我们的 datapoint， 在此 $x_0^{(i)} =1$表示偏差。<script type="math/tex; mode=display">X = \begin{pmatrix}
+x_0^{(0)} & x_1^{(0)} & ... & x_n{(0)} \\
+x_0^{(1)} & x_1^{(1)} & ... & x_n{(1)} \\
+\vdots & \vdots & \ddots & \vdots \\ 
+x_0^{(m)} & x_1^{(m)} & ... & x_n{(m)} 
+\end{pmatrix}</script>我们的标签是向量<script type="math/tex; mode=display">y = \begin{pmatrix}
+y_1 \\
+y_2 \\
+\vdots \\ 
+y_m
+\end{pmatrix}</script></li>
+</ul>
+<p>而我们的权重矩阵如下所示：</p>
+<script type="math/tex; mode=display">W = \begin{pmatrix}
+w_{0,0} & w_{0,1} & ... & w_{0,n} \\
+w_{1,2} & w_{1,2} & ... & w_{1,2} \\
+\vdots & \vdots & \ddots & \vdots \\ 
+w_{n,0} & w_{n,1} & ... & w_{n,n} 
+ \end{pmatrix}</script><p>所以，平均平方误差的方程可写成如下矩阵乘积：</p>
+<script type="math/tex; mode=display">E(W) = \frac{1}{m} ((XW)^T - y^T) (XW - y)$$.
+因为我们需要最小化平均平方误差，我们可以先忘记 $\frac{1}{m}$,展开公式，我们得到
+
+$$E(W) = W^TX^TXW - (XW)^Ty - y^T(XW) + y^Ty</script><p>注意在上面的总和中，第二和第三项是相同的，因为它是两个向量的内积，这意味着它是它的坐标乘积之和。 因此，</p>
+<script type="math/tex; mode=display">E(W) = W^TX^TXW - 2(XW)^Ty + y^Ty$$.
+为了最小化，我们需要对矩阵中的所有值采取导数$W$.使用上方我们使用的链式规则，我们得到以下结果：
+$$ \frac{\partial E}{\partial W} = 2X^TXW - 2X^Ty</script><p>为了将这个设置为0，我们需要$X^TXW - X^Ty = 0$,或者等同于，$W = (X^TX)^{-1} X^T$.<br>这就是我们解数学方程表组答案$W$! 这种方法在现实生活中将会很昂贵而不实用，因为要找到矩阵的倒数 $X^TX$很难，如果是在$n$很大的情况下。 这就是我们需要经历多次梯度下降的痛苦的原因。 但是，如果我们的数据稀疏，即如果矩阵的大部分条目$X$是0，就会有一些非常有趣的算法，能够迅速找到这个倒数，将使这种方法在现实生活中非常有用。</p>
+<h5 id="1-4-线性回归注意事项"><a href="#1-4-线性回归注意事项" class="headerlink" title="1.4 线性回归注意事项"></a>1.4 线性回归注意事项</h5><ul>
+<li>最适用于线性数据<br>线性回归会根据训练数据生成直线模型。如果训练数据包含非线性关系，你需要选择：调整数据（进行数据转换）、增加特征数量（参考下节内容）或改用其他模型。<br><img src="/2019/05/16/深度学习笔记8/8.jpg" alt></li>
+<li>容易受到异常值影响<br>线性回归的目标是求取对训练数据而言的 “最优拟合”直线。如果数据集中存在不符合总体规律的异常值，最终结果将会存在不小偏差。<br><img src="/2019/05/16/深度学习笔记8/9.jpg" alt><br>在第一个图表中，模型与数据相当拟合。</li>
+<li>但若添加若干不符合规律的异常值，会明显改变模型的预测结果。<br><img src="/2019/05/16/深度学习笔记8/10.jpg" alt></li>
+<li>在大多数情况下，模型需要基本上能与大部分数据拟合，所以要小心异常值！</li>
+</ul>
+<h5 id="1-5-多项式回归"><a href="#1-5-多项式回归" class="headerlink" title="1.5 多项式回归"></a>1.5 多项式回归</h5><p><img src="/2019/05/16/深度学习笔记8/11.jpg" alt></p>
+<h5 id="1-6-正则化"><a href="#1-6-正则化" class="headerlink" title="1.6 正则化"></a>1.6 正则化</h5><ul>
+<li>L1正则化</li>
+<li>L2正则化</li>
+<li>$\lambda$</li>
+<li>L1 vs. L2<br><img src="/2019/05/16/深度学习笔记8/12.jpg" alt></li>
+</ul>
+<h4 id="2-神经网络回归"><a href="#2-神经网络回归" class="headerlink" title="2. 神经网络回归"></a>2. 神经网络回归</h4><ul>
+<li>peicewise linear functions<br><img src="/2019/05/16/深度学习笔记8/13.jpg" alt><br><img src="/2019/05/16/深度学习笔记8/14.jpg" alt></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/回归-深度学习/" rel="tag"># 回归; 深度学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/16/深度学习笔记7/" rel="next" title="深度学习笔记7之癌症检测深度学习">
+                <i class="fa fa-chevron-left"></i> 深度学习笔记7之癌症检测深度学习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/16/差分进化算法/" rel="prev" title="差分进化算法">
+                差分进化算法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="focus">
+            
+              <p class="site-author-name" itemprop="name">focus</p>
+              <div class="site-description motion-element" itemprop="description">认知，理解，接纳</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/focusLeeee" title="GitHub &rarr; https://github.com/focusLeeee" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:amethyst5991@@gmail.com" title="E-Mail &rarr; mailto:amethyst5991@@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/focusWfocus" title="Weibo &rarr; https://weibo.com/focusWfocus" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-linear-regression"><span class="nav-text">1. linear regression</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-调整一条曲线"><span class="nav-text">1.1 调整一条曲线</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-误差"><span class="nav-text">1.2 误差</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-3-最小化误差函数"><span class="nav-text">1.3 最小化误差函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-3-解数学方程组"><span class="nav-text">1.3 解数学方程组</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-线性回归注意事项"><span class="nav-text">1.4 线性回归注意事项</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-5-多项式回归"><span class="nav-text">1.5 多项式回归</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-6-正则化"><span class="nav-text">1.6 正则化</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-神经网络回归"><span class="nav-text">2. 神经网络回归</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">focus</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.0.1"></script>
+
+  <script src="/js/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.0.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.0.1"></script>
+<script src="/js/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+  <script id="dsq-count-scr" src="https://focus.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2019/05/16/深度学习笔记8/";
+    this.page.identifier = "2019/05/16/深度学习笔记8/";
+    this.page.title = '深度学习笔记8之神经网络中的回归';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://focus.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Differential evolution (DE) is a stochastic, population-based search strategy developed by Storn and Price in 1995. 最初用于连续值  1. 基本的差分进化 差分进化不同之处： 变首先被用于产生一个测试向量，之后用于在交叉算子中产生一个子代。 变异步长不以之前我们所知道的概率分布函数">
+<meta name="keywords" content="智能算法; 差分计算; DE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="差分进化算法">
+<meta property="og:url" content="http://yoursite.com/2019/05/16/差分进化算法/index.html">
+<meta property="og:site_name" content="focus">
+<meta property="og:description" content="Differential evolution (DE) is a stochastic, population-based search strategy developed by Storn and Price in 1995. 最初用于连续值  1. 基本的差分进化 差分进化不同之处： 变首先被用于产生一个测试向量，之后用于在交叉算子中产生一个子代。 变异步长不以之前我们所知道的概率分布函数">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/05/16/差分进化算法/1.jpg">
+<meta property="og:updated_time" content="2019-08-27T06:27:36.891Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="差分进化算法">
+<meta name="twitter:description" content="Differential evolution (DE) is a stochastic, population-based search strategy developed by Storn and Price in 1995. 最初用于连续值  1. 基本的差分进化 差分进化不同之处： 变首先被用于产生一个测试向量，之后用于在交叉算子中产生一个子代。 变异步长不以之前我们所知道的概率分布函数">
+<meta name="twitter:image" content="http://yoursite.com/2019/05/16/差分进化算法/1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/05/16/差分进化算法/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>差分进化算法 | focus</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">focus</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>公益 404</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/16/差分进化算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="focus">
+      <meta itemprop="description" content="认知，理解，接纳">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="focus">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">差分进化算法
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-16 16:02:22" itemprop="dateCreated datePublished" datetime="2019-05-16T16:02:22+08:00">2019-05-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-27 14:27:36" itemprop="dateModified" datetime="2019-08-27T14:27:36+08:00">2019-08-27</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/智能算法/" itemprop="url" rel="index"><span itemprop="name">智能算法</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/05/16/差分进化算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/05/16/差分进化算法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>Differential evolution (DE) is a stochastic, population-based search strategy developed by Storn and Price in 1995.</li>
+<li>最初用于连续值</li>
+</ul>
+<h4 id="1-基本的差分进化"><a href="#1-基本的差分进化" class="headerlink" title="1. 基本的差分进化"></a>1. 基本的差分进化</h4><ul>
+<li>差分进化不同之处：<ul>
+<li>变首先被用于产生一个测试向量，之后用于在交叉算子中产生一个子代。</li>
+<li>变异步长不以之前我们所知道的概率分布函数被抽样。</li>
+</ul>
+</li>
+<li>在差分进化中，变异步长受当前种群的个体间差异影响.</li>
+</ul>
+<h5 id="1-1-差异变量"><a href="#1-1-差异变量" class="headerlink" title="1.1 差异变量"></a>1.1 差异变量</h5><ul>
+<li>初始化种群<ul>
+<li>均匀随机初始化算法</li>
+<li>距离很大的初始个体将提供一个关于整个搜索空间的良好表示，随着搜索进度，个体之间的距离变小，所有个体收敛到一个相同的解，</li>
+<li>个体之间的初始距离尺度受种群的大小影响<ul>
+<li>种群中个体数量越多，则距离尺度越小</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>个体间的距离是当前种群多样性的一个很好的指标，为了使种群联系到一点，步长的尺度应该被排序。<ul>
+<li>如果存在距离很远的个体，个体应该采用更大的步长以探索尽可能多的探索空间</li>
+<li>如果个体之间的距离很近，应该采用小步长探索局部空间，<ul>
+<li>该行为是由差进化通过计算变异步长作为随机算的个体之间的加权差异而获得的。</li>
+<li>因此变异第一步是首先计算一个或多个差异向量，之后使用这些差异向量来判断步长的尺度和方向。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>使用向量差分以存档变量的优点<ul>
+<li>以当前种群表示的关于适应度场景的信息用于指导搜索方向.</li>
+<li>由于中心极限定理，变异步长呈高斯分布，使得种群显著增大以允许足够数量的差异向量。<ul>
+<li>差异向量形成的分布的均值总为0，提供从种群中均匀选择的用于计算差异向量的个体</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="1-2-变异"><a href="#1-2-变异" class="headerlink" title="1.2 变异"></a>1.2 变异</h5><ul>
+<li>差分进化变异算子通过变异加权差分的目标向量对于当前种群的每个个体产生一个微小的向量；然后，整个微笑的向量通过交叉算子产生子代。对于每个亲代$x_i(t)$以如下方式产生一个微小的向量$u_i(t)$<ul>
+<li>从种群中选择一个目标向量 $x_{i_1}(t)$,使得 $i \neq i_1$。然后，从种群中随机选择两个种群$x_{i_2}(t)$和$x_{i_3}(t)$，使得$i \neq i_1\neq i_2\neq i_3$，且$i_1, i_2 \sim U(1, n_s)$。使用这些个体，测试向量如一下方式扰动目标向量而形成:<script type="math/tex; mode=display">u_i(t) = x_{i_1}(t) + \beta (x_{i_2}(t) + x_{i_3}(t))</script>其中，$\beta \in(0, \infty)$是一个标量因子，控制差分变量的放大.</li>
+</ul>
+</li>
+</ul>
+<h5 id="1-3-交叉"><a href="#1-3-交叉" class="headerlink" title="1.3 交叉"></a>1.3 交叉</h5><ul>
+<li>差分进化算子实现了测试向量$u_i(t)$ 和亲代向量$x_i(t)$的离散重组以产生子代$x’_i(t)$。使用如下方法实现交叉:<script type="math/tex; mode=display">
+x'_{ij}(t) = \begin{cases}
+u_{ij}(t) & if \quad j \in J \\
+x_{ij}(t) & otherwise \\
+\end{cases}</script>其中，$x_{ij}(t)$表示向量$x_i(t)$的第$j$个元素,其$J$是将承受扰动（或交叉位的集合）的元素下标的集合。可以使用不同的方法以判断集合$J$,其中两种方法最常用<ul>
+<li>二项式交叉:交叉位从可能的交叉位集合$\{1, 2,…, n\}$中随机选出，$n_x$是问题维度, $p_r$是考虑包含交叉位的概率。$p_r$越大，选择的交叉位也就越多.意味着细微向量的更多元素可以被用于产生子代以及更少的亲代向量。对于没有选择的位置，子代就是其亲代。为了确保至少有子代的一个元素不同于亲代，交叉位集合初始化为包含一个随机选择的点$j^*$</li>
+<li>指数交叉:从一个随机选择的索引，指数交叉算子选择一个邻接点的序列，将这个潜在的交叉位处理为一个环。算法2中的伪代码表明至少有一个交叉位被选择，并形成索引，选择下一个知道$U(0, 1) \geqslant p_r$ 或 $|J| = n_x$ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Algorithm 1 Evolution Binomial Crossover for Selecting Crossover Points</span><br><span class="line">j∗ ∼ U(1, nx);</span><br><span class="line">J ←J ∪&#123;j∗&#125;;</span><br><span class="line">for each j ∈ &#123;1, . . . , nx&#125; do</span><br><span class="line">    if U(0, 1) &lt; pr and j = j∗ then</span><br><span class="line">        J ←J ∪&#123;j&#125;;</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># Algorithm 2 Differential Evolution Exponential Crossover for Selecting Crossover Points</span><br><span class="line">J ←&#123;&#125;;</span><br><span class="line">j ∼ U(0, nx − 1);</span><br><span class="line">repeat</span><br><span class="line">    J ←J ∪&#123;j + 1&#125;;</span><br><span class="line">    j = (j + 1) mod nx;</span><br><span class="line">until U(0, 1) ≥ pr or |J | = nx;</span><br></pre></td></tr></table></figure>
+<h5 id="1-4-选择"><a href="#1-4-选择" class="headerlink" title="1.4 选择"></a>1.4 选择</h5><ul>
+<li>选择用于决定哪个个体将在编译算子中发挥作用以产生测试向量，并且决定哪个亲代或者子代将存活至下一代。<ul>
+<li>结合交叉算子的情况，将使用若干选择方法。</li>
+<li>使用随机选择从差异向量已被计算的个体中选择个体。</li>
+<li>对于大多数差分进化实现，要么随机选择目标向量，要么选择最优个体。</li>
+</ul>
+</li>
+<li>为了构建下一代的种群，使用判断选择<ul>
+<li>如果子代的实用度由于其亲代，则子代替换其亲代</li>
+<li>否则，亲代存活至下一代，保证了种群的平均适应度不会恶化 </li>
+</ul>
+</li>
+</ul>
+<h5 id="1-5-一般差分变异算法"><a href="#1-5-一般差分变异算法" class="headerlink" title="1.5 一般差分变异算法"></a>1.5 一般差分变异算法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># Algorithm 13.3 General Differential Evolution Algorithm</span><br><span class="line">Set the generation counter, t = 0;</span><br><span class="line">Initialize the control parameters, β and pr;</span><br><span class="line">Create and initialize the population, C(0), of ns individuals;</span><br><span class="line">while stopping condition(s) not true do</span><br><span class="line">    for each individual, xi(t) ∈ C(t) do</span><br><span class="line">        Evaluate the fitness, f(xi(t));</span><br><span class="line">        Create the trial vector, ui(t) by applying the mutation operator;</span><br><span class="line">        Create an offspring, x&apos;i(t), by applying the crossover operator;</span><br><span class="line">        if f(x&apos;i(t)) is better than f(xi(t)) then</span><br><span class="line">            Add x&apos;i(t) to C(t + 1);</span><br><span class="line">        end</span><br><span class="line">        else</span><br><span class="line">            Add xi(t) to C(t + 1);</span><br><span class="line">        end</span><br><span class="line">    end</span><br><span class="line">end</span><br><span class="line">Return the individual with the best fitness as the solution;</span><br></pre></td></tr></table></figure>
+<h5 id="1-6-控制参数"><a href="#1-6-控制参数" class="headerlink" title="1.6 控制参数"></a>1.6 控制参数</h5><ul>
+<li>种群大小：种群大小对差分进化算法的探索性有着直接的的影响。种群中个体数量越多，可用的差异向量就越多，则更多的方向可以被探索。然而，应当记住每代计算复杂度随种群大小增加而增加。经验：$n_s \thickapprox 10n_x$.编译算子的本性提供了个体数量的下界为$x_s &gt; 2n_v + 1$， 其中$n_v$是使用的差异的个数，对于$n_v$个差异，需要$2n_v$个个体，对于每个差异有两个。附加的个体表示目标向量。</li>
+<li></li>
+<li>规模因子:规模因子$\beta \in (0, \infty)$ 控制差异变量$(x_{i_2}, x_{i_3})$的增大。$\beta$值越小，变异步长越小，且算法的收敛时间越长。$\beta$值较大有利于增加探索性，但可能导致算法超过最好的最优值。<ul>
+<li>$\beta$值应该足够小以允许差异探索，并且足够大以维持多样性。</li>
+<li>当种群数量增加，规模因子应当减小:种群中个体越多，差异向量的尺度越小，比较靠近的个体将变成同一个个体。因此，较小的步长用于开采局部区域。经验显示$\beta = 0.5$较好性能</li>
+</ul>
+</li>
+<li>重组概率：重组概率$p_r$对差分进化的多样性有着直接的影响，这个参数控制亲代x_i(t)的元素个数。重组的概率越高，在新一代只能够就引入了越多的变种，由此增加了多样性和探索性。增加$p_r$通常导致更快的收敛，同时减少$p_r$增加了搜索的鲁棒性。</li>
+</ul>
+<h5 id="1-7-几何演示"><a href="#1-7-几何演示" class="headerlink" title="1.7 几何演示"></a>1.7 几何演示</h5><p><img src="/2019/05/16/差分进化算法/1.jpg" alt></p>
+<h4 id="2-差分进化-x-y-z"><a href="#2-差分进化-x-y-z" class="headerlink" title="2. 差分进化/x/y/z"></a>2. 差分进化/x/y/z</h4><ul>
+<li>不同的差分进化因目标向量的选择方法、差异向量的使用数量和交叉位的决定方式的不同而不同。为了描述这些变种，采用标记差分进化/$x$/$y$/$z$来进行标记。<ul>
+<li>$x$表示选择目标向量的方法</li>
+<li>$y$表示使用的差异向量的数量</li>
+<li>$z$表示使用的交叉方法</li>
+</ul>
+</li>
+<li>常见差分策略<ul>
+<li>差分进化/随机/1/二项</li>
+<li>差分进化/随机/1/指数</li>
+<li>差分进化/最优/1/$z$</li>
+<li>差分进化/$x$/$n_v$/$z$</li>
+<li>差分进化/随机至最优/$n_v$/$z$</li>
+<li>差分进化/当前至最优/$1+n_v$/$z$</li>
+</ul>
+</li>
+<li>研究表明，差分进化/随机/1/二项保持了更好的多样性，差分进化/当前至最优/2/二项表现了良好的收敛性能</li>
+</ul>
+<h4 id="3-基本差分进化的变种"><a href="#3-基本差分进化的变种" class="headerlink" title="3. 基本差分进化的变种"></a>3. 基本差分进化的变种</h4><h5 id="3-1-混合差分进化策略"><a href="#3-1-混合差分进化策略" class="headerlink" title="3.1 混合差分进化策略"></a>3.1 混合差分进化策略</h5><h6 id="3-1-1-基于梯度的混合差分进化"><a href="#3-1-1-基于梯度的混合差分进化" class="headerlink" title="3.1.1 基于梯度的混合差分进化"></a>3.1.1 基于梯度的混合差分进化</h6><ul>
+<li>混合差分进化引入了两种新的算子<ul>
+<li>为了提高收敛性能的<strong>加速算子</strong>(不以牺牲多样性为代价)</li>
+<li>提供差分进化挣脱局部极值能力的迁移算子。</li>
+</ul>
+</li>
+<li><p>加速算子</p>
+<ul>
+<li>如果变异和交叉算子未能提升最佳个体的适应度，则加速算子使用梯度下降法以调整最佳个体的朝向以获得最佳的位置</li>
+<li>令$\hat{x}(t)$表示当前种群在应用变异和交叉算子前的最优个体，令$\hat{x}(t+1)$为经过应用于交叉和变异于所有个体的下一代种群中的最佳个体，则假设一个最小化为题，加速算子计算如下向量：<script type="math/tex; mode=display">x(t) = \begin{cases}
+\hat{x}(t+1) & if \quad f(\hat{x}(t+1)) < f(\hat{x}(t)) \\
+\hat{x}(t+1)-\eta(t)\bigtriangledown f & otherwise \\
+\end{cases}</script>其中，$\eta(t) \in (0, 1]$是学习率或步长，$\bigtriangledown f$是目标函数$f$的梯度，新的向量$x(t)$替换新的种群中最差的个体</li>
+<li>将学习率初始化为1,如$\eta(0) = 1$，如果梯度下降未能产生一个具有更好适应度的新向量$x(t)$，学习率将以一个因子削减，梯度下降不断重复直到$\eta(t)\bigtriangledown f$足够趋近于0，或者已经达到梯度下降步的最大次数</li>
+</ul>
+</li>
+<li><p>迁移算子</p>
+<ul>
+<li>梯度下降可以显著加速搜索，但是也存在会陷入局部极值的缺陷。迁移算子通过增加种群多样性以解决这个问题。这是通过将最佳个体繁衍出多个新个体，并将这些个体替代当前种群而做到的。个体通过如下方式繁殖:<script type="math/tex; mode=display">
+x'_{ij}(t) = \begin{cases}
+\hat{x}_{j}(t) + r_{ij}(x_{min, j} - \hat{x}_{j}) & if \quad U(0,1) <\frac{\hat{x}_{j} - x_{min, j}}{x_{max, j} - x_{min, j}} \\
+x_{j}(t) + r_{ij}(x_{max, j} - x_{j}) & otherwise \\
+\end{cases}</script>其中， $r_{ij} ~ U(0, 1)$，繁殖出的个体$x_i’(t)$称为$x_i(t+1)$</li>
+<li>迁移算子仅当当前种群多样性变得太小时使用，即，当:<script type="math/tex; mode=display">\frac{\sum^{n_s}_{i = 1, x_i(t) \neq \hat{x}_i(t)} \mathcal{I}_{ij}(t)}{n_x(n_s-1)} < \varepsilon_1</script>其中：<script type="math/tex; mode=display">\mathcal{I}_{ij} = \begin{cases}
+1 & if \quad |\frac{x_{ij}(t) - \hat{x}_j(t)}{\hat{x}_j(t)}| > \varepsilon_2 \\
+0 & otherwise \\
+\end{cases}</script>其中，$\varepsilon_1$, $\varepsilon_2$分别表示考虑最佳个体$\hat{x}(t)$种群多样性和基因多样性的忍耐性。如果$\mathcal{I}_{ij} = 0$，那么个体$i$的第$j$个元素的值就接近于最佳个体的第$j$个元素的值.</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Algorithm 4 Hybrid Differential Evolution with Acceleration and Migration</span><br><span class="line">Set the generation counter, t = 0;</span><br><span class="line">Initialize the control parameters, β and pr;</span><br><span class="line">Create and initialize the population, C(0), of ns individuals;</span><br><span class="line">while stopping condition(s) not true do</span><br><span class="line">    Apply the migration operator if necessary;</span><br><span class="line">    for each individual, xi(t) ∈ C(t) do</span><br><span class="line">        Evaluate the fitness, f(xi(t));</span><br><span class="line">        Create the trial vector, ui(t) by applying the mutation operator;</span><br><span class="line">        Create an offspring, x&apos;i(t) by applying the crossover operator;</span><br><span class="line">        if f(x&apos;i(t)) is better than f(xi(t)) then</span><br><span class="line">            Add x&apos;i(t) to C(t + 1);</span><br><span class="line">        end</span><br><span class="line">        else</span><br><span class="line">            Add xi(t) to C(t + 1);</span><br><span class="line">        end</span><br><span class="line">    end</span><br><span class="line">    Apply the acceleration operator if necessary;</span><br><span class="line">end</span><br><span class="line">Return the individual with the best fitness as the solution;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Algorithm 5 Stochastic Gradient Descent for Neural Network Training</span><br><span class="line">Initialize the NN weight vector, w(0);</span><br><span class="line">Initialize the learning rate, η(0), and the meta-step size, ηm;</span><br><span class="line">Set the pattern presentation number, t = 0;</span><br><span class="line">repeat</span><br><span class="line">    for each training pattern, p do</span><br><span class="line">        Calculate E(w(t));</span><br><span class="line">        Calculate ∇E(w(t));</span><br><span class="line">        Update the weights using</span><br><span class="line">                w(t + 1) = w(t) + η(t)∇E(w(t)) (13.13)</span><br><span class="line">        Calculate the new step size using</span><br><span class="line">                η(t + 1) = η(t) + ηm &lt; ∇E(w(t − 1)),∇E(w(t)) &gt; (13.14)</span><br><span class="line">        t = t + 1;</span><br><span class="line">    end</span><br><span class="line">    Return w(t + 1) as the solution;</span><br><span class="line">until until a termination condition is satisfied;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>算法5是集合一种随机梯度下降和一个顺序的差分进化以训练神经网络，这里，随机梯度下降首先被用于通过算法5的过程中寻找一个好的近似解。然后以随机梯度下降获得的解的邻域的个体产生一个差分进化个体的种群。<ul>
+<li>其中，$&lt;.,.&gt;$表示两个给定向量的内积，$\varepsilon$是神经网络训练目标函数（通常为平方和误差），$\sigma$是$w$的变异的标准偏差，用于在$w$的邻域中产生差分进化个体，$D_T$是训练节。差分进化算法使用目标函数$\varepsilon$以评定个体的适应度</li>
+</ul>
+</li>
+</ul>
+<h6 id="3-1-2-基于进化算法的混合"><a href="#3-1-2-基于进化算法的混合" class="headerlink" title="3.1.2 基于进化算法的混合"></a>3.1.2 基于进化算法的混合</h6><h5 id="3-2-基于种群的差分进化"><a href="#3-2-基于种群的差分进化" class="headerlink" title="3.2 基于种群的差分进化"></a>3.2 基于种群的差分进化</h5><h5 id="3-3-自适应差分进化"><a href="#3-3-自适应差分进化" class="headerlink" title="3.3 自适应差分进化"></a>3.3 自适应差分进化</h5><h4 id="4-离散值问题的差分进化"><a href="#4-离散值问题的差分进化" class="headerlink" title="4. 离散值问题的差分进化"></a>4. 离散值问题的差分进化</h4><h5 id="4-1-角度模型差分进化"><a href="#4-1-角度模型差分进化" class="headerlink" title="4.1 角度模型差分进化"></a>4.1 角度模型差分进化</h5><h5 id="4-2-二值差分进化"><a href="#4-2-二值差分进化" class="headerlink" title="4.2 二值差分进化"></a>4.2 二值差分进化</h5><h4 id="5-高级话题"><a href="#5-高级话题" class="headerlink" title="5. 高级话题"></a>5. 高级话题</h4><h4 id="6-应用"><a href="#6-应用" class="headerlink" title="6. 应用"></a>6. 应用</h4>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/智能算法-差分计算-DE/" rel="tag"># 智能算法; 差分计算; DE</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/16/深度学习笔记8/" rel="next" title="深度学习笔记8之神经网络中的回归">
+                <i class="fa fa-chevron-left"></i> 深度学习笔记8之神经网络中的回归
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/24/tensorflow学习/" rel="prev" title="tensorflow学习">
+                tensorflow学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="focus">
+            
+              <p class="site-author-name" itemprop="name">focus</p>
+              <div class="site-description motion-element" itemprop="description">认知，理解，接纳</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/focusLeeee" title="GitHub &rarr; https://github.com/focusLeeee" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:amethyst5991@@gmail.com" title="E-Mail &rarr; mailto:amethyst5991@@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/focusWfocus" title="Weibo &rarr; https://weibo.com/focusWfocus" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-基本的差分进化"><span class="nav-text">1. 基本的差分进化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-差异变量"><span class="nav-text">1.1 差异变量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-变异"><span class="nav-text">1.2 变异</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-3-交叉"><span class="nav-text">1.3 交叉</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-选择"><span class="nav-text">1.4 选择</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-5-一般差分变异算法"><span class="nav-text">1.5 一般差分变异算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-6-控制参数"><span class="nav-text">1.6 控制参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-7-几何演示"><span class="nav-text">1.7 几何演示</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-差分进化-x-y-z"><span class="nav-text">2. 差分进化/x/y/z</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-基本差分进化的变种"><span class="nav-text">3. 基本差分进化的变种</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-混合差分进化策略"><span class="nav-text">3.1 混合差分进化策略</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#3-1-1-基于梯度的混合差分进化"><span class="nav-text">3.1.1 基于梯度的混合差分进化</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-1-2-基于进化算法的混合"><span class="nav-text">3.1.2 基于进化算法的混合</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-基于种群的差分进化"><span class="nav-text">3.2 基于种群的差分进化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-自适应差分进化"><span class="nav-text">3.3 自适应差分进化</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-离散值问题的差分进化"><span class="nav-text">4. 离散值问题的差分进化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-角度模型差分进化"><span class="nav-text">4.1 角度模型差分进化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-二值差分进化"><span class="nav-text">4.2 二值差分进化</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-高级话题"><span class="nav-text">5. 高级话题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-应用"><span class="nav-text">6. 应用</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">focus</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.0.1"></script>
+
+  <script src="/js/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.0.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.0.1"></script>
+<script src="/js/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+  <script id="dsq-count-scr" src="https://focus.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2019/05/16/差分进化算法/";
+    this.page.identifier = "2019/05/16/差分进化算法/";
+    this.page.title = '差分进化算法';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://focus.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
